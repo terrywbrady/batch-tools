@@ -1,0 +1,46 @@
+<?php 
+/*
+Server-specific configuration settings.
+
+Author: Terry Brady, Georgetown University Libraries
+
+License information is contained below.
+
+Copyright (c) 2013, Georgetown University Libraries All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer. 
+in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials 
+provided with the distribution. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, 
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+include "custom.php";
+//The user name and password should be modified with host-specific values on our linux servers
+$dbh = pg_connect("host=localhost port=5432 dbname=dspace user=XXXX password=XXXX");
+if (!$dbh) {
+     die("Error in connection: " . pg_last_error());
+}      
+
+//The following line should be commented out on our linux servers 
+//$handleContext = "http://localhost:8080/xmlui"; 
+
+//The following line should be modified on our linux servers 
+$mode = "GUDSPACE_MODE";
+$root   = "DSPACETOOLSROOT";
+$qroot   = $root . "/queue/";
+$mroot   = $root . "/mapfile/";
+$dspaceBatch = 'sudo -u dspace ' . $root . "/bin/dspaceBatch.sh";
+//$dspaceBatch = $root . "/bin/dspaceBatch.sh";
+$defuser = "userxx";
+$bgindicator = "&";
+$ingestLoc = "";
+$solr = "https://HOSTNAME/solr/";
+$host = "HOSTNAME";
+$ver="3.1";
+$CUSTOM=new custom();
+?>

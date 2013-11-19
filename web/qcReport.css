@@ -1,0 +1,54 @@
+table {border-collapse: collapse;border-right:solid thin black;}
+table td, table th {border: thin solid black; padding: 4px;}
+tr.header {background-color: #EEEEEE;}
+tr.focus {background-color: yellow;}
+//tr.odd {border-bottom: solid navy thick;}
+//tr.even {border-bottom: solid gray thick;}
+tr.even td {border-bottom: thin dotted black;}
+tr.odd td {border-top: thin dotted black;}
+td.even {background-color: #EEFFEE;}
+td.head {background-color: #EEEEFF;}
+td.num {text-align: right;}
+td, th {width: 100px;}
+td.error {color: red;background-color: yellow;}
+td.title, th.title {width: 300px;}
+td.mod, th.mod {width: 200px;}
+#formFilter form {border: solid black 1px;padding: 10px; width: 800px; align: center;margin: 0 auto;}
+#formChangeParent form {border: solid black 1px;padding: 10px; width: 800px; align: center;margin: 0 auto;}
+#formIngest form {border: solid black 1px;padding: 10px; width: 800px; align: center;margin: 0 auto;}
+#formMetadata form {border: solid black 1px;padding: 10px; width: 800px; align: center;margin: 0 auto;}
+#formUningest form {border: solid black 1px;padding: 10px; width: 800px; align: center;margin: 0 auto;}
+#collWidget label {display: block; float: left;width: 240px; font-weight: bold; padding-left: 10px;}
+fieldset.cb input {margin-left: 260px;}
+#loading {position:fixed; left: 200px; top: 200px; z-index: 5; border: thick solid red; width: 300px; padding: 40px; font-size: 24px; background: #EEEEEE; display: none;}
+#submitting {position:fixed; left: 200px; top: 200px; z-index: 5; border: thick solid red; width: 300px; padding: 40px; font-size: 24px; background: #EEEEEE; display: none;}
+#collSelectHold {color: red;}
+#status {text-align:center; color:red; font-size: 24px;}
+input[readonly] {background-color: #EEEEEE;}
+#locpick {position: absolute; z-index: 5; border: solid 2px navy; margin-left: 200px; background-color: #EEEEEE}
+#locsel {width: 400px;}
+#locclose {float: right;}
+div.hit em {font-style: normal; background-color: yellow;}
+ul#lit-nav{text-align: center; margin-left: 10%; }
+ul#lit-nav li {display: inline; float: left; width: 120px; margin: 6px;}
+ul#lit-nav li.opt {border: thin solid #EEEEEE;}
+ul#lit-nav li.sel {background-color: #caf9f8}
+ul#lit-nav li.opt:hover {background-color: #EEEEEE;}
+div.clear {clear:both;}
+body {position:relative;}
+#gu-search-results dl {margin-left: 30px;}
+#gu-search-results p {margin: 2px 0px;}
+#gu-search-results h2 {font-size: 18px; color: navy;}
+div.ui-dialog-titlebar {border-bottom: thin solid blue; margin-bottom: 5px;font-weight: bold;}
+span.ui-icon-closethick {float: right;}
+#showopt li {list-style-type: none; }
+#export hr {border-color: red;}
+#tools ul, #showopt ul {height: 340px; overflow-y: auto;}
+th.allcol {vertical-align: bottom;}
+fieldset.queryCols {display: block; margin: 10px;}
+#queryCols {width: 70%; float: right;}
+span.toterror {color: red; font-weight: bold;}
+table.status th {width: 300px;}
+table.status {margin: auto;}
+div.checkboxes {width: 48%; float: left; display:inline;}
+td.referrer {width:400px;max-width:400px;word-wrap:break-word;}
