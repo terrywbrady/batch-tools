@@ -142,7 +142,6 @@ class RestInitializer {
 }
 
 class PostgresInitializer {
-	static $INSTANCE;
 	private $dbh;
 	
 	public function __construct($dbh) {
@@ -169,7 +168,7 @@ EOF;
 
 		// free memory
 		pg_free_result($result);    
-		uasort(self::$COMMUNITIES, "pathcmp");   
+		uasort(community::$COMMUNITIES, "pathcmp");   
 	}
 	
 	public function initCollections() {
@@ -191,12 +190,17 @@ EOF;
 
 		// free memory
 		pg_free_result($result);       
-		uasort(self::$COLLECTIONS, "pathcmp");   
+		uasort(collection::$COLLECTIONS, "pathcmp");   
 		uasort(community::$COMBO, "pathcmp");   
 	}
 
+	private static $INSTANCE;
 	public static function instance() {
-		if (self::$INSTANCE == null) self::$INSTANCE = new RestInitializer();
+		if (self::$INSTANCE == null) die("Must init PostgresInitializer");
+		return self::$INSTANCE;
+	}
+	public static function setInstance($dbh) {
+		if (self::$INSTANCE == null) self::$INSTANCE = new PostgresInitializer($dbh);
 		return self::$INSTANCE;
 	}
 }
