@@ -20,15 +20,14 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 */
 include '../web/header.php';
 include '../phpconfig/init.php';
-include '../web/community.php';
 include '../web/util.php';
 
-community::initCommunities();
-collection::initCollections();
-
-$defuser =  isset($GLOBALS['defuser']) ? $GLOBALS['defuser'] : "userxx";
-$ingestLoc =  isset($GLOBALS['ingestLoc']) ? $GLOBALS['ingestLoc'] : "";
 $CUSTOM = custom::instance();
+$CUSTOM->getCommunityInit()->initCommunities();
+$CUSTOM->getCommunityInit()->initCollections();
+
+$defuser =  $CUSTOM->getDefuser();
+$ingestLoc =  $CUSTOM->getIngestLoc();
 
 $status = "";
 testArgs();
@@ -95,9 +94,10 @@ $header->litPageHeader();
 function testArgs(){
 	global $status;
 	global $ingestLoc;
-	$dspaceBatch =  isset($GLOBALS['dspaceBatch']) ? $GLOBALS['dspaceBatch'] : "";
-	$mroot =  isset($GLOBALS['mroot']) ? $GLOBALS['mroot'] : "";
-	$bgindicator =  isset($GLOBALS['bgindicator']) ? $GLOBALS['bgindicator'] : "&";
+	$CUSTOM = custom::instance();
+	$dspaceBatch = $CUSTOM->getDspaceBatch();
+	$mroot =  $CUSTOM->getMapRoot();
+	$bgindicator =  $CUSTOM->getBgindicator();
 	
 	if (count($_POST) == 0) return;
 	$user = util::getPostArg("user","");

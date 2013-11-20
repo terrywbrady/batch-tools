@@ -23,8 +23,24 @@ class custom {
 	
 	public static $INSTANCE;
 	
+	public function getRoot() {return "/var/www";}
+	public function getQueueRoot() {return $this->getRoot() . "/queue/";}
+	public function getMapRoot() {return $this->getRoot() . "/mapfile/";}
+	public function getDspaceBatch() {return "sudo -u dspace " . $this->getRoot() . "/bin/dspaceBatch.sh";}
+	public function getBgindicator() {return "&";}
+	public function getDefuser() {return "userxx";}
+	public function getIngestLoc() {return "/dev/null";}
+
+	private $communityInit;
+	
+	public function getCommunityInit() {return $this->communityInit;}
+	
+	public function __construct() {
+		$this->communityInit = RestInitializer::instance();
+	}
+
 	public static function instance() {
-		if (self::$INSTANCE == null) self::$INSTANCE = new custom();
+		if (self::$INSTANCE == null) die("Set custom::$INSTANCE");
 		return self::$INSTANCE;
 	}
 	

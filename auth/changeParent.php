@@ -23,8 +23,9 @@ include '../web/util.php';
 include '../phpconfig/init.php';
 include '../web/community.php';
 
-community::initCommunities();
-collection::initCollections();
+$CUSTOM = custom::instance();
+$CUSTOM->getCommunityInit()->initCommunities();
+$CUSTOM->getCommunityInit()->initCollections();
 
 $status = "";
 testArgs();
@@ -73,8 +74,9 @@ function uncheckedPost($name, $value) {
 
 function testArgs(){
 	global $status;
-	$dspaceBatch =  isset($GLOBALS['dspaceBatch']) ? $GLOBALS['dspaceBatch'] : "";
-	$bgindicator =  isset($GLOBALS['bgindicator']) ? $GLOBALS['bgindicator'] : "&";
+	$CUSTOM = custom::instance();
+	$dspaceBatch = $CUSTOM->getDspaceBatch();
+	$bgindicator =  $CUSTOM->getBgindicator();
 	
 	if (count($_POST) == 0) return;
 	$child = util::getPostArg("child","");

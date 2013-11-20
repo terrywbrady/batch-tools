@@ -20,9 +20,10 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 include '../phpconfig/init.php';
 include 'header.php';
 include '../web/util.php';
-$handleContext =  isset($GLOBALS['handleContext']) ? $GLOBALS['handleContext'] : "";
-$root =  isset($GLOBALS['root']) ? $GLOBALS['root'] : "";
-$qroot =  isset($GLOBALS['qroot']) ? $GLOBALS['qroot'] : "";
+$handleContext =  ""; //or xmlui
+$CUSTOM = custom::instance();
+$root = $CUSTOM->getRoot();
+$qroot =  $CUSTOM->getQueueRoot();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

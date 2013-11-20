@@ -22,10 +22,11 @@ include '../web/header.php';
 include '../phpconfig/init.php';
 include '../web/util.php';
 
-$root =  isset($GLOBALS['root']) ? $GLOBALS['root'] : "";
-$mroot =  isset($GLOBALS['mroot']) ? $GLOBALS['mroot'] : "";
-$defuser =  isset($GLOBALS['defuser']) ? $GLOBALS['defuser'] : "userxx";
-$CUSTOM = $GLOBALS['CUSTOM'];
+$CUSTOM = custom::instance();
+$defuser =  $CUSTOM->getDefuser();
+$ingestLoc =  $CUSTOM->getIngestLoc();
+$root = $CUSTOM->getRoot();
+$mroot =  $CUSTOM->getMapRoot();
 
 $myDirectory = opendir($mroot);
 
@@ -99,9 +100,10 @@ $header->litPageHeader();
 <?php 
 function testArgs(){
 	global $status;
-	global $root;
-	global $mroot;
-	$dspaceBatch =  isset($GLOBALS['dspaceBatch']) ? $GLOBALS['dspaceBatch'] : "";
+	$CUSTOM = custom::instance();
+	$root = $CUSTOM->getRoot();
+	$mroot =  $CUSTOM->getMapRoot();
+	$dspaceBatch = $CUSTOM->getDspaceBatch();
 	
 	if (count($_POST) == 0) return;
 	$user = util::getPostArg("user","");

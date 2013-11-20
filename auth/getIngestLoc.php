@@ -20,7 +20,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 */
 include '../phpconfig/init.php';
 include '../web/util.php';
-$ingestLoc =  isset($GLOBALS['ingestLoc']) ? $GLOBALS['ingestLoc'] : "";
+$CUSTOM = custom::instance();
+$ingestLoc = $CUSTOM->getIngestLoc();
 $loc = util::getArg("loc","");
 
 if (preg_match("|\.\.|", $loc) == 1) {

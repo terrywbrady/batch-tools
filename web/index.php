@@ -23,7 +23,6 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 include '../phpconfig/init.php';
 include 'util.php';
 include 'header.php';
-$host =  isset($GLOBALS['host']) ? $GLOBALS['host'] : "";
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

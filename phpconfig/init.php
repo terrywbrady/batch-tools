@@ -19,20 +19,8 @@ IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
 HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+include "../web/community.php";
 include "custom.php";
 
-//The following line should be modified on our linux servers 
-$mode = "GUDSPACE_MODE";
-$root   = "DSPACETOOLSROOT";
-$qroot   = $root . "/queue/";
-$mroot   = $root . "/mapfile/";
-$dspaceBatch = 'sudo -u dspace ' . $root . "/bin/dspaceBatch.sh";
-//$dspaceBatch = $root . "/bin/dspaceBatch.sh";
-$defuser = "userxx";
-$bgindicator = "&";
-$ingestLoc = "";
-$solr = "https://HOSTNAME/solr/";
-$host = "HOSTNAME";
-$ver="3.1";
-$CUSTOM=new custom();
+custom::$INSTANCE = new custom();
 ?>

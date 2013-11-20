@@ -93,20 +93,111 @@ class community {
     	echo '</select>';
 	}
 	
-	public static function initCommunities() {
+}
+
+class RestInitializer {
+	static $INSTANCE;
+	public function initCommunities() {
 		$json_a = util::json_get("http://demo.dspace.org/rest/communities/?expand=subCommunities");
 		foreach($json_a as $k=>$comm) {
-			community::initJsonCommunity(0, $comm);
+			$this->initJsonCommunity(0, $comm);
 		}
-		uasort(self::$COMMUNITIES, "pathcmp");   
+		uasort(community::$COMMUNITIES, "pathcmp");   
 	}
 	
-	public static function initJsonCommunity($pid, $comm) {
+	public function initJsonCommunity($pid, $comm) {
 		new community($comm["id"], $comm["name"], $comm["handle"], $pid);
 		if (!isset($comm["subcommunities"])) continue;
 		foreach($comm["subcommunities"] as $scomm) {
-			community::initJsonCommunity($comm["id"], $scomm);
+			$this->initJsonCommunity($comm["id"], $scomm);
 		}		
+	}
+	
+	public function initCollections() {
+		$json_a = util::json_get("http://demo.dspace.org/rest/communities/?expand=all");
+		foreach($json_a as $k=>$comm) {
+			$this->initJsonCommunityColl($comm);
+		}
+		uasort(collection::$COLLECTIONS, "pathcmp");   
+		uasort(community::$COMBO, "pathcmp");   
+	}
+
+	public function initJsonCommunityColl($comm) {
+		if (isset($comm["collections"])) {
+			foreach($comm["collections"] as $coll) {
+				new collection($coll["id"], $coll["name"], $coll["handle"], $comm["id"]);
+			}		
+		}
+		
+		if (!isset($comm["subcommunities"])) continue;
+		foreach($comm["subcommunities"] as $scomm) {
+			$this->initJsonCommunityColl($scomm);
+		}		
+	}
+
+	public static function instance() {
+		if (self::$INSTANCE == null) self::$INSTANCE = new RestInitializer();
+		return self::$INSTANCE;
+	}
+}
+
+class PostgresInitializer {
+	static $INSTANCE;
+	private $dbh;
+	
+	public function __construct($dbh) {
+		$this->dbh = $dbh;
+	}
+	
+	public function initCommunities() {
+		$sql = <<< EOF
+		select community_id, name, handle, parent_comm_id 
+		from community
+		inner join handle on community_id = resource_id and resource_type_id = 4
+		left join community2community on child_comm_id = community_id
+		order by name;  
+EOF;
+
+		$result = pg_query($this->dbh, $sql);
+ 		if (!$result) {
+     		die("Error in SQL query: " . pg_last_error());
+ 		}       
+
+ 		while ($row = pg_fetch_array($result)) {
+ 			new community($row[0], $row[1], $row[2], $row[3]);
+ 		}       
+
+		// free memory
+		pg_free_result($result);    
+		uasort(self::$COMMUNITIES, "pathcmp");   
+	}
+	
+	public function initCollections() {
+		$sql = <<< EOF
+		select c.collection_id, c.name, handle, c2c.community_id 
+		from collection c
+		inner join handle on collection_id = resource_id and resource_type_id = 3
+		left join community2collection c2c on c2c.collection_id = c.collection_id
+		order by c.name;  
+EOF;
+
+		$result = pg_query($this->dbh, $sql);
+		if (!$result) {
+    		die("Error in SQL query: " . pg_last_error());
+		}       
+		while ($row = pg_fetch_array($result)) {
+		 	new collection($row[0], $row[1], $row[2], $row[3]);
+		}       
+
+		// free memory
+		pg_free_result($result);       
+		uasort(self::$COLLECTIONS, "pathcmp");   
+		uasort(community::$COMBO, "pathcmp");   
+	}
+
+	public static function instance() {
+		if (self::$INSTANCE == null) self::$INSTANCE = new RestInitializer();
+		return self::$INSTANCE;
 	}
 }
 
@@ -141,53 +232,7 @@ class collection {
 		community::$COMBO[$collection_id] = $this;
 	}
 	
-	public static function initCollections() {
-		$json_a = util::json_get("http://demo.dspace.org/rest/communities/?expand=all");
-		foreach($json_a as $k=>$comm) {
-			collection::initJsonCommunity($comm);
-		}
-		uasort(self::$COLLECTIONS, "pathcmp");   
-		uasort(community::$COMBO, "pathcmp");   
-	}
 
-	public static function initJsonCommunity($comm) {
-		if (isset($comm["collections"])) {
-			foreach($comm["collections"] as $coll) {
-				new collection($coll["id"], $coll["name"], $coll["handle"], $comm["id"]);
-			}		
-		}
-		
-		if (!isset($comm["subcommunities"])) continue;
-		foreach($comm["subcommunities"] as $scomm) {
-			collection::initJsonCommunity($scomm);
-		}		
-	}
-
-	public static function getCollectionName($collection_id) {
-		$dbh = $GLOBALS['dbh'];
-		$sql = <<< EOF
-		select name 
-		from collection 
-		where collection_id = $1;
-EOF;
-
-		$stmt = pg_prepare($dbh, "my_coll", $sql);
-
-		$result = pg_execute($dbh, "my_coll", array($collection_id));
-		$name = "";
-		if (!$result) {
-    		die("Error in SQL query: " . pg_last_error());
-		}       
-		while ($row = pg_fetch_array($result)) {
-		 	$name = $row[0];
-		}       
-
-		// free memory
-		pg_free_result($result);       
-		return $name;
-	}
-	
-	
 	public static function getCollectionWidget($commsel, $collsel) {
 		$comms = "";
 		foreach(community::$COMMUNITIES as $c) {

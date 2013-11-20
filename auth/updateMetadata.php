@@ -22,13 +22,13 @@ include '../web/header.php';
 include '../phpconfig/init.php';
 include '../web/util.php';
 
-$defuser =  isset($GLOBALS['defuser']) ? $GLOBALS['defuser'] : "userxx";
+$CUSTOM = custom::instance();
+$dspaceBatch = $CUSTOM->getDspaceBatch();
+$defuser =  $CUSTOM->getDefuser();
 
 $status = "";
 testArgs();
 $user = isset($_SERVER['REMOTE_USER']) ? $_SERVER['REMOTE_USER'] : $defuser;
-
-$CUSTOM = $GLOBALS['CUSTOM'];
 
 header('Content-type: text/html; charset=UTF-8');
 ?>
@@ -76,8 +76,9 @@ $header->litPageHeader();
 <?php 
 function testArgs(){
 	global $status;
-	$dspaceBatch =  isset($GLOBALS['dspaceBatch']) ? $GLOBALS['dspaceBatch'] : "";
-	$ingestLoc =  isset($GLOBALS['ingestLoc']) ? $GLOBALS['ingestLoc'] : "/tmp/";
+	$CUSTOM = custom::instance();
+	$dspaceBatch = $CUSTOM->getDspaceBatch();
+	$ingestLoc =  $CUSTOM->getIngestLoc();
 	
 	if (count($_POST) == 0) {
 		$status = "";

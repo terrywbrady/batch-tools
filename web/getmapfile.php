@@ -20,8 +20,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 */
 include '../phpconfig/init.php';
 include '../web/util.php';
-$root =  isset($GLOBALS['root']) ? $GLOBALS['root'] : "";
-$mroot =  isset($GLOBALS['mroot']) ? $GLOBALS['mroot'] : "";
+$CUSTOM = custom::instance();
+$root = $CUSTOM->getRoot();
+$mroot =  $CUSTOM->getMapRoot();
 $fname = util::getArg("name","");
 $fname2 = $fname;
 

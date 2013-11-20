@@ -22,13 +22,8 @@ include '../web/header.php';
 include '../phpconfig/init.php';
 include '../web/util.php';
 
-$root =  isset($GLOBALS['root']) ? $GLOBALS['root'] : "";
-$defuser =  isset($GLOBALS['defuser']) ? $GLOBALS['defuser'] : "userxx";
-
 $status = "";
 testArgs();
-$user = isset($_SERVER['REMOTE_USER']) ? $_SERVER['REMOTE_USER'] : $defuser;
-$law = (($user == "mlz4") || ($user == "htm")) ? "selected" : "";
 header('Content-type: text/html; charset=UTF-8');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -59,8 +54,9 @@ $header->litPageHeader();
 <?php 
 function testArgs(){
 	global $status;
-	global $root;
-	$dspaceBatch =  isset($GLOBALS['dspaceBatch']) ? $GLOBALS['dspaceBatch'] : "";
+	$CUSTOM = custom::instance();
+	$root = $CUSTOM->getRoot();
+	$dspaceBatch =  $CUSTOM->getDspaceBatch();
 	
 	if (count($_POST) == 0) return;
 	

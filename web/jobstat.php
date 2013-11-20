@@ -19,9 +19,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 include '../phpconfig/init.php';
 include 'header.php';
 include '../web/util.php';
-$handleContext =  isset($GLOBALS['handleContext']) ? $GLOBALS['handleContext'] : "";
-$root =  isset($GLOBALS['root']) ? $GLOBALS['root'] : "";
-$qroot =  isset($GLOBALS['qroot']) ? $GLOBALS['qroot'] : "";
+$CUSTOM = custom::instance();
+$root = $CUSTOM->getRoot();
+$qroot =  $CUSTOM->getQueueRoot();
 $fname = util::getArg("name","");
 $fname2 = $fname;
 
