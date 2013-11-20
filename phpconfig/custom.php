@@ -31,7 +31,7 @@ class custom {
 	public function getDefuser() {return "userxx";}
 	public function getIngestLoc() {return "/dev/null";}
 
-	private $communityInit;
+	protected $communityInit;
 	
 	public function getCommunityInit() {return $this->communityInit;}
 	
