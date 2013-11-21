@@ -115,10 +115,6 @@ function testArgs(){
 	$status = $CUSTOM->validateDomain($domain);
 	if ($status != "") return;
 	
-	$coll = util::getPostArg("collection","");
-	$status = $CUSTOM->validateCollection($coll);
-	if ($status != "") return;
-	
 	$user = escapeshellarg($user.$domain);
 	$mapfile = escapeshellarg($mroot.$mapfile);
 
