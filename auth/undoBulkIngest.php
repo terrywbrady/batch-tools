@@ -115,6 +115,8 @@ function testArgs(){
 	$status = $CUSTOM->validateDomain($domain);
 	if ($status != "") return;
 	
+	$mapfile = util::getPostArg("mapfile","");
+	
 	$user = escapeshellarg($user.$domain);
 	$mapfile = escapeshellarg($mroot.$mapfile);
 
