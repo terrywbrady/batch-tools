@@ -28,7 +28,7 @@ $defuser =  $CUSTOM->getDefuser();
 
 $status = "";
 testArgs();
-$user = isset($_SERVER['REMOTE_USER']) ? $_SERVER['REMOTE_USER'] : $defuser;
+$user = $CUSTOM->getCurrentUser();
 
 header('Content-type: text/html; charset=UTF-8');
 ?>
@@ -107,7 +107,7 @@ function testArgs(){
       
 	$user = escapeshellarg($user.$domain);
 
-	$u = util::user();
+	$u = escapeshellarg($user);
 	$cmd = <<< HERE
 {$u} metadata-import -f {$temp} -e {$user} {$run}
 HERE;

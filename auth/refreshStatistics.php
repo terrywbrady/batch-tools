@@ -60,7 +60,7 @@ function testArgs(){
 	
 	if (count($_POST) == 0) return;
 	
-	$u = util::user();
+	$u = escapeshellarg($CUSTOM->getCurrentUser());
 	$cmd = <<< HERE
 {$u} gu-refresh-statistics 
 HERE;

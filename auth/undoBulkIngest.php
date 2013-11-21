@@ -43,7 +43,7 @@ rsort($dirArray);
 
 $status = "";
 testArgs();
-$user = isset($_SERVER['REMOTE_USER']) ? $_SERVER['REMOTE_USER'] : $defuser;
+$user = $CUSTOM->getCurrentUser();
 header('Content-type: text/html; charset=UTF-8');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -122,7 +122,7 @@ function testArgs(){
 	$user = escapeshellarg($user.$domain);
 	$mapfile = escapeshellarg($mroot.$mapfile);
 
-	$u = util::user();
+	$u = escapeshellarg($user);
 	$cmd = <<< HERE
 {$u} gu-uningest {$user} {$mapfile}
 HERE;

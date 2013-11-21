@@ -137,7 +137,7 @@ function testArgs(){
 	if (util::getPostArg("optForce", false)) $args .= " -f";
 	if (util::getPostArg("optIndex", false) == false) $args .= " -n";
 	
-	$u = util::user();
+	$u = escapeshellarg($CUSTOM->getCurrentUser());
 	$cmd = <<< HERE
 {$u} filter-media {$args}
 HERE;

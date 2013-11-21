@@ -33,11 +33,6 @@ class util {
 		return $def; 
 	}
 
-    public static function user() {
-    	return escapeshellarg(isset($_SERVER['REMOTE_USER']) ? $_SERVER['REMOTE_USER'] : "userxx");
-    }
-
-	
 	public static function submitPage($cmd) {
 $header = new LitHeader("Submit Job");
 echo <<< HERE
