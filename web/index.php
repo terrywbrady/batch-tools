@@ -37,7 +37,7 @@ $header->litPageHeader();
 $header->litHeader(array());
 ?>
 
-<h4>Reporting Tools</h4>
+<h4>Reporting Tools*</h4>
 <ul>
 <li><a href="queue.php">Job Queue</a></li>
 </ul>

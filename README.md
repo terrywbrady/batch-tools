@@ -10,7 +10,8 @@ Documentation
 Customization Steps
 1. Copy phpconfig/init.php.template to phpconfig/init.php, make appropriate edits
 2. Create a custom class that overrides customRest.php or customPostgres.php.  Override methods with local values as needed.
-3. Apache config
+3. Modify DSPACETOOLSROOT in bin/dspaceBatch.sh
+4. Apache config
    Web visible: /web
    Web visible with authentication: /auth
 
