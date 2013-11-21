@@ -84,7 +84,7 @@ $header->litPageHeader();
   <input type="text" id="user" name="user" readonly value="<?php echo $user?>" />
   <label for="domain" title="User's e-mail domain'">@</label>
   <select id="domain" name="domain">
-    <?echo $CUSTOM->getDomainOptions()?>
+    <?php echo $CUSTOM->getDomainOptions()?>
   </select>
 </p>
 </p>
