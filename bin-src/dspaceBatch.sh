@@ -33,8 +33,8 @@ then
   then
     if [ $VER = 3 ]
     then
-    echo "/opt/dspace/bin/dspace update-discovery-index -o" >> ${RUNNING} 2>&1 
-    /opt/dspace/bin/dspace update-discovery-index -o >> ${RUNNING} 2>&1 
+      echo "/opt/dspace/bin/dspace update-discovery-index" >> ${RUNNING} 2>&1 
+      /opt/dspace/bin/dspace update-discovery-index >> ${RUNNING} 2>&1 
     find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
     
     echo "/opt/dspace/bin/dspace oai import" >> ${RUNNING} 2>&1
@@ -44,9 +44,19 @@ then
     fi 
   fi
 
-  echo "/opt/dspace/bin/dspace stats-util -o" >> ${RUNNING} 2>&1 
-  /opt/dspace/bin/dspace stats-util -o >> ${RUNNING} 2>&1 
-  find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
+  # echo "/opt/dspace/bin/dspace stats-util -o" >> ${RUNNING} 2>&1 
+  # /opt/dspace/bin/dspace stats-util -o >> ${RUNNING} 2>&1 
+  # find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
+
+  # if [ $REINDEX = 1 ]
+  # then
+    # if [ $VER = 3 ]
+    # then
+      # echo "/opt/dspace/bin/dspace update-discovery-index -o" >> ${RUNNING} 2>&1 
+      # /opt/dspace/bin/dspace update-discovery-index -o >> ${RUNNING} 2>&1 
+      # find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
+    # fi 
+  # fi
 
   mv ${RUNNING} ${COMPLETE}
 elif [ "$1" = "metadata-import" ]
@@ -64,20 +74,24 @@ then
     then
       if [ $VER = 3 ]
       then
-      echo "/opt/dspace/bin/dspace update-discovery-index -o" >> ${RUNNING} 2>&1 
-      /opt/dspace/bin/dspace update-discovery-index -o >> ${RUNNING} 2>&1 
+        echo "/opt/dspace/bin/dspace update-discovery-index" >> ${RUNNING} 2>&1 
+        /opt/dspace/bin/dspace update-discovery-index >> ${RUNNING} 2>&1 
       find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
       
       echo "/opt/dspace/bin/dspace oai import" >> ${RUNNING} 2>&1
       /opt/dspace/bin/dspace oai import >> ${RUNNING} 2>&1
       find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
+
+        # echo "/opt/dspace/bin/dspace update-discovery-index -o" >> ${RUNNING} 2>&1 
+        # /opt/dspace/bin/dspace update-discovery-index -o >> ${RUNNING} 2>&1 
+        # find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
       fi
+
+      # echo "/opt/dspace/bin/dspace stats-util -o" >> ${RUNNING} 2>&1 
+      # /opt/dspace/bin/dspace stats-util -o >> ${RUNNING} 2>&1 
+      # find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
     fi
   done
-
-  echo "/opt/dspace/bin/dspace stats-util -o" >> ${RUNNING} 2>&1 
-  /opt/dspace/bin/dspace stats-util -o >> ${RUNNING} 2>&1 
-  find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
 
   mv ${RUNNING} ${COMPLETE}
 elif [ "$1" = "gu-refresh-statistics" ]
@@ -98,6 +112,12 @@ then
   echo /opt/dspace/bin/dspace stats-util -o >> ${RUNNING} 2>&1 
   /opt/dspace/bin/dspace stats-util -o >> ${RUNNING} 2>&1 
 
+  if [ $VER = 3 ]
+  then
+    /opt/dspace/bin/dspace update-discovery-index -o >> ${RUNNING} 2>&1 
+    find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
+  fi
+
   mv ${RUNNING} ${COMPLETE}
 elif [ "$1" = "gu-change-parent" ]
 then
@@ -110,9 +130,9 @@ then
   /opt/dspace/bin/dspace community-filiator -s -c $2 -p $4 >> ${RUNNING} 2>&1 
   find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
 
-  echo "/opt/dspace/bin/dspace stats-util -o" >> ${RUNNING} 2>&1 
-  /opt/dspace/bin/dspace stats-util -o >> ${RUNNING} 2>&1 
-  find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
+  # echo "/opt/dspace/bin/dspace stats-util -o" >> ${RUNNING} 2>&1 
+  # /opt/dspace/bin/dspace stats-util -o >> ${RUNNING} 2>&1 
+  # find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
 
   mv ${RUNNING} ${COMPLETE}
 elif [ "$1" = "gu-change-coll-parent" ]
@@ -153,8 +173,8 @@ then
         
   if [ $VER = 3 ]
   then
-  echo "/opt/dspace/bin/dspace update-discovery-index -o" >> ${RUNNING} 2>&1 
-  /opt/dspace/bin/dspace update-discovery-index -o >> ${RUNNING} 2>&1 
+    echo "/opt/dspace/bin/dspace update-discovery-index" >> ${RUNNING} 2>&1 
+    /opt/dspace/bin/dspace update-discovery-index >> ${RUNNING} 2>&1 
   find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
       
   echo "/opt/dspace/bin/dspace oai import" >> ${RUNNING} 2>&1
@@ -162,9 +182,16 @@ then
   find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
   fi
   
-  echo "/opt/dspace/bin/dspace stats-util -o" >> ${RUNNING} 2>&1 
-  /opt/dspace/bin/dspace stats-util -o >> ${RUNNING} 2>&1 
-  find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
+  # echo "/opt/dspace/bin/dspace stats-util -o" >> ${RUNNING} 2>&1 
+  # /opt/dspace/bin/dspace stats-util -o >> ${RUNNING} 2>&1 
+  # find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
+
+  # if [ $VER = 3 ]
+  # then
+    # echo "/opt/dspace/bin/dspace update-discovery-index -o" >> ${RUNNING} 2>&1 
+    # /opt/dspace/bin/dspace update-discovery-index -o >> ${RUNNING} 2>&1 
+    # find /opt/dspace/s* -name *.lock -exec ls -l {} \; >> ${RUNNING} 2>&1 
+  # fi
 
   echo "Job complete" >> ${RUNNING} 2>&1
   date >> ${RUNNING} 2>&1
