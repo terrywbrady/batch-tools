@@ -107,7 +107,7 @@ function testArgs(){
       
 	$user = escapeshellarg($user.$domain);
 
-	$u = escapeshellarg($user);
+	$u = escapeshellarg(preg_replace("@.*$","",$user));
 	$cmd = <<< HERE
 {$u} metadata-import -f {$temp} -e {$user} {$run}
 HERE;
