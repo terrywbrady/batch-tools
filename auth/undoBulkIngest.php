@@ -122,7 +122,7 @@ function testArgs(){
 	$user = escapeshellarg($user.$domain);
 	$mapfile = escapeshellarg($mroot.$mapfile);
 
-	$u = escapeshellarg($user);
+	$u = escapeshellarg(preg_replace("@.*$","",$user));
 	$cmd = <<< HERE
 {$u} gu-uningest {$user} {$mapfile}
 HERE;

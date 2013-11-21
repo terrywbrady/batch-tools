@@ -96,7 +96,7 @@ function testArgs(){
 
 	$args = $child . " " . $currparent . " " . $parent;
 
-	$u = escapeshellarg($CUSTOM->getCurrentUser());
+	$u = escapeshellarg(preg_replace("@.*$","",$CUSTOM->getCurrentUser()));
 	$cmd = <<< HERE
 {$u} gu-change-coll-parent {$args}
 HERE;
