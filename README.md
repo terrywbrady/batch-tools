@@ -12,8 +12,8 @@ Customization Steps
 * Create a custom class that overrides customRest.php or customPostgres.php.  Override methods with local values as needed.
 * Modify DSPACETOOLSROOT in bin/dspaceBatch.sh
 * Apache config (limit the app to necessary users or ip addresses)
-** Web visible: /web
-** Web visible with authentication: /auth
+* -- Web visible: /web
+* -- Web visible with authentication: /auth
 
 License information is contained below.
 
