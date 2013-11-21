@@ -8,12 +8,12 @@ Documentation
 * https://docs.google.com/presentation/d/11C0XHY-a594aiKPCKWNs3MlQrHh6lIz8qdWTowiavNo/edit?usp=sharing
 
 Customization Steps
-1. Copy phpconfig/init.php.template to phpconfig/init.php, make appropriate edits
-2. Create a custom class that overrides customRest.php or customPostgres.php.  Override methods with local values as needed.
-3. Modify DSPACETOOLSROOT in bin/dspaceBatch.sh
-4. Apache config
-   Web visible: /web
-   Web visible with authentication: /auth
+#. Copy phpconfig/init.php.template to phpconfig/init.php, make appropriate edits
+#. Create a custom class that overrides customRest.php or customPostgres.php.  Override methods with local values as needed.
+#. Modify DSPACETOOLSROOT in bin/dspaceBatch.sh
+#. Apache config (limit the app to necessary users or ip addresses)
+** Web visible: /web
+** Web visible with authentication: /auth
 
 License information is contained below.
 
