@@ -8,7 +8,7 @@ phpconfig/customGU.php
 *.pydevproject
 .project
 .metadata
-bin/
+
 tmp/
 *.tmp
 *.bak
