@@ -19,78 +19,57 @@ IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
 HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-include "../web/community.php";
-class custom {
-	
-	public static $INSTANCE;
-	
-	public function getRoot() {return dirname(dirname(__FILE__));}
-	public function getQueueRoot() {return $this->getRoot() . "/queue/";}
-	public function getMapRoot() {return $this->getRoot() . "/mapfile/";}
-	public function getDspaceBatch() {return "sudo -u dspace " . $this->getRoot() . "/bin/dspaceBatch.sh";}
-	public function getBgindicator() {return "&";}
-	public function getDefuser() {return "userxx";}
-	public function getIngestLoc() {return "/var/dspace/ingest";}
-	public function getRestServiceUrl() {return "http://demo.dspace.org/rest";}
-
-	protected $communityInit;
-	public function getCommunityInit() {return $this->communityInit;}
+include "custom.php";
+class customRest extends custom {
 	
 	public function __construct() {
-		$this->communityInit = DefaultInitializer::instance();
-	}
-
-	public static function instance() {
-		if (self::$INSTANCE == null) die("Set custom::$INSTANCE");
-		return self::$INSTANCE;
-	}
-	
-	//limit user to specific domains 
-	function getDomainOptions() {
-	$opt = <<< HERE
-    <option value="@foo.bar">foo.bar</option>
-HERE;
-		return $opt;
-	}
-	
-	
-  //validate the user domain provided	
-  function validateDomain($domain) {	
-	return "";
-  }
-  
-  //validate the collection handle provided
-  function validateCollection($coll) {
-	return "";
-  }
-
-  //find the appropriate directory to use for locating an ingest folder
-  function getHomeDir($user) {
-  	return "";
-  }
-  
-  //convert a community or collection's hierarchy into a readable pathname
-	public function getPathName($name) {
-		return $name;
-	}
-	
-	//return a short hand name for top level collections - used to create CSS classes
-	public function getShortName($name, $def) {
-		return str_replace(" ","_",$def);
+		$this->communityInit = RestInitializer::instance();
 	}
 
 }
 
-class DefaultInitializer {
+class RestInitializer {
 	static $INSTANCE;
 	public function initCommunities() {
+		$json_a = util::json_get(custom::instance()->getRestServiceUrl() . "/communities/?expand=subCommunities");
+		foreach($json_a as $k=>$comm) {
+			$this->initJsonCommunity(0, $comm);
+		}
+		uasort(community::$COMMUNITIES, "pathcmp");   
+	}
+	
+	public function initJsonCommunity($pid, $comm) {
+		new community($comm["id"], $comm["name"], $comm["handle"], $pid);
+		if (!isset($comm["subcommunities"])) continue;
+		foreach($comm["subcommunities"] as $scomm) {
+			$this->initJsonCommunity($comm["id"], $scomm);
+		}		
 	}
 	
 	public function initCollections() {
+		$json_a = util::json_get(custom::instance()->getRestServiceUrl() . "/communities/?expand=all");
+		foreach($json_a as $k=>$comm) {
+			$this->initJsonCommunityColl($comm);
+		}
+		uasort(collection::$COLLECTIONS, "pathcmp");   
+		uasort(community::$COMBO, "pathcmp");   
+	}
+
+	public function initJsonCommunityColl($comm) {
+		if (isset($comm["collections"])) {
+			foreach($comm["collections"] as $coll) {
+				new collection($coll["id"], $coll["name"], $coll["handle"], $comm["id"]);
+			}		
+		}
+		
+		if (!isset($comm["subcommunities"])) continue;
+		foreach($comm["subcommunities"] as $scomm) {
+			$this->initJsonCommunityColl($scomm);
+		}		
 	}
 
 	public static function instance() {
-		if (self::$INSTANCE == null) self::$INSTANCE = new DefaultInitializer();
+		if (self::$INSTANCE == null) self::$INSTANCE = new RestInitializer();
 		return self::$INSTANCE;
 	}
 }

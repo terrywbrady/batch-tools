@@ -29,10 +29,10 @@ class LitHeader {
 	
 	public function litPageHeader() {
 		echo <<< HERE
-		<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
- 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+		<script	src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+ 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 		<script	src="../web/qcReport.js"></script>
-		<link rel="stylesheet" type="text/css" href="../web/css/ui-lightness/jquery-ui-1.8.21.custom.css"></link>
+		<link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.css"></link>
 		<link rel="stylesheet" type="text/css" href="../web/qcReport.css"></link>
 		<title>{$this->title}</title>
 HERE;

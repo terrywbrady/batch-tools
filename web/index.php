@@ -36,6 +36,7 @@ $header->litPageHeader();
 <?php 
 $header->litHeader(array());
 ?>
+
 <h4>Reporting Tools</h4>
 <ul>
 <li><a href="queue.php">Job Queue</a></li>
@@ -49,9 +50,8 @@ $header->litHeader(array());
 <li><a href="../auth/changeParent.php">Move Community</a></li>
 <li><a href="../auth/changeParentColl.php">Move Collection</a></li>
 <li><a href="../auth/mediaFilter.php">Initiate Media Filter</a></li>
-<li>
-  <a href="../auth/updateMetadata.php">Update Metadata</a> 
-</li>
+<li><a href="../auth/refreshStatistics.php">Refresh Statistics</a></li>
+<li><a href="../auth/updateMetadata.php">Update Metadata</a></li>
 </ul>
 <?php $header->litFooter();?>
 </body>
