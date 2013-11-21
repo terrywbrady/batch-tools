@@ -64,13 +64,10 @@ HERE;
 	return "";
   }
 
-  //find the appropriate directory to use for locating an ingest folder
-  function getHomeDir($user) {
-  	return "";
-  }
-  
   //convert a community or collection's hierarchy into a readable pathname
 	public function getPathName($name) {
+		//if ($name == "Institutional Repository") return "IR";
+		//$name = str_replace("XXX University","XU",$name);
 		return $name;
 	}
 	

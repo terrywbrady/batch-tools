@@ -115,7 +115,6 @@ function testArgs(){
 	if ($status != "") return;
 	
 
-	$homedir = custom::instance()->getHomeDir();
 	$loc  = util::getPostArg("loc","");
 
 	if (preg_match("|\.\.|", $loc) == 1) {
