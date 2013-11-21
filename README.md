@@ -8,14 +8,11 @@ Documentation
 * https://docs.google.com/presentation/d/11C0XHY-a594aiKPCKWNs3MlQrHh6lIz8qdWTowiavNo/edit?usp=sharing
 
 Customization Steps
-1. Create role xxx
-2. grant select on all tables in schema public to xxx
-3. Edit DSPACETOOLSROOT in bin/dspaceBatch.sh
-4. Copy phpconfig/init.php.template to phpconfig/init.php, make appropriate edits
-5. Apache config
+1. Copy phpconfig/init.php.template to phpconfig/init.php, make appropriate edits
+2. Create a custom class that overrides customRest.php or customPostgres.php.  Override methods with local values as needed.
+3. Apache config
    Web visible: /web
    Web visible with authentication: /auth
-6. Reference an appropriate custom class in your phpconfig/init.php file.
 
 License information is contained below.
 
