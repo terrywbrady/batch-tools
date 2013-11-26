@@ -1,8 +1,8 @@
 # Private code
 phpconfig/init.php
 phpconfig/customGU.php
-mapfile/
-queue/
+queue/20*
+mapfile/job.*
 
 #################
 ## Eclipse
