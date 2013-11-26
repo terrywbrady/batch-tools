@@ -1,6 +1,6 @@
 <?php
 /*
-This file encapsulates institution-specific business logic used within this set of tools.  It would be necessary to provide meaningful implementations of each of these custom functions.
+Custom initializer using PDO module.
 
 Author: Terry Brady, Georgetown University Libraries
 
@@ -30,6 +30,7 @@ class customPdo extends custom {
 		return $dbh;		
 	}
 	
+	public function isPdo() {return true;}
 	public function __construct() {
 		PdoInitializer::setInstance($this->getPdoDb());
 		$this->communityInit = PdoInitializer::instance();

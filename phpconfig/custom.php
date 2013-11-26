@@ -19,12 +19,13 @@ IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
 HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-include "../web/community.php";
+include dirname(dirname(__FILE__)) . "/web/community.php";
 class custom {
 	
 	public static $INSTANCE;
 	
 	public function getRoot() {return dirname(dirname(__FILE__));}
+	public function getWebRoot() {return "/batch-tools/";}
 	public function getQueueRoot() {return $this->getRoot() . "/queue/";}
 	public function getMapRoot() {return $this->getRoot() . "/mapfile/";}
 	public function getDspaceBatch() {return "sudo -u dspace " . $this->getRoot() . "/bin/dspaceBatch.sh";}
@@ -33,6 +34,10 @@ class custom {
 	public function getCurrentUser() {return isset($_SERVER['REMOTE_USER']) ? $_SERVER['REMOTE_USER'] : $this->getDefuser();}
 	public function getIngestLoc() {return "/var/dspace/ingest/";}
 	public function getRestServiceUrl() {return "http://demo.dspace.org/rest";}
+	public function showBatchTools() {return true;}
+	
+	public function isPdo() {return false;}
+	public function showQueryTools() {return $this->isPdo();}
 
 	protected $communityInit;
 	public function getCommunityInit() {return $this->communityInit;}

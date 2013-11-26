@@ -20,9 +20,10 @@ IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
 HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-include '../phpconfig/init.php';
-include 'util.php';
 include 'header.php';
+include 'query/queries.php';
+
+$CUSTOM = custom::instance();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -37,10 +38,30 @@ $header->litPageHeader();
 $header->litHeader(array());
 ?>
 
+<?php 
+if ($CUSTOM->showQueryTools()) {
+	getQueryCols();
+}
+?>
 <h4>Reporting Tools*</h4>
 <ul>
 <li><a href="queue.php">Job Queue</a></li>
+<?php 
+if ($CUSTOM->showQueryTools()) {
+?>
+<li>
+  <a href="javascript:qcLink('query/qcReportCollection.php?foo')">QC Overview for Collections</a>
+</li>
+<li>
+  <a href="javascript:qcLink('query/qcReportCommunity.php?foo')">QC Overview for Communities</a>
+</li>
+<?php 
+}
+?>
 </ul>
+<?php
+if ($CUSTOM->showBatchTools()) { 
+?>
 <h4>Admin Access Only</h4>
 <ul>
 <li>
@@ -53,7 +74,28 @@ $header->litHeader(array());
 <li><a href="../auth/refreshStatistics.php">Refresh Statistics</a></li>
 <li><a href="../auth/updateMetadata.php">Update Metadata</a></li>
 </ul>
-<?php $header->litFooter();?>
+<?php 
+} 
+
+function getQueryCols() {
+initQueries(false);
+echo <<< HERE
+  <div id="queryCols">
+  <fieldset>
+    <legend>Query Options</legend>
+    <input type="radio" name="qcallcol" id="qcallcolon"><label for="qcallcolon">Show All Columns</label>
+    <input type="radio" checked name="qcallcol" id="qcallcoloff"><label for="qcallcoloff">Show Selected Columns</label>
+    <input name="warnonly" type="checkbox" id="warnonly"><label for="warnonly">Filter Warnings</label>
+HERE;
+  query::getQueryList();
+  echo <<< HERE
+  </fieldset>
+  </div>
+HERE;
+}
+
+$header->litFooter();
+?>
 </body>
 </html>
 

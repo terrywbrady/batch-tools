@@ -20,6 +20,8 @@ IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
 HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+include dirname(dirname(__FILE__)) . '/phpconfig/init.php';
+include 'util.php';
 
 class LitHeader {
 	public $title;
@@ -28,20 +30,24 @@ class LitHeader {
 	}
 	
 	public function litPageHeader() {
+		$CUSTOM = custom::instance();
+		$WEBROOT = custom::getWebRoot();
 		echo <<< HERE
 		<script	src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
  		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-		<script	src="../web/qcReport.js"></script>
+		<script	src="{$WEBROOT}/web/qcReport.js"></script>
 		<link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.css"></link>
-		<link rel="stylesheet" type="text/css" href="../web/qcReport.css"></link>
+		<link rel="stylesheet" type="text/css" href="{$WEBROOT}/web/qcReport.css"></link>
 		<title>{$this->title}</title>
 HERE;
 	}
 	
 	public function litHeader($arr) {
+		$CUSTOM = custom::instance();
+		$WEBROOT = custom::getWebRoot();
 		echo <<< HERE
 		<div class="breadcrumb">
-		  <a href="../web/index.php">DSpace Web Tools</a> &gt;
+		  <a href="{$WEBROOT}/web/index.php">DSpace Web Tools</a> &gt;
 HERE;
 	    foreach($arr as $a) {
 	    	echo "{$a} &gt;"; 
