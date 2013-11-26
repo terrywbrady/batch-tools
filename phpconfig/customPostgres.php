@@ -1,6 +1,8 @@
 <?php
 /*
-This file encapsulates institution-specific business logic used within this set of tools.  It would be necessary to provide meaningful implementations of each of these custom functions.
+Custom initializer using pgsql module.
+
+NOTE: THESE TOOLS PROVIDE MORE SUPPORT IF USING PDO_PGSQL.  PLEASE USE THAT IF POSSIBLE.
 
 Author: Terry Brady, Georgetown University Libraries
 

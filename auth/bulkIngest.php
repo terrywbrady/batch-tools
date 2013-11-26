@@ -19,8 +19,6 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 include '../web/header.php';
-include '../phpconfig/init.php';
-include '../web/util.php';
 
 $CUSTOM = custom::instance();
 $CUSTOM->getCommunityInit()->initCommunities();
