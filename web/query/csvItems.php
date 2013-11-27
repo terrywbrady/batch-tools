@@ -9,8 +9,6 @@ $CUSTOM = custom::instance();
 header("Content-type: text/csv");
 header("Content-Disposition: attachment; filename=export.csv");
 
-header("Content-type: text");
-
 initQueries(false);
 auxFields::initAuxFields();
 
