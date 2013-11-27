@@ -1,6 +1,8 @@
 This code was created by the Georgetown University Libraries to assist in the management of DSpace.
 This code is being shared for illustrative purposes.  
 
+---
+
 Documentation
 * https://docs.google.com/presentation/d/11GujDtJaIJVHChZ36bzUrlzVNqiDO60s0aq6tcf0Bzs/edit?usp=sharing
 * Open Repositories 2013 Presentation
