@@ -434,9 +434,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-      and mfr.element = 'relation' and mfr.qualifier = 'uri'
       where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'relation' and mfr.qualifier = 'uri'
+      )
     ) 
 EOF;
 new query("itemCountWithRelationURI","Num Items with Relation URI",$subq,"basic", new testValTrue(),array("Accession")); 
