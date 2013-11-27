@@ -423,8 +423,8 @@ $subq = <<< EOF
       select 1
       from metadatavalue m 
       inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-      where m.item_id = i.item_id
       and mfr.element = 'relation' and mfr.qualifier = 'uri'
+      where m.item_id = i.item_id
     ) 
 EOF;
 new query("itemCountWithoutOriginal","Num Items without Original or Relation URI",$subq,"basic", new testValZero(),array("Accession")); 
@@ -435,8 +435,8 @@ $subq = <<< EOF
       select 1
       from metadatavalue m 
       inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-      where m.item_id = i.item_id
       and mfr.element = 'relation' and mfr.qualifier = 'uri'
+      where m.item_id = i.item_id
     ) 
 EOF;
 new query("itemCountWithRelationURI","Num Items with Relation URI",$subq,"basic", new testValTrue(),array("Accession")); 
