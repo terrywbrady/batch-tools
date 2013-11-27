@@ -62,7 +62,9 @@ echo auxFields::getShowOptToggle();
 $dbh = $CUSTOM->getPdoDb();
 $result = $dbh->query($sql);
 if (!$result) {
-    die("Error in SQL query: " . pg_last_error());
+	print($sql);
+  	print_r($dbh->errorInfo());
+    die("Error in SQL query: ");
 }       
 ?>
 <div id="ins">

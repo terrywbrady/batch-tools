@@ -25,7 +25,8 @@ class customPdo extends custom {
 	public function getPdoDb() {
 		$dbh = new PDO("pgsql:host=localhost;port=5432;dbname=dspace;user=dspace_ro;password=xxxx");
 		if (!$dbh) {
-     		die("Error in connection: " . pg_last_error());
+  	        print_r($dbh->errorInfo());
+     		die("Error in SQL query: ");
 		}      
 		return $dbh;		
 	}
@@ -56,7 +57,9 @@ EOF;
 
 		$result = $this->dbh->query($sql);
  		if (!$result) {
-     		die("Error in SQL query: " . pg_last_error());
+ 			print($sql);
+  	        print_r($dbh->errorInfo());
+     		die("Error in SQL query: ");
  		}       
 
  		foreach ($result as $row) {
@@ -78,7 +81,9 @@ EOF;
 
 		$result = $this->dbh->query($sql);
  		if (!$result) {
-     		die("Error in SQL query: " . pg_last_error());
+ 			print($sql);
+  	        print_r($dbh->errorInfo());
+     		die("Error in SQL query: ");
  		}       
 
  		foreach ($result as $row) {

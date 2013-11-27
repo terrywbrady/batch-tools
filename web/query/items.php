@@ -55,7 +55,7 @@ $cols .= "1";
 $sel = <<< EOF
 select 
   i.item_id,
-  regexp_replace(m64.text_value,E'[\r\n\t ]+',' ','g') as title,
+  regexp_replace(mv.text_value,E'[\r\n\t ]+',' ','g') as title,
   handle,
   {$cols}
 from 
@@ -63,7 +63,9 @@ from
 inner join 
   handle on i.item_id = resource_id and resource_type_id = 2
 left join
-  metadatavalue m64 on m64.item_id = i.item_id and m64.metadata_field_id = 64
+  metadatavalue mv on mv.item_id = i.item_id 
+inner join metadatafieldregistry mfr on mfr.metadata_field_id = mv.metadata_field_id
+  and mfr.element = 'title' and mfr.qualifier is null
 EOF;
 
 if (collectionArg::isCollection()) {
@@ -94,6 +96,7 @@ $result = $stmt->fetchAll();
 //$header->sqlDump($sql);
 
 if (!$result) {
+	print($sql);
 	print_r($dbh->errorInfo());
      die("Error in SQL query");
 }       

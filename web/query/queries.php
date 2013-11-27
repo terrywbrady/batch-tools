@@ -20,7 +20,6 @@ class query {
     	"meta" => "Metadata Attributes",
     	"mod" => "Modification Date",    		
     	"embargo" => "Embargo Attributes",    		
-    	"angelica" => "Angelica QC",    		
 	);
 	
 	public static $CATQ = array();
@@ -100,21 +99,6 @@ class query {
       on c2i.item_id = i.item_id 
       and c2i.collection_id = coll.collection_id
     where (i.in_archive is true or i.discoverable = false)
-    {$this->subq}
-  ) as {$this->name},
-";		
-	}
-
-	function statusQuery() {
-		return "
-  (
-    select count(*) 
-    from item i
-    inner join collection2item c2i 
-      on c2i.item_id = i.item_id 
-      and c2i.collection_id != 29
-    /*where (i.in_archive is true or i.discoverable = false)*/
-    where i.in_archive is true
     {$this->subq}
   ) as {$this->name},
 ";		
@@ -298,7 +282,20 @@ $subq = <<< EOF
         and i.item_id = i2b.item_id
       inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
       inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id in (6,4,2,9,5,11,13)
+      inner join bitstreamformatregistry bfr on bit.bitstream_format_id = bfr.bitstream_format_id
+        and bfr.mimetype in (
+             'text/plain',
+             'application/pdf',
+             'text/html',
+             'application/msword',
+             'text/xml',
+	         'application/msword',
+             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+             'application/vnd.ms-powerpoint',
+	         'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+             'application/vnd.ms-excel',
+             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+       )
     ) 
 EOF;
 new query("itemCountDoc","Num Document Items",$subq,"head basic text image", new testValTrue(),array("Accession","Creator")); 
@@ -315,10 +312,14 @@ $subq = <<< EOF
         and i.item_id = i2b.item_id
       inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
       inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id in (76,16)
+      inner join bitstreamformatregistry bfr on bit.bitstream_format_id = bfr.bitstream_format_id
+        and bfr.mimetype in (
+             'image/jp2',
+             'image/jpeg'
+      )
     ) 
 EOF;
-new query("itemCountSuppImage","Num Supported Image Items",$subq,"basic image", new testValTrue(),array("Accession","GenThumb","LitThumb","CustomThumb")); 
+new query("itemCountSuppImage","Num Supported Image Items",$subq,"basic image", new testValTrue(),array("Accession","GenThumb")); 
 
 $subq = <<< EOF
     and exists 
@@ -331,10 +332,14 @@ $subq = <<< EOF
         and i.item_id = i2b.item_id
       inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
       inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id in (17,18,19,27,40)
+      inner join bitstreamformatregistry bfr on bit.bitstream_format_id = bfr.bitstream_format_id
+        and bfr.mimetype like 'image/%' and bfr.mimetype not in (
+             'image/jp2',
+             'image/jpeg'
+      )
     ) 
 EOF;
-new query("itemCountUnsuppImage","Num Unsupported Image Items",$subq,"basic type image", new testValZero(),array("Accession","GenThumb","LitThumb","CustomThumb")); 
+new query("itemCountUnsuppImage","Num Unsupported Image Items",$subq,"basic type image", new testValZero(),array("Accession","GenThumb")); 
 
 $subq = <<< EOF
     and exists 
@@ -347,7 +352,24 @@ $subq = <<< EOF
         and i.item_id = i2b.item_id
       inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
       inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id not in (6,4,2,9,5,11,13,19,16,17,18,19,27,30,40)
+      inner join bitstreamformatregistry bfr on bit.bitstream_format_id = bfr.bitstream_format_id
+        and (
+          bfr.mimetype like 'video/%' or 
+          bfr.mimetype like 'image/%' or 
+          bfr.mimetype in (
+             'text/plain',
+             'application/pdf',
+             'text/html',
+             'application/msword',
+             'text/xml',
+	         'application/msword',
+             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+             'application/vnd.ms-powerpoint',
+	         'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+             'application/vnd.ms-excel',
+             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+         )
+       )
     ) 
 EOF;
 new query("itemCountOther","Num Other Items",$subq,"basic type", new testValZero(),array("Accession","Format","OrigName")); 
@@ -400,8 +422,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
+      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and metadata_field_id = 52
+      and mfr.element = 'relation' and mfr.qualifier = 'uri'
     ) 
 EOF;
 new query("itemCountWithoutOriginal","Num Items without Original or Relation URI",$subq,"basic", new testValZero(),array("Accession")); 
@@ -411,8 +434,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
+      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and metadata_field_id = 52
+      and mfr.element = 'relation' and mfr.qualifier = 'uri'
     ) 
 EOF;
 new query("itemCountWithRelationURI","Num Items with Relation URI",$subq,"basic", new testValTrue(),array("Accession")); 
@@ -469,7 +493,19 @@ $subq = <<< EOF
         and i.item_id = i2b.item_id
       inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
       inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id in (6,2,9,5,11,13)
+      inner join bitstreamformatregistry bfr on bit.bitstream_format_id = bfr.bitstream_format_id
+        and bfr.mimetype in (
+             'text/plain',
+             'text/html',
+             'application/msword',
+             'text/xml',
+	         'application/msword',
+             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+             'application/vnd.ms-powerpoint',
+	         'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+             'application/vnd.ms-excel',
+             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+       )
     ) 
 EOF;
 new query("itemCountDocNonPDF","Num Non-PDF doc Items",$subq,"text", new testValZero(),array("OrigName","Creator")); 
@@ -485,31 +521,8 @@ $subq = <<< EOF
         and i.item_id = i2b.item_id
       inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
       inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id in (6,4,2,9,5,11,13)
-      where not exists (
-        select 1 
-        from resourcemetadatavalue rmv
-        inner join resourcemetadatafieldregistry rmfr on rmv.metadata_field_id=rmfr.metadata_field_id 
-        where rmv.resource_id = bit.bitstream_id
-        and rmv.resource_type_id = 0
-        and rmfr.element = 'scribd' and rmfr.qualifier='docid'
-      )
-    ) 
-EOF;
-new query("itemCountDocNoStream","Docs, No Streaming",$subq,"text", new testValZero(),array("Accession","DocStream")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name = 'ORIGINAL'
-        and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
-      inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id = 4
+      inner join bitstreamformatregistry bfr on bit.bitstream_format_id = bfr.bitstream_format_id
+        and bfr.mimetype in ('application/pdf')
         and bit.size_bytes < 20000
     ) 
 EOF;
@@ -526,7 +539,19 @@ $subq = <<< EOF
         and i.item_id = i2b.item_id
       inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
       inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id in (6,4,2,9,5,11,13)
+      inner join bitstreamformatregistry bfr on bit.bitstream_format_id = bfr.bitstream_format_id
+        and bfr.mimetype in (
+             'text/plain',
+             'text/html',
+             'application/msword',
+             'text/xml',
+	         'application/msword',
+             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+             'application/vnd.ms-powerpoint',
+	         'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+             'application/vnd.ms-excel',
+             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+       )
     ) 
     and not exists 
     (
@@ -551,7 +576,8 @@ $subq = <<< EOF
         and i.item_id = i2b.item_id
       inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
       inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id in (30)
+      inner join bitstreamformatregistry bfr on bit.bitstream_format_id = bfr.bitstream_format_id
+        and bfr.mimetype like 'video/%'
     ) 
 EOF;
 new query("itemCountVideo","Num Video Items",$subq,"type", new testValZero(),array("Accession","Format")); 
@@ -567,7 +593,8 @@ $subq = <<< EOF
         and i.item_id = i2b.item_id
       inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
       inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id in (2,3,7)
+      inner join bitstreamformatregistry bfr on bit.bitstream_format_id = bfr.bitstream_format_id
+        and bfr.mimetype like 'text/html%'
     ) 
 EOF;
 new query("itemCountHtml","Num HTML Items",$subq,"type", new testValZero(),array("Accession","Format")); 
@@ -624,8 +651,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
+      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and metadata_field_id = 14
+      and mfr.element = 'date' and mfr.qualifier = 'created'
       and text_value !~ '^((No [dD]ate)|(([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]-(0[1-9]|1[012])|[0-9][0-9][0-9][0-9]-(0[1-9]|1[012])-(31|30|[12][0-9]|0[1-9]))))$'
     ) 
 EOF;
@@ -637,8 +665,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
+      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and metadata_field_id = 14
+      and mfr.element = 'date' and mfr.qualifier = 'created'
       and text_value in ('No date','No Date')
     ) 
 EOF;
@@ -650,8 +679,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
+      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and metadata_field_id = 14
+      and mfr.element = 'date' and mfr.qualifier = 'created'
     ) 
 EOF;
 new query("itemCountWithNoCreate","Num Items with No Creation Date",$subq,"date", new testValZero(),array("Accession")); 
@@ -661,8 +691,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
+      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and metadata_field_id = 15
+      and mfr.element = 'date' and mfr.qualifier = 'issued'
       and text_value !~ '^([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]-(0[1-9]|1[012])||[0-9][0-9][0-9][0-9]-(0[1-9]|1[012])-(31|30|[12][0-9]|0[1-9]))$'
     ) 
 EOF;
@@ -674,105 +705,21 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
+      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and metadata_field_id = 15
+      and mfr.element = 'date' and mfr.qualifier = 'issued'
     ) 
 EOF;
 new query("itemCountWithNoIssue","Num Items with No Issue Date",$subq,"date", new testValZero(),array("Accession")); 
-
-/*
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 15
-      and to_date(text_value, 'YYYY-MM-DD') < current_date - interval '2 year'
-    ) 
-EOF;
-new query("issue2yearOlder","Issue date older than 2 years",$subq,"date", new testValTrue(),array("Issue","Create","Accession")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 15
-      and to_date(text_value, 'YYYY-MM-DD') >= current_date - interval '2 year'
-    ) 
-EOF;
-new query("issue2yearNewer","Issue newer older than 2 years",$subq,"date", new testValTrue(),array("Issue","Create","Accession")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 15
-      and to_date(text_value, 'YYYY-MM-DD') < 
-      (
-        select to_date(text_value, 'YYYY-MM-DD')
-        from metadatavalue m 
-        where m.item_id = i.item_id
-        and metadata_field_id = 14
-        and text_value ~ '^[0-9][0-9][0-9][0-9](-[0-9][0-9])?(-[0-9][0-9])?$'
-        limit 1
-      )
-    ) 
-EOF;
-new query("issueBeforeCreate","Issue older than create",$subq,"date", new testValTrue(),array("Issue","Create","Accession")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 15
-      and to_date(text_value, 'YYYY-MM-DD') > 
-      (
-        select to_date(text_value, 'YYYY-MM-DD') + interval '2 year'
-        from metadatavalue m 
-        where m.item_id = i.item_id
-        and metadata_field_id = 14
-        and text_value ~ '^[0-9][0-9][0-9][0-9](-[0-9][0-9])?(-[0-9][0-9])?$'
-        limit 1
-      )
-    ) 
-EOF;
-new query("issue2yrAfterCreate","Issue 2 or more years newer than create",$subq,"date", new testValTrue(),array("Issue","Create","Accession")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 15
-      and to_date(text_value, 'YYYY-MM-DD') > 
-      (
-        select to_date(text_value, 'YYYY-MM-DD') + interval '10 year'
-        from metadatavalue m 
-        where m.item_id = i.item_id
-        and metadata_field_id = 14
-        and text_value ~ '^[0-9][0-9][0-9][0-9](-[0-9][0-9])?(-[0-9][0-9])?$'
-        limit 1
-      )
-    ) 
-EOF;
-new query("issue10yrAfterCreate","Issue 10 or more years newer than create",$subq,"date", new testValTrue(),array("Issue","Create","Accession")); 
-*/
 
 $subq = <<< EOF
     and not exists 
     (
       select 1
       from metadatavalue m 
+      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and metadata_field_id = 11
+      and mfr.element = 'date' and mfr.qualifier = 'accessioned'
     ) 
 EOF;
 new query("itemCountWithNoAcc","Num Items with No Accession Date",$subq,"date", new testValZero(),array("Accession")); 
@@ -782,8 +729,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
+      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and metadata_field_id = 12
+      and mfr.element = 'date' and mfr.qualifier = 'available'
     ) 
 EOF;
 new query("itemCountWithNoAvail","Num Items with No Available Date",$subq,"date", new testValZero(),array("Accession")); 
@@ -794,29 +742,33 @@ $subq = <<< EOF
       (
         select count(*)
         from metadatavalue m 
+        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
         where m.item_id = i.item_id
-        and metadata_field_id = 11
+        and mfr.element = 'date' and mfr.qualifier = 'created'
       ) > 1
       or
       (
         select count(*)
         from metadatavalue m 
+        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
         where m.item_id = i.item_id
-        and metadata_field_id = 12
+        and mfr.element = 'date' and mfr.qualifier = 'issued'
       ) > 1
       or
       (
         select count(*)
         from metadatavalue m 
+        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
         where m.item_id = i.item_id
-        and metadata_field_id = 14
+        and mfr.element = 'date' and mfr.qualifier = 'available'
       ) > 1
       or
       (
         select count(*)
         from metadatavalue m 
+        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
         where m.item_id = i.item_id
-        and metadata_field_id = 15
+        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
       ) > 1
     ) 
 EOF;
@@ -827,8 +779,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 10
+        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'date' and mfr.qualifier is null
     ) 
 EOF;
 new query("itemCountWithUnqualDate","Num Items with Unqualified Date",$subq,"date", new testValZero(),array("UnqualDate")); 
@@ -864,57 +817,9 @@ $subq = <<< EOF
         on i2b.bundle_id = b.bundle_id
         and b.name = 'ORIGINAL'
         and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b2b.bundle_id = b.bundle_id
-      inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id in (76,16)
-    ) 
-    and not exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name like 'tiles%'
-        and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b2b.bundle_id = b.bundle_id
-      inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-    ) 
-EOF;
-new query("itemCountWithoutZoom","Num Items with Original without Zoom Tiles",$subq,"image", new testValZero(),array("Accession")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name = 'ORIGINAL'
-        and i.item_id = i2b.item_id
     ) 
 EOF;
 new query("itemCountWithOriginal","Num Items with Original",$subq,"image", new testValTrue(),array("Accession")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 17
-      and text_value like 'Angelica Barcode %'
-    ) 
-    and not exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name = 'ORIGINAL'
-        and i.item_id = i2b.item_id
-    ) 
-EOF;
-new query("angelicaBarcodeNoOriginal","Angelica Barcode, No Original",$subq,"image", new testValTrue(),array("Accession","Identifier")); 
 
 $subq = <<< EOF
     and exists 
@@ -928,21 +833,6 @@ $subq = <<< EOF
     ) 
 EOF;
 new query("itemCountWithThumbnail","Num Items with Thumbnail",$subq,"image", new testValTrue(),array("Accession")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name like 'tiles%'
-        and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b2b.bundle_id = b.bundle_id
-      inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-    ) 
-EOF;
-new query("itemCountWithTiles","Num Items with Zoom Tiles",$subq,"image", new testValTrue(),array("Accession")); 
 
 
 $subq = <<< EOF
@@ -962,7 +852,7 @@ $subq = <<< EOF
       ) > 1
     ) 
 EOF;
-new query("itemCountWithMultThumbnail","Num Items with Multiple Thumbnail",$subq,"image", new testValZero(),array("Accession","GenThumb","CustomThumb","LitThumb")); 
+new query("itemCountWithMultThumbnail","Num Items with Multiple Thumbnail",$subq,"image", new testValZero(),array("Accession","GenThumb")); 
 
 $subq = <<< EOF
     and exists 
@@ -978,7 +868,7 @@ $subq = <<< EOF
         and bit.size_bytes < 400
     ) 
 EOF;
-new query("itemCountWithTinyThumbnail","Num Items with Invalid Thumbnail (Too Small)",$subq,"image", new testValZero(),array("Accession","GenThumb","CustomThumb","LitThumb")); 
+new query("itemCountWithTinyThumbnail","Num Items with Invalid Thumbnail (Too Small)",$subq,"image", new testValZero(),array("Accession","GenThumb")); 
 
 $subq = <<< EOF
     and exists 
@@ -994,23 +884,7 @@ $subq = <<< EOF
         and bit.description = 'Generated Thumbnail'
     ) 
 EOF;
-new query("itemCountWithGenThumbnail","Num Items with DSpace Default Generated Thumbnail",$subq,"image", new testValZero(),array("Accession","GenThumb","CustomThumb","LitThumb")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name = 'THUMBNAIL'
-        and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b2b.bundle_id = b.bundle_id
-      inner join bitstream bit on b2b.bitstream_id = bit.bitstream_id
-        and (bit.description is null or bit.description not in ('LIT Thumbnail','Generated Thumbnail'))
-    ) 
-EOF;
-new query("itemCountWithCustomThumbnail","Num Items with Custom Thumbnail",$subq,"image", new testValTrue(),array("Accession","GenThumb","CustomThumb","LitThumb")); 
+new query("itemCountWithGenThumbnail","Num Items with DSpace Default Generated Thumbnail",$subq,"image", new testValZero(),array("Accession","GenThumb")); 
 
 $subq = <<< EOF
     and exists 
@@ -1033,48 +907,7 @@ $subq = <<< EOF
         ) 
     ) 
 EOF;
-new query("itemCountWithInvalidThumbnailName","Num Items with Invalid Thumbnail Name",$subq,"image", new testValZero(),array("Accession","OrigName","ThumbName","GenThumb","CustomThumb","LitThumb")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name = 'THUMBNAIL'
-        and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b2b.bundle_id = b.bundle_id
-      inner join bitstream bit on b2b.bitstream_id = bit.bitstream_id
-        and bit.name in ('etd.jpg.jpg','etd_tn.jpg')
-    ) 
-EOF;
-new query("itemCountGeneric","Num Items with Generic Thumbnail",$subq,"image", new testValZero(),array("Accession","OrigName","ThumbName","CustomThumb")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name = 'ORIGINAL'
-        and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
-      inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id in (19,16)
-    ) 
-    and not exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name like 'tiles_%'
-        and i.item_id = i2b.item_id
-    ) 
-EOF;
-new query("itemCountWithoutTiles","Num Image Items without Image Tiles",$subq,"image", new testValZero(),array("Accession","Format")); 
+new query("itemCountWithInvalidThumbnailName","Num Items with Invalid Thumbnail Name",$subq,"image", new testValZero(),array("Accession","OrigName","ThumbName","GenThumb")); 
 
 $subq = <<< EOF
     and not exists 
@@ -1094,8 +927,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
+      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and metadata_field_id = 9
+      and mfr.element = 'creator'
     ) 
 EOF;
 new query("itemCountWithNoCreator","Num Items with No Creator",$subq,"meta", new testValZero(),array("Accession")); 
@@ -1105,8 +939,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
+      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and metadata_field_id = 64
+      and mfr.element = 'title' and mfr.qualifier is null
     ) 
 EOF;
 new query("itemCountWithNoTitle","Num Items with No Title",$subq,"meta", new testValZero(),array("Accession")); 
@@ -1116,8 +951,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 25
+        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'identifier' and mfr.qualifier = 'uri'
     ) 
 EOF;
 new query("itemCountWithNoIdent","Num Items with No URI",$subq,"meta", new testValZero(),array("Accession")); 
@@ -1127,8 +963,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 39
+        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'publisher'
     ) 
 EOF;
 new query("itemCountWithNoPub","Num Items with No Publisher",$subq,"meta", new testValZero(),array("Accession")); 
@@ -1138,8 +975,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 57
+        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'subject' and mfr.qualifier is null
     ) 
 EOF;
 new query("itemCountWithNoSubject","Num Items with No Subject",$subq,"meta", new testValZero(),array("Accession")); 
@@ -1149,8 +987,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 57
+        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'subject' and mfr.qualifier is null
       and text_value like '%;%'
     ) 
 EOF;
@@ -1161,8 +1000,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 33
+        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'format' and mfr.qualifier is null
     ) 
 EOF;
 new query("itemCountWithNoFormat","Num Items with No Format",$subq,"meta", new testValZero(),array("Accession")); 
@@ -1194,8 +1034,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id in (26,27)
+        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'description' and mfr.qualifier in ('','abstract')
       and (text_value ~ '^.*(http://|https://|mailto:).*$')
     ) 
 EOF;
@@ -1206,8 +1047,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 28
+        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'description' and mfr.qualifier = 'provenance'
       and (text_value ~ '^.*No\. of bitstreams.*\.(PDF|pdf|DOC|doc|PPT|ppt|DOCX|docx|PPTX|pptx).*$')
     ) 
 EOF;
@@ -1218,8 +1060,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 28
+        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'description' and mfr.qualifier = 'provenance'
       and (text_value !~ '^.*No\. of bitstreams.*\.(PDF|pdf|DOC|doc|PPT|ppt|DOCX|docx|PPTX|pptx).*$')
     ) 
 EOF;
@@ -1230,9 +1073,10 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 11
-      and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '1 day'
+         inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
+     and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '1 day'
     ) 
 EOF;
 new query("itemLast1day","Mod last 1 day",$subq,"mod", new testValTrue(),array("Accession")); 
@@ -1242,8 +1086,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 11
+         inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
       and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '7 day'
     ) 
 EOF;
@@ -1254,8 +1099,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 11
+         inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
       and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '30 day'
     ) 
 EOF;
@@ -1266,8 +1112,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 11
+         inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
       and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '60 day'
     ) 
 EOF;
@@ -1278,8 +1125,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 11
+         inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
       and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '60 day'
     ) 
 EOF;
@@ -1290,8 +1138,9 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      where m.item_id = i.item_id
-      and metadata_field_id = 11
+         inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
+        where m.item_id = i.item_id
+        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
       and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '60 day'
     ) 
 EOF;
@@ -1491,54 +1340,6 @@ EOF;
 new query("restrictedOriginalWithDynamic","Restricted Original Bitstream with Scribd Derivatives (suggests that restriction was applied after ingest)",$subq,"embargo", new testValZero(),array("Accession","DocStream","EmbargoLift","BitRestricted", "ThumbRestricted","Private")); 
 
 $subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name = 'ORIGINAL'
-        and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
-      inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id in (76,16)
-    ) 
-    and exists 
-    (
-      select 1
-      from metadatavalue m
-      inner join metadatafieldregistry mfr on m.metadata_field_id=mfr.metadata_field_id 
-        and mfr.element='type' and text_value = 'Digital Object' 
-      where m.item_id = i.item_id
-    ) 
-EOF;
-new query("hasOrigAndDigitalObject","Has Original and Type=Digital Object",$subq,"angelica", new testValTrue(),array("Accession","LitThumb","Type")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name = 'ORIGINAL'
-        and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
-      inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id in (76,16)
-    ) 
-    and not exists 
-    (
-      select 1
-      from metadatavalue m
-      inner join metadatafieldregistry mfr on m.metadata_field_id=mfr.metadata_field_id 
-        and mfr.element='type' and text_value = 'Digital Object' 
-      where m.item_id = i.item_id
-    ) 
-EOF;
-new query("hasOrigAndNotDigitalObject","Has Original and Type!=Digital Object",$subq,"angelica", new testValZero(),array("Accession","LitThumb","Type")); 
-
-$subq = <<< EOF
     and not exists 
     (
       select 1
@@ -1560,7 +1361,7 @@ $subq = <<< EOF
       where m.item_id = i.item_id
     ) 
 EOF;
-new query("hasNoOrigAndDigitalObject","Has No Original and Type=Digital Object",$subq,"angelica", new testValZero(),array("Accession","LitThumb","Type")); 
+new query("hasNoOrigAndDigitalObject","Has No Original and Type=Digital Object",$subq,"angelica", new testValZero(),array("Accession","Type")); 
 }
 
 ?>

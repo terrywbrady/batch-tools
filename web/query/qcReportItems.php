@@ -33,11 +33,14 @@ foreach(query::$QUERIES as $q) {
 $sel = <<< EOF
 select 
   h.handle, 
-  regexp_replace(t64.text_value,E'[\r\n\t ]+',' ','g') as title,
+  regexp_replace(mv.text_value,E'[\r\n\t ]+',' ','g') as title,
   {$querycol}
   '' as blank
 from item i2
-inner join metadatavalue t64 on t64.item_id = i2.item_id and t64.metadata_field_id = 64
+inner join
+  metadatavalue mv on mv.item_id = i2.item_id 
+inner join metadatafieldregistry mfr on mfr.metadata_field_id = mv.metadata_field_id
+  and mfr.element = 'title' and mfr.qualifier is null
 inner join handle h on h.resource_id = i2.item_id and resource_type_id = 2
 EOF;
 
@@ -96,6 +99,7 @@ $result = $stmt->fetchAll();
 //$header->sqlDump($sql);
 
 if (!$result) {
+	print($sql);
 	print_r($dbh->errorInfo());
      die("Error in SQL query");
 }       
