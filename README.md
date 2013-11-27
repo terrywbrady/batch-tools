@@ -1,6 +1,5 @@
 This code was created by the Georgetown University Libraries to assist in the management of DSpace.
-This code is being shared for illustrative purposes.  The code was refactored to pull out several bits of institution-specific logic.
-This code requires significant modification and customization before being deployed in a live setting.
+This code is being shared for illustrative purposes.  
 
 Documentation
 * https://docs.google.com/presentation/d/11GujDtJaIJVHChZ36bzUrlzVNqiDO60s0aq6tcf0Bzs/edit?usp=sharing
@@ -9,8 +8,10 @@ Documentation
 
 Customization Steps
 * Copy phpconfig/init.php.template to phpconfig/init.php, make appropriate edits
-* Create a custom class that overrides customRest.php or customPostgres.php.  Override methods with local values as needed.
-* Modify DSPACETOOLSROOT. DSPACEROOT, YOURPFX in bin/dspaceBatch.sh
+* Create a custom class that overrides customPdo.php, customRest.php, or customPostgres.php.  Override methods with local values as needed.
+* copy bin-src/* to /bin
+* Modify DSPACETOOLSROOT. DSPACEROOT, YOURPFX in bin/dspaceBatch.sh, make the script editable
+* Validate/update the filter names in auth/filterMedia.php
 * Apache config (limit the app to necessary users or ip addresses)
 * -- Web visible: /web
 * -- Web visible with authentication: /auth
