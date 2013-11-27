@@ -29,6 +29,7 @@ try {
 
 $header = new LitHeader($rptquery->header. ' for ' . collectionArg::getName());
 header('Content-type: text/html; charset=UTF-8');
+$CSV = "csvItems.php?" . $_SERVER['QUERY_STRING'];
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -43,6 +44,10 @@ if (collectionArg::isCollection())
 	$header->litHeader(array("<a href='qcReportCollection.php{$qargs}' onclick='loadMsg()'>QC Overview for Collections</a>"));
 else
 	$header->litHeader(array("<a href='qcReportCommunity.php{$qargs}' onclick='loadMsg()'>QC Overview for Communities</a>"));
+
+?>
+<div><a href="<?php echo $CSV?>">Export CSV for batch editing</a><br/></div>
+<?php
 
 $handleContext =  isset($GLOBALS['handleContext']) ? $GLOBALS['handleContext'] : "";
 

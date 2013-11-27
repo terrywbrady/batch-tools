@@ -6,6 +6,7 @@ class auxFields {
   public static $AUXT;	
   public static $IMGKEY;
   public static $SHOWARR;
+  public static $DC;	
   	
   public static function initAuxFields() {
 	$handleContext =  isset($GLOBALS['handleContext']) ? $GLOBALS['handleContext'] : "";
@@ -156,6 +157,7 @@ EOF;
       "Create" => self::getFieldByName("date","created"),   
       "UnqualDate" => self::getFieldByName("date",null),   
       "Creator" => self::getFieldByName("creator",null),   
+      "Author" => self::getFieldByName("contributor","author"),   
       "URI" => self::getFieldByName("identifier","uri"),   
       "RelURI" => self::getFieldByName("relation","uri"),   
       "Publisher" => self::getFieldByName("publisher",null),   
@@ -177,6 +179,21 @@ EOF;
       "BitRestricted" => "({$bitRestricted})",  
       "ThumbRestricted" => "({$thumbRestricted})",  
     );
+
+    self::$DC = array(
+      "Available" => "dc.date.available",
+      "Issue" => "dc.date.issued",  
+      "Create" => "dc.date.created[en_US]",   
+      "Author" => "dc.contributor[en_US]",   
+      "UnqualDate" => "dc.date[en_US]",  
+      "Creator" => "dc.creator[en_US]",   
+      "RelURI" => "dc.relation.uri[en_US]",   
+      "Publisher" => "dc.publisher[en_US]",   
+      "Subject" => "dc.subject[en_US]",   
+      "Format" => "dc.format[en_US]",   
+      "Type" => "dc.type[en_US]",   
+    );
+
 
     self::$AUXT = array(
       "ItemId"     => "Item id number in DSpace",  

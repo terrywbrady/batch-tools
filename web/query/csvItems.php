@@ -9,6 +9,7 @@ $CUSTOM = custom::instance();
 header("Content-type: text/csv");
 header("Content-Disposition: attachment; filename=export.csv");
 
+header("Content-type: text");
 
 initQueries(false);
 auxFields::initAuxFields();
@@ -90,22 +91,39 @@ $iname = collectionArg::getInputName();
 
 $showopt = auxFields::getShowOptCb();
 
-echo "id,title";
+echo "id,dc.title[en_US]";
 $c = 0;
 foreach(auxFields::$SHOWARR as $k => $v) {
+	if (!isset(auxFields::$DC[$k])) continue;
+	$dc = auxFields::$DC[$k];
+	$dc1 = preg_replace("/\[.*\]/","",$dc);
     echo ",";
-    echo $k;	
+    echo $dc1;	
+    echo ",";
+    echo $dc1 . "[]";	
+    echo ",";
+    echo $dc1 . "[en_US]";	
 } 
 echo "\n";
 foreach ($result as $row) {
  	echo $row[0];
- 	echo ",";
+ 	echo ',"';
  	echo $row[1];
+ 	echo '"';
  	$i=0;
  	foreach(auxFields::$SHOWARR as $k => $v) {
-		echo ",";
- 		echo str_replace("<hr/>","||",$row[$i+3]);
+ 		$val = $row[$i+3];
  		$i++;
+	    if (!isset(auxFields::$DC[$k])) continue;
+  	    $dc = auxFields::$DC[$k];
+	    $dc1 = preg_replace("/\[.*\]/","",$dc);
+ 		
+ 		$val = str_replace("<hr/>","||",$val);
+ 		$val = preg_replace("/\n/"," ",$val);
+ 		$val = str_replace('/["]/',"",$val);
+		echo ($dc == $dc1) ? "," . '"' . $val . '"' : ",";
+		echo ($dc == ($dc1 . "[]")) ? "," . '"' . $val . '"' : ",";
+		echo ($dc == ($dc1 . "[en_US]")) ? "," . '"' . $val . '"' : ",";
  	}
  	echo "\n";
 }       
