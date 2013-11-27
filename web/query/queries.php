@@ -422,9 +422,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-      and mfr.element = 'relation' and mfr.qualifier = 'uri'
       where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'relation' and mfr.qualifier = 'uri'
+      )
     ) 
 EOF;
 new query("itemCountWithoutOriginal","Num Items without Original or Relation URI",$subq,"basic", new testValZero(),array("Accession")); 
@@ -653,10 +655,12 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and mfr.element = 'date' and mfr.qualifier = 'created'
-      and text_value !~ '^((No [dD]ate)|(([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]-(0[1-9]|1[012])|[0-9][0-9][0-9][0-9]-(0[1-9]|1[012])-(31|30|[12][0-9]|0[1-9]))))$'
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'created'
+      )
+       and text_value !~ '^((No [dD]ate)|(([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]-(0[1-9]|1[012])|[0-9][0-9][0-9][0-9]-(0[1-9]|1[012])-(31|30|[12][0-9]|0[1-9]))))$'
     ) 
 EOF;
 
@@ -667,9 +671,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and mfr.element = 'date' and mfr.qualifier = 'created'
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'created'
+      )
       and text_value in ('No date','No Date')
     ) 
 EOF;
@@ -681,10 +687,12 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and mfr.element = 'date' and mfr.qualifier = 'created'
-    ) 
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'created'
+      )
+     ) 
 EOF;
 new query("itemCountWithNoCreate","Num Items with No Creation Date",$subq,"date", new testValZero(),array("Accession")); 
 
@@ -693,10 +701,12 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and mfr.element = 'date' and mfr.qualifier = 'issued'
-      and text_value !~ '^([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]-(0[1-9]|1[012])||[0-9][0-9][0-9][0-9]-(0[1-9]|1[012])-(31|30|[12][0-9]|0[1-9]))$'
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'issued'
+      )
+       and text_value !~ '^([0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]-(0[1-9]|1[012])||[0-9][0-9][0-9][0-9]-(0[1-9]|1[012])-(31|30|[12][0-9]|0[1-9]))$'
     ) 
 EOF;
 
@@ -707,9 +717,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and mfr.element = 'date' and mfr.qualifier = 'issued'
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'issued'
+      )
     ) 
 EOF;
 new query("itemCountWithNoIssue","Num Items with No Issue Date",$subq,"date", new testValZero(),array("Accession")); 
@@ -719,9 +731,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      )
     ) 
 EOF;
 new query("itemCountWithNoAcc","Num Items with No Accession Date",$subq,"date", new testValZero(),array("Accession")); 
@@ -731,9 +745,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and mfr.element = 'date' and mfr.qualifier = 'available'
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'available'
+      )
     ) 
 EOF;
 new query("itemCountWithNoAvail","Num Items with No Available Date",$subq,"date", new testValZero(),array("Accession")); 
@@ -744,33 +760,41 @@ $subq = <<< EOF
       (
         select count(*)
         from metadatavalue m 
-        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'date' and mfr.qualifier = 'created'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'created'
+      )
       ) > 1
       or
       (
         select count(*)
         from metadatavalue m 
-        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'date' and mfr.qualifier = 'issued'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'issued'
+      )
       ) > 1
       or
       (
         select count(*)
         from metadatavalue m 
-        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'date' and mfr.qualifier = 'available'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'available'
+      )
       ) > 1
       or
       (
         select count(*)
         from metadatavalue m 
-        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      )
       ) > 1
     ) 
 EOF;
@@ -781,9 +805,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'date' and mfr.qualifier is null
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier is null
+      )
     ) 
 EOF;
 new query("itemCountWithUnqualDate","Num Items with Unqualified Date",$subq,"date", new testValZero(),array("UnqualDate")); 
@@ -929,9 +955,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and mfr.element = 'creator'
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'creator'
+      )
     ) 
 EOF;
 new query("itemCountWithNoCreator","Num Items with No Creator",$subq,"meta", new testValZero(),array("Accession")); 
@@ -941,9 +969,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-      inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
       where m.item_id = i.item_id
-      and mfr.element = 'title' and mfr.qualifier is null
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'title' and mfr.qualifier is null
+      )
     ) 
 EOF;
 new query("itemCountWithNoTitle","Num Items with No Title",$subq,"meta", new testValZero(),array("Accession")); 
@@ -953,9 +983,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'identifier' and mfr.qualifier = 'uri'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'identifier' and mfr.qualifier = 'uri'
+      )
     ) 
 EOF;
 new query("itemCountWithNoIdent","Num Items with No URI",$subq,"meta", new testValZero(),array("Accession")); 
@@ -965,9 +997,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'publisher'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'publisher'
+      )
     ) 
 EOF;
 new query("itemCountWithNoPub","Num Items with No Publisher",$subq,"meta", new testValZero(),array("Accession")); 
@@ -977,9 +1011,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'subject' and mfr.qualifier is null
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'subject' and mfr.qualifier is null
+      )
     ) 
 EOF;
 new query("itemCountWithNoSubject","Num Items with No Subject",$subq,"meta", new testValZero(),array("Accession")); 
@@ -989,9 +1025,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'subject' and mfr.qualifier is null
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'subject' and mfr.qualifier is null
+      )
       and text_value like '%;%'
     ) 
 EOF;
@@ -1002,9 +1040,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'format' and mfr.qualifier is null
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'format' and mfr.qualifier is null
+      )
     ) 
 EOF;
 new query("itemCountWithNoFormat","Num Items with No Format",$subq,"meta", new testValZero(),array("Accession")); 
@@ -1036,9 +1076,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'description' and mfr.qualifier in ('','abstract')
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'description' and mfr.qualifier in ('','abstract')
+      )
       and (text_value ~ '^.*(http://|https://|mailto:).*$')
     ) 
 EOF;
@@ -1049,9 +1091,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'description' and mfr.qualifier = 'provenance'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'description' and mfr.qualifier = 'provenance'
+      )
       and (text_value ~ '^.*No\. of bitstreams.*\.(PDF|pdf|DOC|doc|PPT|ppt|DOCX|docx|PPTX|pptx).*$')
     ) 
 EOF;
@@ -1062,9 +1106,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-        inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'description' and mfr.qualifier = 'provenance'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'description' and mfr.qualifier = 'provenance'
+      )
       and (text_value !~ '^.*No\. of bitstreams.*\.(PDF|pdf|DOC|doc|PPT|ppt|DOCX|docx|PPTX|pptx).*$')
     ) 
 EOF;
@@ -1075,9 +1121,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-         inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      )
      and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '1 day'
     ) 
 EOF;
@@ -1088,9 +1136,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-         inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      )
       and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '7 day'
     ) 
 EOF;
@@ -1101,9 +1151,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-         inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      )
       and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '30 day'
     ) 
 EOF;
@@ -1114,9 +1166,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-         inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      )
       and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '60 day'
     ) 
 EOF;
@@ -1127,9 +1181,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-         inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      )
       and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '60 day'
     ) 
 EOF;
@@ -1140,9 +1196,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m 
-         inner join metadatafieldregistry mfr on mfr.metadata_field_id = m.metadata_field_id
-        where m.item_id = i.item_id
-        and mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'date' and mfr.qualifier = 'accessioned'
+      )
       and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '60 day'
     ) 
 EOF;
@@ -1153,9 +1211,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m
-      inner join metadatafieldregistry mfr on m.metadata_field_id=mfr.metadata_field_id 
-        and mfr.element='embargo' and mfr.qualifier='terms' 
       where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'embargo' and mfr.qualifier = 'terms'
+      )
     ) 
 EOF;
 new query("embargoTerms","Has embargo terms (metadata)",$subq,"embargo", new testValTrue(),array("EmbargoTerms","EmbargoLift","EmbargoCustom","BitRestricted", "ThumbRestricted","Private")); 
@@ -1165,9 +1225,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m
-      inner join metadatafieldregistry mfr on m.metadata_field_id=mfr.metadata_field_id 
-        and mfr.element='embargo' and mfr.qualifier='lift-date' 
       where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'embargo' and mfr.qualifier = 'lift-date'
+      )
     ) 
 EOF;
 new query("embargoLift","Has embargo lift date (metadata)",$subq,"embargo", new testValTrue(),array("EmbargoTerms","EmbargoLift","EmbargoCustom","BitRestricted", "ThumbRestricted","Private")); 
@@ -1269,9 +1331,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m
-      inner join metadatafieldregistry mfr on m.metadata_field_id=mfr.metadata_field_id 
-        and mfr.element='embargo' and mfr.qualifier='custom-date' 
       where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'embargo' and mfr.qualifier = 'custom-date'
+      )
     ) 
 EOF;
 new query("embargoCustom","Has embargo custom date (metadata)",$subq,"embargo", new testValTrue(),array("EmbargoTerms","EmbargoLift","EmbargoCustom","BitRestricted", "ThumbRestricted","Private")); 
@@ -1281,9 +1345,11 @@ $subq = <<< EOF
     (
       select 1
       from metadatavalue m
-      inner join metadatafieldregistry mfr on m.metadata_field_id=mfr.metadata_field_id 
-        and mfr.element='embargo' and mfr.qualifier='terms' 
       where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'embargo' and mfr.qualifier = 'terms'
+      )
     ) 
     and exists 
     (
@@ -1307,63 +1373,5 @@ $subq = <<< EOF
     )
 EOF;
 new query("embargoLifted","Embargo has been lifted: has embargo terms, but original bitstream is accessible to anonymous users",$subq,"embargo", new testValTrue(),array("EmbargoTerms","EmbargoLift","EmbargoCustom","BitRestricted", "ThumbRestricted","Private")); 
-
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name = 'ORIGINAL'
-        and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
-      inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-      where exists (
-        select 1 
-        from resourcemetadatavalue rmv
-        inner join resourcemetadatafieldregistry rmfr on rmv.metadata_field_id=rmfr.metadata_field_id 
-        where rmv.resource_id = bit.bitstream_id
-        and rmv.resource_type_id = 0
-        and rmfr.element = 'scribd' and rmfr.qualifier='docid'
-      )
-      and not exists (
-		select 1 
-  		from resourcepolicy 
-  		where resource_type_id=0
-  		and bit.bitstream_id=resource_id
-  		and epersongroup_id = 0
-  		and (start_date is null or start_date <= current_date)
-  		and (end_date is null or start_date >= current_date)
-      )
-    ) 
-EOF;
-new query("restrictedOriginalWithDynamic","Restricted Original Bitstream with Scribd Derivatives (suggests that restriction was applied after ingest)",$subq,"embargo", new testValZero(),array("Accession","DocStream","EmbargoLift","BitRestricted", "ThumbRestricted","Private")); 
-
-$subq = <<< EOF
-    and not exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name = 'ORIGINAL'
-        and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
-      inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.bitstream_format_id in (76,16)
-    ) 
-    and exists 
-    (
-      select 1
-      from metadatavalue m
-      inner join metadatafieldregistry mfr on m.metadata_field_id=mfr.metadata_field_id 
-        and mfr.element='type' and text_value = 'Digital Object' 
-      where m.item_id = i.item_id
-    ) 
-EOF;
-new query("hasNoOrigAndDigitalObject","Has No Original and Type=Digital Object",$subq,"angelica", new testValZero(),array("Accession","Type")); 
 }
-
 ?>
