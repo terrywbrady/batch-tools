@@ -39,7 +39,7 @@ class custom {
 	public function isPdo() {return false;}
 	public function showQueryTools() {return $this->isPdo();}
 	public function showStatsTools() {return true;}
-	public function getSolrPath() {return "//localhost/solr/";}
+	public function getSolrPath() {return "https://localhost/solr/";}
 	
 	public function getDSpaceVer() {return "3.1";}
 
