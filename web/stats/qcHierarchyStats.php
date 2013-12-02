@@ -41,7 +41,7 @@ $(document).ready(function(){
 		var arr = /(comm|coll)-(\d+)-all/.exec(id);
 		if (arr.length <= 2) return;
 		var prefix = id.replace("all","");
-  		var req = "solrStats.php?" +
+  		var req = "<?php echo $CUSTOM->getSolrPath()?>/solrStats.php?" +
   		  arr[1] + "=" + arr[2] +
   		  "&duration=" + $("#duration").val() +
   		  "&type=" + $("#type").val() +

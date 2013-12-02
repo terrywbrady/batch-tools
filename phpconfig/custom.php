@@ -95,6 +95,15 @@ HERE;
     	);
     }
 
+    public function getStatsComm() {
+    	return array(
+			"ALL" => array(
+				"desc" => "All Communities",
+				"query" => ""
+			),
+    	);
+    }
+
     public function getStatsBots() {
     	return array(
   			"userAgent:Googlebot*",
