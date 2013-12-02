@@ -7,7 +7,7 @@ $CUSTOM = custom::instance();
 
 $bfacet = ($CUSTOM->getDSpaceVer() == "1.7") ? "" : "&facet.field=bundleName";
 
-solrFacets::init($CUSTOM);
+//solrFacets::init($CUSTOM);
 
 $comm=util::getArg("comm","");
 $coll=util::getArg("coll","");
