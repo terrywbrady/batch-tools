@@ -38,6 +38,10 @@ class custom {
 	
 	public function isPdo() {return false;}
 	public function showQueryTools() {return $this->isPdo();}
+	public function showStatsTools() {return true;}
+	public function getSolrPath() {return "//localhost/solr/";}
+	
+	public function getDSpaceVer() {return "3.1";}
 
 	protected $communityInit;
 	public function getCommunityInit() {return $this->communityInit;}
@@ -82,6 +86,32 @@ HERE;
 		return str_replace(" ","_",$def);
 	}
 
+    public function getStatsIPs() {
+    	return array(
+			"ALL" => array(
+				"desc" => "All IP's",
+				"query" => ""
+			),
+    	);
+    }
+
+    public function getStatsBots() {
+    	return array(
+  			"userAgent:Googlebot*",
+  			"userAgent:Yeti*",
+  			"dns:msnbot*",
+  			"dns:crawl*exabot*",
+  			"dns:crawl*",
+  			"dns:fetcher*mail.ru*",
+  			"dns:baiduspider*+OR+dns:spider*",
+  			"userAgent:Mozilla*Baiduspider*",
+  			"userAgent:Mozilla*robot*",
+  			"userAgent:www.integromedb.org/Crawler",
+  			"userAgent:Sogou*",
+  			"userAgent:Mozilla*crawler*",
+  			"userAgent:Java*",
+		);
+    }
 }
 
 class DefaultInitializer {

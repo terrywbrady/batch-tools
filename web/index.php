@@ -58,6 +58,15 @@ if ($CUSTOM->showQueryTools()) {
 <?php 
 }
 ?>
+<?php 
+if ($CUSTOM->showStatsTools()) {
+?>
+<li>
+  <a href="stats/qcHierarchyStats.php">Show Statistics</a>
+</li>
+<?php 
+}
+?>
 </ul>
 <?php
 if ($CUSTOM->showBatchTools()) { 
