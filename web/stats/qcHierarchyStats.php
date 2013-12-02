@@ -7,7 +7,6 @@ ini_set('max_execution_time', 120);
 $CUSTOM = custom::instance();
 $CUSTOM->getCommunityInit()->initCommunities();
 $CUSTOM->getCommunityInit()->initCollections();
-hierarchy::initHierarchy(true);
 
 solrFacets::init($CUSTOM);
 $duration=solrFacets::getDurationArg();
