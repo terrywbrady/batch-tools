@@ -294,4 +294,80 @@ class collectionArg {
 		}
 	}
 }
+
+function hiercmp($a,$b) {
+	if ($a->path == $b->path) return 0;
+	return ($a->path < $b->path) ? -1 :1;
+}
+
+class hierarchy {
+	public $id;
+	public $pid;
+	public $topid;
+	public $name;
+	public $handle;
+	public $phandle;
+	public $thandle;
+	public $path;
+	public $obj;
+	public $sname;
+	
+	public $children;
+
+	function __construct($obj) {
+		if ($obj instanceof community) {
+  		  $this->id = $obj->community_id;
+  		  $this->hid = "comm-".$obj->community_id;
+		  $this->pid = $obj->parent_comm_id;
+  		  $this->rclass = ($this->id == $this->topid) ? "comm" : "scomm";
+		  $this->topid = $obj->getMyTopCommunity()->community_id;
+		  $this->thandle = $obj->getMyTopCommunity()->handle; 
+		  $this->type = "community";
+		} else if ($obj instanceof collection) {
+  		  $this->id = $obj->collection_id;
+  		  $this->hid = "coll-".$obj->collection_id;
+		  $this->pid = $obj->community_id;
+  		  $this->rclass = "coll";
+	      $this->topid = $obj->topCommunity->community_id;
+  		  $this->thandle = $obj->topCommunity->handle; 
+		  $this->type = "collection";
+		}
+	    $this->children = array();
+	    $this->name = $obj->name;
+	    $this->handle = $obj->handle;
+	    $this->phandle = $obj->getParent()->handle; 
+		$this->path = $obj->getMyPath(); 			
+		$this->sname = $this->name;
+		if (preg_match("/^The /", $this->name)) {
+		  $this->sname = preg_replace("/^The /","", $this->name) . ", The";			
+		}
+	}
+	
+	public static $OBJECTS = array();
+	public static $TOPS = array();
+	public static $COMMS = array();
+	static function initHierarchy($showall, $handle) {
+		foreach(community::$COMMUNITIES as $c) {
+			$object = new hierarchy($c);
+			if ($object->thandle == $handle || $showall){
+				self::$OBJECTS[] = $object;	
+				self::$COMMS[$object->id] = $object;
+			}
+		}
+		foreach(collection::$COLLECTIONS as $c) {
+			$object = new hierarchy($c);
+			if ($object->thandle == $handle || $showall){
+				self::$OBJECTS[] = $object;	
+			}
+		}
+		foreach(hierarchy::$OBJECTS as $object) {
+			if ($object->pid == 0) {
+				self::$TOPS[] = $object;
+			} else {
+				array_push(self::$COMMS[$object->pid]->children, $object);
+			}
+		}
+		uasort(self::$OBJECTS, 'hiercmp');
+	}
+}
 ?>
