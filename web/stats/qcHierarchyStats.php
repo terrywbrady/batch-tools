@@ -15,7 +15,7 @@ $auth=solrFacets::getAuthArg();
 $ip=solrFacets::getIpArg();
 
 $scope=util::getArg("scope","ALL");
-hierarchy::initHierarchy(($scope == "ALL"));
+hierarchy::initHierarchy(($scope == "ALL"), $scope);
 $colcount = solrFacets::getDurationKey("colcount");
 
 
@@ -164,8 +164,9 @@ foreach(solrFacets::$IP as $k => $v) {
 
 <select name="scope">
 <?php
-util::makeOpt("ALL","All Communities",$scope);
-util::makeOpt("IR","IR Only",$scope);
+foreach($CUSTOM->getStatsComm() as $k => $v) {
+  util::makeOpt($k,$v,$scope);
+}
 ?>
 </select>
 <input type="hidden" name="colcount" id="colcount" value="<?php echo $colcount?>"/>

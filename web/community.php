@@ -346,17 +346,17 @@ class hierarchy {
 	public static $OBJECTS = array();
 	public static $TOPS = array();
 	public static $COMMS = array();
-	static function initHierarchy($showall) {
+	static function initHierarchy($showall, $handle) {
 		foreach(community::$COMMUNITIES as $c) {
 			$object = new hierarchy($c);
-			if (substr($object->thandle, -2) == "/1" || $showall){
+			if ($object->thandle == $handle || $showall){
 				self::$OBJECTS[] = $object;	
 				self::$COMMS[$object->id] = $object;
 			}
 		}
 		foreach(collection::$COLLECTIONS as $c) {
 			$object = new hierarchy($c);
-			if (substr($object->thandle, -2) == "/1" || $showall){
+			if ($object->thandle == $handle || $showall){
 				self::$OBJECTS[] = $object;	
 			}
 		}

@@ -97,10 +97,7 @@ HERE;
 
     public function getStatsComm() {
     	return array(
-			"ALL" => array(
-				"desc" => "All Communities",
-				"query" => ""
-			),
+			"ALL" => "All Communities",
     	);
     }
 
