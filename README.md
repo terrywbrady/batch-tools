@@ -1,22 +1,9 @@
 This code was created by the Georgetown University Libraries to assist in the management of DSpace.
-This code is being shared for illustrative purposes.  
+Local customization will be required before running this code.
 
----2
+Project Page: http://georgetown-university-libraries.github.io/batch-tools/
 
-Documentation
-* https://docs.google.com/presentation/d/11GujDtJaIJVHChZ36bzUrlzVNqiDO60s0aq6tcf0Bzs/edit?usp=sharing
-* Open Repositories 2013 Presentation
-* https://docs.google.com/presentation/d/11C0XHY-a594aiKPCKWNs3MlQrHh6lIz8qdWTowiavNo/edit?usp=sharing
-
-Customization Steps
-* Copy phpconfig/init.php.template to phpconfig/init.php, make appropriate edits
-* Create a custom class that overrides customPdo.php, customRest.php, or customPostgres.php.  Override methods with local values as needed.
-* copy bin-src/* to /bin
-* Modify DSPACETOOLSROOT. DSPACEROOT, YOURPFX in bin/dspaceBatch.sh, make the script editable
-* Validate/update the filter names in auth/filterMedia.php
-* Apache config (limit the app to necessary users or ip addresses)
-* -- Web visible: /web
-* -- Web visible with authentication: /auth
+batch-tools Wiki: https://github.com/Georgetown-University-Libraries/batch-tools/wiki
 
 License information is contained below.
 
