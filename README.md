@@ -1,6 +1,7 @@
 This code was created by the Georgetown University Libraries to assist in the management of DSpace.
 Local customization will be required before running this code.
 
+Project Page: http://georgetown-university-libraries.github.io/batch-tools/
 batch-tools Wiki: https://github.com/Georgetown-University-Libraries/batch-tools/wiki
 
 License information is contained below.
