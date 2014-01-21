@@ -5,6 +5,8 @@ Project Page: http://georgetown-university-libraries.github.io/batch-tools/
 
 batch-tools Wiki: https://github.com/Georgetown-University-Libraries/batch-tools/wiki
 
+Installation and customization: https://github.com/Georgetown-University-Libraries/batch-tools/wiki/Batch-tools-customization-steps
+
 License information is contained below.
 
 Copyright (c) 2013, Georgetown University Libraries All rights reserved.
