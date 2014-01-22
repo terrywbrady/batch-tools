@@ -115,10 +115,10 @@ function testArgs(){
 	
 	$mapfile = util::getPostArg("mapfile","");
 	
+	$u = escapeshellarg($CUSTOM->getCurrentUser());
 	$user = escapeshellarg($user.$domain);
 	$mapfile = escapeshellarg($mroot.$mapfile);
 
-	$u = escapeshellarg(preg_replace("@.*$","",$user));
 	$cmd = <<< HERE
 {$u} gu-uningest {$user} {$mapfile}
 HERE;

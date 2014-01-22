@@ -2,8 +2,10 @@
 phpconfig/init.php
 phpconfig/customGU.php
 phpconfig/customGUPdo.php
-queue/20*
-mapfile/job.*
+phpconfig/customGUPostgres.php
+.svn/*
+queue/job.*
+mapfile/20*
 
 #################
 ## Eclipse

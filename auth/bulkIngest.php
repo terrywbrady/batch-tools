@@ -126,12 +126,12 @@ function testArgs(){
 	$batch = date("Ymd_H.i.s");
 	$mapfile = $mroot . $batch;
 	
+	$u = escapeshellarg($CUSTOM->getCurrentUser());
 	$user = escapeshellarg($user.$domain);
 	$coll = escapeshellarg($coll);
 	$loc = escapeshellarg($ingestLoc . $loc);
 	$mapfile = escapeshellarg($mapfile);
 
-	$u = escapeshellarg(preg_replace("@.*$","",$user));
 	$cmd = <<< HERE
 {$u} gu-ingest {$user} {$coll} {$loc} {$mapfile}
 HERE;
