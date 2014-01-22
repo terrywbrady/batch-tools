@@ -131,7 +131,7 @@ function testArgs(){
 	$loc = escapeshellarg($ingestLoc . $loc);
 	$mapfile = escapeshellarg($mapfile);
 
-	$u = escapeshellarg($user);
+	$u =  util::user();
 	$cmd = <<< HERE
 {$u} gu-ingest {$user} {$coll} {$loc} {$mapfile}
 HERE;
