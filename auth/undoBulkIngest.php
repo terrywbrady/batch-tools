@@ -115,7 +115,7 @@ function testArgs(){
 	
 	$mapfile = util::getPostArg("mapfile","");
 	
-	$u = escapeshellarg($user);
+	$u = escapeshellarg(custom::getCurrentUser());
 	$user = escapeshellarg($user.$domain);
 	$mapfile = escapeshellarg($mroot.$mapfile);
 
