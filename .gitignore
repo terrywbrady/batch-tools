@@ -2,6 +2,8 @@
 phpconfig/init.php
 phpconfig/customGU.php
 phpconfig/customGUPdo.php
+phpconfig/customGUPostgres.php
+.svn/*
 queue/20*
 mapfile/job.*
 
