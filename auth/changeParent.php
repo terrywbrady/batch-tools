@@ -91,7 +91,7 @@ function testArgs(){
 
     if (($child == "") || ($parent == "") || ($currparent == "")) return;
     	
-	$u = escapeshellarg(preg_replace("@.*$","",$CUSTOM->getCurrentUser()));
+	$u = escapeshellarg($CUSTOM->getCurrentUser());
 	$cmd = <<< HERE
 {$u} gu-change-parent {$args}
 HERE;

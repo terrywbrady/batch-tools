@@ -126,7 +126,7 @@ function testArgs(){
 	$batch = date("Ymd_H.i.s");
 	$mapfile = $mroot . $batch;
 	
-	$u = escapeshellarg(custom::getCurrentUser());
+	$u = escapeshellarg($CUSTOM->getCurrentUser());
 	$user = escapeshellarg($user.$domain);
 	$coll = escapeshellarg($coll);
 	$loc = escapeshellarg($ingestLoc . $loc);

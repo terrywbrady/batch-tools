@@ -58,7 +58,7 @@ function testArgs(){
 	
 	if (count($_POST) == 0) return;
 	
-	$u = escapeshellarg(preg_replace("@.*$","",$CUSTOM->getCurrentUser()));
+	$u = escapeshellarg($CUSTOM->getCurrentUser());
 	$cmd = <<< HERE
 {$u} gu-refresh-statistics 
 HERE;
