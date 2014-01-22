@@ -131,7 +131,7 @@ function testArgs(){
 	$loc = escapeshellarg($ingestLoc . $loc);
 	$mapfile = escapeshellarg($mapfile);
 
-	$u = escapeshellarg(preg_replace("@.*$","",$user));
+	$u = escapeshellarg($user);
 	$cmd = <<< HERE
 {$u} gu-ingest {$user} {$coll} {$loc} {$mapfile}
 HERE;
