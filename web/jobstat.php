@@ -42,6 +42,7 @@ $header->litPageHeader();
 <body>
 <?php 
 $header->litHeader(array("<a href='queue.php'>Job Queue</a>"));
+echo "<h2>" .$qroot . $fname . "</h2>";
 if ($fname != ""){
 	echo "<pre>";
 	echo file_get_contents($qroot . $fname);
