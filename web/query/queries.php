@@ -8,6 +8,7 @@ include "queriesMeta.php";
 include "queriesMod.php";
 include "queriesText.php";
 include "queriesType.php";
+include "auxFields.php";
 
 class query {
 	public $name;

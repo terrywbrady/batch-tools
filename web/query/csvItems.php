@@ -2,7 +2,6 @@
 include '../../phpconfig/init.php';
 include '../util.php';
 include 'queries.php';
-include 'auxFields.php';
 
 $CUSTOM = custom::instance();
 
