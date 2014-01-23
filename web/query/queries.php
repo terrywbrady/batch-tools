@@ -10,18 +10,6 @@ class query {
 	
 	public static $count = 0;
 
-	public static $CATEGORIES = array (
-    	"basic" => "Basic Attributes",
-		"text" => "Document Attributes",
-    	"type" => "Item Type",
-    	"date" => "Date Attributes",
-    	"license" => "License",
-    	"image" => "Image Attributes",
-    	"meta" => "Metadata Attributes",
-    	"mod" => "Modification Date",    		
-    	"embargo" => "Embargo Attributes",    		
-	);
-	
 	public static $CATQ = array();
 	public static $MULTCAT = array();
 	
@@ -149,7 +137,7 @@ class query {
     	$v = util::getArg("view",self::getDefaultView());
     	echo '<select id="viewToolbar">';
     	util::makeOpt("allcol","All Attributes",$v);
-    	foreach(self::$CATEGORIES as $label => $name) {
+    	foreach(custom::instance()->getQueryKeys() as $label => $name) {
     		util::makeOpt($label, $name, $v);
     	}
     	echo '</select>';
@@ -184,6 +172,7 @@ class query {
     }
 
     static function getQueryList() {
+    	$CATEGORIES = custom::instance()->getQueryKeys();
     	echo <<< HERE
     	<fieldset class='queryCols'><legend>Columns to Query</legend>
     	<fieldset>
@@ -267,7 +256,7 @@ class testValNumDoc {
 	}
 }
 
-function initQueries($basic) {
+function initQueries() {
 $subq = "";
 new query("itemCount","Num Items",$subq,"head basic text license type image meta mod date embargo", new testValPos(),array("Accession")); 
 
@@ -482,9 +471,6 @@ $subq = <<< EOF
     ) 
 EOF;
 new query("itemCountWithMultText","Num Items with Multiple Text Streams",$subq,"basic", new testValZero(),array("Accession","Text")); 
-
-if ($basic) return;
-
 
 $subq = <<< EOF
     and exists 

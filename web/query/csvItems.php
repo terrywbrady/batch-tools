@@ -9,7 +9,7 @@ $CUSTOM = custom::instance();
 header("Content-type: text/csv");
 header("Content-Disposition: attachment; filename=export.csv");
 
-initQueries(false);
+initQueries();
 auxFields::initAuxFields();
 
 function inval() {

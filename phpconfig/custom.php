@@ -118,6 +118,32 @@ HERE;
   			"userAgent:Java*",
 		);
     }
+    
+    public function initCustomQueries() {    	
+    }
+    
+    public function hasQueryKey($str) {
+    	$a1 = explode(" ", $str);
+    	foreach($a1 as $key) {
+    		if (!isset($this->QKEY[$key])) return false;
+    	}
+    	return true;
+    }
+    
+    public function getQueryKeys() {
+    	return array (
+    	    "basic" => "Basic Attributes",
+		    "text" => "Document Attributes",
+    	    "type" => "Item Type",
+    	    "date" => "Date Attributes",
+    	    "license" => "License",
+    	    "image" => "Image Attributes",
+    	    "meta" => "Metadata Attributes",
+    	    "mod" => "Modification Date",    		
+    	    "embargo" => "Embargo Attributes",    		
+	    );
+    }
+    
 }
 
 class DefaultInitializer {

@@ -10,7 +10,7 @@ $CUSTOM->getCommunityInit()->initCollections();
 
 ini_set('max_execution_time', 120);
 
-initQueries(isset($_GET['basic']));
+initQueries();
 $querycol = "";
 $headercol = "";
 foreach(query::$QUERIES as $q) {

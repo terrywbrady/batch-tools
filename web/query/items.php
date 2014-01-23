@@ -8,7 +8,7 @@ $CUSTOM->getCommunityInit()->initCommunities();
 $CUSTOM->getCommunityInit()->initCollections();
 
 
-initQueries(false);
+initQueries();
 auxFields::initAuxFields();
 
 function inval() {
