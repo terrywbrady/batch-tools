@@ -1,8 +1,6 @@
 # Private code
 phpconfig/init.php
-phpconfig/customGU.php
-phpconfig/customGUPdo.php
-phpconfig/customGUPostgres.php
+phpconfig/customGU*
 .svn/*
 queue/job.*
 mapfile/20*
