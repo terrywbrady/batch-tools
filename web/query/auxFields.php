@@ -181,7 +181,7 @@ where exists (
 )
 EOF;
 
-    addAuxField("ThumbRestricted", ""Thumbnail Restricted", "({$thumbRestricted})", "", false);
+    addAuxField("ThumbRestricted", "Thumbnail Restricted", "({$thumbRestricted})", "", false);
     
     
     
