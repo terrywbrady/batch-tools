@@ -281,5 +281,6 @@ function initQueries() {
     initQueriesMeta();
     initQueriesMod();
     initQueriesEmbargo();
+    $CUSTOM->initCustomQueries();
 }
 ?>
