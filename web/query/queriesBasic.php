@@ -242,5 +242,6 @@ $subq = <<< EOF
        )
     ) 
 EOF;
+new query("itemCountDocNonPDF","Num Non-PDF doc Items",$subq,"text", new testValZero(),array("OrigName","Creator")); 
 }
 ?>
