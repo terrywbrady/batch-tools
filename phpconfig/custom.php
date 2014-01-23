@@ -129,6 +129,7 @@ HERE;
     	foreach($a1 as $key) {
     		if ($key == "head") continue;
     		if (!isset($this->QKEY[$key])) {
+    			pg_dump($this->QKEY);
     			echo "[ig " . $key . "] ";
     			return false;
     		}
