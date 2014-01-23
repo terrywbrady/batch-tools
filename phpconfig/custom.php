@@ -125,8 +125,10 @@ HERE;
     }
     
     public function hasQueryKey($str) {
+    	echo "[".$str."]";
     	$a1 = explode(" ", $str);
     	foreach($a1 as $key) {
+    	    echo "[".$a1."]";
     		if (!isset($this->QKEY[$key])) return false;
     	}
     	return true;
