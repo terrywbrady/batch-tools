@@ -137,7 +137,7 @@ HERE;
     	return true;
     }
     
-    public function getQueryKeys() {
+    public static function getDefaultQueryKeys() {
     	return array (
     	    "basic" => "Basic Attributes",
 		    "text" => "Document Attributes",
@@ -148,7 +148,11 @@ HERE;
     	    "meta" => "Metadata Attributes",
     	    "mod" => "Modification Date",    		
     	    "embargo" => "Embargo Attributes",    		
-	    );
+	    );    	
+    }
+    
+    public function getQueryKeys() {
+    	return $self->getDefaultQueryKeys();
     }
     
 }
