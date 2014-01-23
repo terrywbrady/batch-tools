@@ -281,6 +281,8 @@ function initQueries() {
     initQueriesMeta();
     initQueriesMod();
     initQueriesEmbargo();
+
+    $CUSTOM = custom::instance();
     $CUSTOM->initCustomQueries();
 }
 ?>
