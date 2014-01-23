@@ -272,6 +272,7 @@ class testValNumDoc {
 }
 
 function initQueries() {
+    auxFields::initAuxFields();
     initQueriesBasic();
     initQueriesText();
     initQueriesType();

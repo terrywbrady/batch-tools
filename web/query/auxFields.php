@@ -75,6 +75,7 @@ inner join item2bundle i2b
   and i2b.item_id=i.item_id
 EOF;
 
+    /*Note that this rule contains a filter to ignore @mire zoom tiles, disregard if not applicable*/
     $otherName = <<< EOF
 select array_to_string(array_agg(text(bit.name)), '<hr/>')
 from bitstream bit
@@ -165,9 +166,6 @@ EOF;
       "Format" => self::getFieldByName("format",null),   
       "Type" => self::getFieldByName("type",null),   
       "Provenance" => self::getFieldByName("description","provenance"),   
-      "EmbargoTerms" => self::getFieldByName("embargo","terms"),   
-      "EmbargoLift" => self::getFieldByName("embargo","lift-date"),   
-      "EmbargoCustom" => self::getFieldByName("embargo","custom-date"),   
       "GenThumb"  => "({$thumb})",  
       "ThumbName"  => "({$thumbName})",  
       "OrigName"  => "({$origName})",  
@@ -213,9 +211,6 @@ EOF;
       "BitRestricted"  => "Original Restricted",  
       "ThumbRestricted"  => "Thumbnail Restricted",  
       "Private"  => "Private Item",  
-      "EmbargoTerms" => "Embargo Terms",   
-      "EmbargoLift" => "Embargo Lift Date",   
-      "EmbargoCustom" => "Embargo Custom Date",   
     );
 
     self::$IMGKEY = array(
@@ -231,6 +226,18 @@ EOF;
       }
     }
   }
+  
+  public static function addAuxField($name, $desc, $query, $dc, $isImg) {
+  	  self::$AUXT[$name] = $desc;
+  	  self::$AUXQ[$name] = $query;
+  	  if ($dc != "") {
+  	  	  self::$DC[$name] = $dc;
+  	  }
+  	  if ($isImg) {
+  	  	  self::$IMGKEY[$name] = true;
+  	  }  	  
+  }
+  
   
   public static function getMonthByName($element, $qualifier) {
   	return "(select array_to_string(array_agg(substr(text_value,1,7)),'<hr/>') " .

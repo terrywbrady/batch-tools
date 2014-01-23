@@ -9,7 +9,6 @@ $CUSTOM->getCommunityInit()->initCollections();
 
 
 initQueries();
-auxFields::initAuxFields();
 
 function inval() {
 	echo "<h1>Invalid Parameters</h1>";

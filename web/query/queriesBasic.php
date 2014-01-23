@@ -216,32 +216,5 @@ $subq = <<< EOF
 EOF;
 new query("itemCountWithMultText","Num Items with Multiple Text Streams",$subq,"basic", new testValZero(),array("Accession","Text")); 
 
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name = 'ORIGINAL'
-        and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
-      inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-      inner join bitstreamformatregistry bfr on bit.bitstream_format_id = bfr.bitstream_format_id
-        and bfr.mimetype in (
-             'text/plain',
-             'text/html',
-             'application/msword',
-             'text/xml',
-	         'application/msword',
-             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-             'application/vnd.ms-powerpoint',
-	         'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-             'application/vnd.ms-excel',
-             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-       )
-    ) 
-EOF;
-new query("itemCountDocNonPDF","Num Non-PDF doc Items",$subq,"text", new testValZero(),array("OrigName","Creator")); 
 }
 ?>

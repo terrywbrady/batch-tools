@@ -10,7 +10,6 @@ header("Content-type: text/csv");
 header("Content-Disposition: attachment; filename=export.csv");
 
 initQueries();
-auxFields::initAuxFields();
 
 function inval() {
 	echo "<h1>Invalid Parameters</h1>";
