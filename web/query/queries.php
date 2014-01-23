@@ -16,6 +16,8 @@ class query {
 	public static $QUERIES = array();
 	
 	function __construct($name, $header, $subq, $classes, $testVal, $showarr) {
+    	$CUSTOM = custom::instance();
+    	
 		self::$count++;
 		if (self::$count % 2 == 0) {
 			$oddeven = "even";			
@@ -37,6 +39,9 @@ class query {
 				$docols = explode(",", $_GET['col']);
 			}
 		}
+		
+		if (!$CUSTOM->hasQueryKey($classes)) return;
+		
 		$addit = (count($docols) == 0) ? true : in_array($name, $docols);
 
 		if ($addit) {
@@ -172,7 +177,8 @@ class query {
     }
 
     static function getQueryList() {
-    	$CATEGORIES = custom::instance()->getQueryKeys();
+    	$CUSTOM = custom::instance();
+    	$CATEGORIES = $CUSTOM->getQueryKeys();
     	echo <<< HERE
     	<fieldset class='queryCols'><legend>Columns to Query</legend>
     	<fieldset>
