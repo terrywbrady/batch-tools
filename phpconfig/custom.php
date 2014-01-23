@@ -23,7 +23,7 @@ include dirname(dirname(__FILE__)) . "/web/community.php";
 class custom {
 	
 	public static $INSTANCE;
-	protected $QKEY = array();
+	protected static $QKEY = array();
 	
 	public function getRoot() {return dirname(dirname(__FILE__));}
 	public function getWebRoot() {return "/batch-tools/";}
@@ -49,7 +49,6 @@ class custom {
 	
 	public function __construct() {
 		$this->communityInit = DefaultInitializer::instance();
-		$this->QKEY = arrayMerge(getQueryKeys());
 	}
 
 	public static function instance() {
@@ -125,12 +124,13 @@ HERE;
     }
     
     public function hasQueryKey($str) {
+    	if (count($this->QKEY) == 0) {
+    		$this->QKEY = getQueryKeys();
+    	}
     	$a1 = explode(" ", $str);
     	foreach($a1 as $key) {
     		if ($key == "head") continue;
     		if (!isset($this->QKEY[$key])) {
-    			print_r($this->QKEY);
-    			echo "[ig " . $key . "] ";
     			return false;
     		}
     	}
