@@ -178,7 +178,7 @@ class query {
     	<fieldset>
     	  <button onclick="$('input.qccol,#warnonly').removeAttr('checked');">Uncheck All</button>
 HERE;
-    	foreach(self::$CATEGORIES as $label => $name) {
+    	foreach($CATEGORIES as $label => $name) {
     	  echo <<< HERE
     	  <button label='$label' name='$name' class='checkbutton checkon'>Check $name</button>
 HERE;
@@ -193,8 +193,8 @@ HERE;
 		$split = true;
 		$total = count(self::$QUERIES) + 2 * count(self::$CATQ);
 		foreach(self::$CATQ as $cat => $arr) {
-		  if (!isset(self::$CATEGORIES[$cat])) continue;
-		  self::showCheckboxes(self::$CATEGORIES[$cat], $arr);
+		  if (!isset($CATEGORIES[$cat])) continue;
+		  self::showCheckboxes($CATEGORIES[$cat], $arr);
 		  $dcount += count($arr) + 2;
 		  if ($split && $dcount >= $total/2) {
 		  	echo "</div><div class='checkboxes'>";
