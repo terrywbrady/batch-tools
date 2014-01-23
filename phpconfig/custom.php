@@ -128,7 +128,10 @@ HERE;
     	$a1 = explode(" ", $str);
     	foreach($a1 as $key) {
     		if ($key == "head") continue;
-    		if (!isset($this->QKEY[$key])) return false;
+    		if (!isset($this->QKEY[$key])) {
+    			echo "[ig " . $key . "] ";
+    			return false;
+    		}
     	}
     	return true;
     }
