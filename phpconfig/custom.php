@@ -128,7 +128,7 @@ HERE;
     	echo "[".$str."]";
     	$a1 = explode(" ", $str);
     	foreach($a1 as $key) {
-    	    echo "[".$a1."]";
+    	    echo "[".$key."]";
     		if (!isset($this->QKEY[$key])) return false;
     	}
     	return true;
