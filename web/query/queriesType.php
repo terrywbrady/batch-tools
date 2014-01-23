@@ -79,6 +79,6 @@ $subq = <<< EOF
         and char_length(bit.name) > 30
     ) 
 EOF;
-new query("itemCountLongFileName","Num Items with Long File Name",$subq,"type", new testValTrue(),array("Accession","Format","OrigName")); }
+new query("itemCountLongFileName","Num Items with Long File Name",$subq,"type", new testValTrue(),array("Accession","Format","OrigName")); 
 }
 ?>
