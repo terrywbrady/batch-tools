@@ -129,7 +129,7 @@ HERE;
     	foreach($a1 as $key) {
     		if ($key == "head") continue;
     		if (!isset($this->QKEY[$key])) {
-    			echo(print_r($this->QKEY));
+    			print_r($this->QKEY);
     			echo "[ig " . $key . "] ";
     			return false;
     		}
