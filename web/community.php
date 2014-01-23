@@ -87,7 +87,7 @@ class community {
 		util::makeOpt('allcoll', "All Collections", $v);
 		foreach (self::$COMMUNITIES as $comm) {
 			if ($comm->parent_comm_id == null) {
-				util::makeOpt('comm' . $comm->community_id, $comm->name, $v);
+				util::makeOpt('comm' . $comm->community_id, $comm->shortname, $v);
 			} 			
 		}
     	echo '</select>';

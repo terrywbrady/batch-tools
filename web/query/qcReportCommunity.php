@@ -1,14 +1,13 @@
 <?php
 include '../header.php';
 include 'queries.php';
-include 'auxFields.php';
 
 $CUSTOM = custom::instance();
 $CUSTOM->getCommunityInit()->initCommunities();
 
 ini_set('max_execution_time', 120);
 
-initQueries(isset($_GET['basic']));
+initQueries();
 $querycol = "";
 $headercol = "";
 foreach(query::$QUERIES as $q) {
@@ -29,8 +28,6 @@ order by communityName
 ;
   
 EOF;
-
-auxFields::initAuxFields();
 
 header('Content-type: text/html; charset=UTF-8');
 ?>

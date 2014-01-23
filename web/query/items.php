@@ -1,15 +1,13 @@
 <?php
 include '../header.php';
 include 'queries.php';
-include 'auxFields.php';
 
 $CUSTOM = custom::instance();
 $CUSTOM->getCommunityInit()->initCommunities();
 $CUSTOM->getCommunityInit()->initCollections();
 
 
-initQueries(false);
-auxFields::initAuxFields();
+initQueries();
 
 function inval() {
 	echo "<h1>Invalid Parameters</h1>";

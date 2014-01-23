@@ -23,6 +23,7 @@ include dirname(dirname(__FILE__)) . "/web/community.php";
 class custom {
 	
 	public static $INSTANCE;
+	protected static $QKEY = array();
 	
 	public function getRoot() {return dirname(dirname(__FILE__));}
 	public function getWebRoot() {return "/batch-tools/";}
@@ -118,6 +119,42 @@ HERE;
   			"userAgent:Java*",
 		);
     }
+    
+    public function initCustomQueries() {    	
+    }
+    
+    public function hasQueryKey($str) {
+    	if (count($this->QKEY) == 0) {
+    		$this->QKEY = $this->getQueryKeys();
+    	}
+    	$a1 = explode(" ", $str);
+    	foreach($a1 as $key) {
+    		if ($key == "head") continue;
+    		if (!isset($this->QKEY[$key])) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+    
+    public static function getDefaultQueryKeys() {
+    	return array (
+    	    "basic" => "Basic Attributes",
+		    "text" => "Document Attributes",
+    	    "type" => "Item Type",
+    	    "date" => "Date Attributes",
+    	    "license" => "License",
+    	    "image" => "Image Attributes",
+    	    "meta" => "Metadata Attributes",
+    	    "mod" => "Modification Date",    		
+    	    "embargo" => "Embargo Attributes",    		
+	    );    	
+    }
+    
+    public function getQueryKeys() {
+    	return $self->getDefaultQueryKeys();
+    }
+    
 }
 
 class DefaultInitializer {

@@ -2,15 +2,13 @@
 include '../../phpconfig/init.php';
 include '../util.php';
 include 'queries.php';
-include 'auxFields.php';
 
 $CUSTOM = custom::instance();
 
 header("Content-type: text/csv");
 header("Content-Disposition: attachment; filename=export.csv");
 
-initQueries(false);
-auxFields::initAuxFields();
+initQueries();
 
 function inval() {
 	echo "<h1>Invalid Parameters</h1>";

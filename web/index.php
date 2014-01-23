@@ -87,7 +87,7 @@ if ($CUSTOM->showBatchTools()) {
 } 
 
 function getQueryCols() {
-initQueries(false);
+initQueries();
 echo <<< HERE
   <div id="queryCols">
   <fieldset>
