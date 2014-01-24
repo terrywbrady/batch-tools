@@ -23,7 +23,7 @@ include dirname(dirname(__FILE__)) . "/web/community.php";
 class custom {
 	
 	public static $INSTANCE;
-	protected $QKEY;
+	public $QKEY = array();
 	
 	public function getRoot() {return dirname(dirname(__FILE__));}
 	public function getWebRoot() {return "/batch-tools/";}
