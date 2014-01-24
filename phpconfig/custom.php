@@ -155,6 +155,25 @@ HERE;
     	return $self->getDefaultQueryKeys();
     }
     
+    public function getAdminHtml() {
+        return <<< EOF
+<h4>Admin Access Only</h4>
+<ul>
+<li><a href="../auth/bulkIngest.php">Initiate Bulk Ingest</a></li>
+<li><a href="../auth/undoBulkIngest.php">Undo Bulk Ingest</a></li>
+<li><a href="../auth/changeParent.php">Move Community</a></li>
+<li><a href="../auth/changeParentColl.php">Move Collection</a></li>
+<li><a href="../auth/mediaFilter.php">Initiate Media Filter</a></li>
+<li><a href="../auth/refreshStatistics.php">Refresh Statistics</a></li>
+<li><a href="../auth/updateMetadata.php">Update Metadata</a></li>
+</ul>
+EOF;
+    }
+
+    public function getAdminHtml() {
+        return "";
+    }
+
 }
 
 class DefaultInitializer {
