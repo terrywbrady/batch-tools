@@ -71,8 +71,10 @@ if ($CUSTOM->showStatsTools()) {
 <?php
 if ($CUSTOM->showBatchTools()) { 
 	echo $CUSTOM->getAdminHtml();
+	echo 11;
 }
 echo $CUSTOM->getOtherHtml();
+echo 22;
 
 function getQueryCols() {
 initQueries();
