@@ -170,7 +170,7 @@ HERE;
 EOF;
     }
 
-    public function getAdminHtml() {
+    public function getOtherHtml() {
         return "";
     }
 
