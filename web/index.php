@@ -70,9 +70,9 @@ if ($CUSTOM->showStatsTools()) {
 </ul>
 <?php
 if ($CUSTOM->showBatchTools()) { 
-	$CUSTOM->getAdminHtml();
-	$CUSTOM->getOtherHtml();
+	echo $CUSTOM->getAdminHtml();
 }
+echo $CUSTOM->getOtherHtml();
 
 function getQueryCols() {
 initQueries();
