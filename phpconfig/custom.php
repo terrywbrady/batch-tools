@@ -125,9 +125,7 @@ HERE;
     }
     
     public function hasQueryKey($str) {
-    	if (!isset($this->QKEY)) {
-    		$this->QKEY = $this->getQueryKeys();    		
-    	} else if (count($this->QKEY) == 0) {
+    	if (count($this->QKEY) == 0) {
     		$this->QKEY = $this->getQueryKeys();
     	}
     	$a1 = explode(" ", $str);
