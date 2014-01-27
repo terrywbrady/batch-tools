@@ -68,6 +68,9 @@ if ($CUSTOM->showStatsTools()) {
 <?php 
 }
 ?>
+<li>
+  <a href="stats/qcA2Z.php">Collection and Community A2Z list</a>
+</li>
 </ul>
 <?php
 if ($CUSTOM->showBatchTools()) { 
