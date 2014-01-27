@@ -177,9 +177,7 @@ EOF;
 
 	//call after initializing communiteis and collections
 	public function initHierarchy() {
-		echo 4;
 		hierarchy::initHierarchy(true,"");
-		echo 5;
 	}
 }
 
