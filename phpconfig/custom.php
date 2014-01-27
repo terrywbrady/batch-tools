@@ -185,10 +185,6 @@ class DefaultInitializer {
 	public function initCollections() {
 	}
 
-	public function initHierarchy() {
-		hierarchy::initHierarchy(true, "");
-	}
-
 	public static function instance() {
 		if (self::$INSTANCE == null) self::$INSTANCE = new DefaultInitializer();
 		return self::$INSTANCE;
