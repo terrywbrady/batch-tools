@@ -175,6 +175,12 @@ EOF;
         return "";
     }
 
+	//call after initializing communiteis and collections
+	public function initHierarchy() {
+		echo 4;
+		hierarchy::initHierarchy(true,"");
+		echo 5;
+	}
 }
 
 class DefaultInitializer {
@@ -183,10 +189,6 @@ class DefaultInitializer {
 	}
 	
 	public function initCollections() {
-	}
-
-	public function initHierarchy() {
-		hierarchy::initHierarchy(true,"");
 	}
 
 	public static function instance() {
