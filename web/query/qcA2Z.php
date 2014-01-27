@@ -31,7 +31,7 @@ $header->litPageHeader();
 <div>
 <?php
 foreach(hierarchy::$OBJECTS as $coll) {
-	echo "<div><a href='" .$URL . $coll->handle . "'>" . $coll->sname . "</a></div>";
+	echo "<div><a href='" .$URL . $coll->handle . "'>" . $coll->sname. $coll->handle . "</a></div>";
 }
 ?>
 
