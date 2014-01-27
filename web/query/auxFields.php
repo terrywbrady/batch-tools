@@ -33,6 +33,8 @@ class auxFields {
     self::addAuxField("Format", "", self::getFieldByName("format",null), "dc.format[en_US]", false);
     self::addAuxField("Type", "", self::getFieldByName("type",null), "dc.type[en_US]", false);
     self::addAuxField("Provenance", "", self::getFieldByName("description","provenance"), "", false);
+    self::addAuxField("CoverageTemporal", "", self::getFieldByName("coverage","temporal"), "", false);
+    self::addAuxField("CoverageGeorgraphic", "", self::getFieldByName("coverage","geographic"), "", false);
 
     $thumb = <<< EOF
 select array_to_string(array_agg(text('{$handleContext}/bitstream/id/' || bit.bitstream_id || '/' || bit.name)), '<hr/>') 
