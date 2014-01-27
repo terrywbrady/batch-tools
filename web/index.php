@@ -69,7 +69,7 @@ if ($CUSTOM->showStatsTools()) {
 }
 ?>
 <li>
-  <a href="stats/qcA2Z.php">Collection and Community A2Z list</a>
+  <a href="query/qcA2Z.php">Collection and Community A2Z list</a>
 </li>
 </ul>
 <?php
