@@ -16,7 +16,7 @@ function namecmp($a,$b) {
 }
 
 uasort(hierarchy::$OBJECTS, "namecmp");
-$URL = "http://" . $GLOBALS["host"] . "/"; 
+$URL = "//"; 
 
 ?>
 <html>
