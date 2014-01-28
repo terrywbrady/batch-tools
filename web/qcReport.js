@@ -285,7 +285,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   function argLink(url) {
 	  loadMsg();
 	  var url2 = url;
-	  url2 += "&collex=" + $("#collex").val();
+	  url2 += "&collex=" + $("input[name=collex=").val();
 	  url2 += "&comm=" + $("#communityToolbar").val();
 	  url2 += "&view=" + $("#viewToolbar").val();
 	  if ($('#qcol').val() != "") {
