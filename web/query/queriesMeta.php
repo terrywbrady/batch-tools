@@ -6,17 +6,17 @@ $m = <<< EOF
 EOF;
 auxFields::addAuxField("maxmeta", "Longest metadata field", "{$m}", "", false);
 $m = <<< EOF
-      (select array_to_string(array_agg('...' || substring(text_value,'(.{0,10}[^[:ascii:]].{0,10})') || '...'),'<br/>') " .
-  			"from metadatavalue mx " .
-  			"inner join metadatafieldregistry mfr on mx.metadata_field_id=mfr.metadata_field_id " .
-  			" and mx.item_id=i.item_id)
+      (select array_to_string(array_agg('...' || substring(text_value,'(.{0,10}[^[:ascii:]].{0,10})') || '...'),'<br/>') 
+  			from metadatavalue mx 
+  			inner join metadatafieldregistry mfr on mx.metadata_field_id=mfr.metadata_field_id 
+  			 and mx.item_id=i.item_id)
 EOF;
 auxFields::addAuxField("NonAscii", "Non-Ascii characters in metadata", "{$m}", "", false);
 $m = <<< EOF
-(select array_to_string(array_agg('...' || substring(text_value,'(.{0,10}&#.{0,10})') || '...'),'<br/>') " .
-  			"from metadatavalue mx " .
-  			"inner join metadatafieldregistry mfr on mx.metadata_field_id=mfr.metadata_field_id " .
-  			" and mx.item_id=i.item_id)
+      (select array_to_string(array_agg('...' || substring(text_value,'(.{0,10}&#.{0,10})') || '...'),'<br/>') 
+  			from metadatavalue mx 
+  			inner join metadatafieldregistry mfr on mx.metadata_field_id=mfr.metadata_field_id 
+  			 and mx.item_id=i.item_id)
 EOF;
 auxFields::addAuxField("AmperPound", "Chacters escaped with Amper Pound", "{$m}", "", false);
 
