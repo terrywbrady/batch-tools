@@ -80,6 +80,7 @@ echo $CUSTOM->getOtherHtml();
 
 function getQueryCols() {
 initQueries();
+$CUSTOM = custom::instance();
 echo <<< HERE
   <div id="queryCols">
   <fieldset>
