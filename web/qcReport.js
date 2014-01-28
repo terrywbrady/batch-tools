@@ -307,6 +307,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   function qcLink(url) {
 	  loadMsg();
 	  var url2 = url;
+	  url2 += "&collex=" + $("input[name=collex]").val();
 	  url2 += "&col=";
 	  $("input.qccol:checked").each(function(){url2 += $(this).val() +","});		  
 	  if ($("#warnonly:checked").is("*")) {
