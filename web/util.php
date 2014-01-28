@@ -28,10 +28,10 @@ class util {
 		return $def; 
 	}
 	
-	public static function getIdList($name) {
+	public static function getIdList($name, $prefix) {
 		$arg = self::getArg($name, "");
 		if ($arg == "") return "";
-		$ret = "(";
+		$ret = $prefix . "(";
 		$arr = explode(",", $arg);
 		$first = true;
 		foreach($arr as $i) {
@@ -45,7 +45,7 @@ class util {
 			}
 		}
 		$ret .= ")";
-		return ret;
+		return $ret;
 	}
 	
 
