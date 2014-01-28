@@ -176,6 +176,10 @@ EOF;
         return "";
     }
 
+    public function getNavHtml() {
+        return "";
+    }
+
 	//call after initializing communiteis and collections
 	public function initHierarchy() {
 		hierarchy::initHierarchy(true,"");
