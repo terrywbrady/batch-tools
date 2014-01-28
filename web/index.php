@@ -81,16 +81,16 @@ echo $CUSTOM->getOtherHtml();
 function getQueryCols() {
 initQueries();
 echo <<< HERE
-  <div id="colFilter">
-  <fieldset>
-    <legend>Exclude Large Collections</legend>
-    <input name="collex" type="checkbox" id="collex-1"><label for="collex-1">Large Coll 1</label>
-    <input name="collex" type="checkbox" id="collex-2"><label for="collex-2">Large Coll 2</label>
-  </fieldset>
-  </div>
   <div id="queryCols">
   <fieldset>
     <legend>Query Options</legend>
+    <div id="colFilter">
+    <fieldset>
+      <legend>Exclude Large Collections</legend>
+      <input name="collex" type="checkbox" id="collex-1"><label for="collex-1">Large Coll 1</label>
+      <input name="collex" type="checkbox" id="collex-2"><label for="collex-2">Large Coll 2</label>
+    </fieldset>
+    </div>
     <input type="radio" name="qcallcol" id="qcallcolon"><label for="qcallcolon">Show All Columns</label>
     <input type="radio" checked name="qcallcol" id="qcallcoloff"><label for="qcallcoloff">Show Selected Columns</label>
     <input name="warnonly" type="checkbox" id="warnonly"><label for="warnonly">Filter Warnings</label>
