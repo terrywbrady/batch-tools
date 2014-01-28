@@ -93,15 +93,6 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   	}
   	
   	$("fieldset.queryCols").show();
-  	$("input[name=qcallcol]").click(
-		function(){
-			if ($("#qcallcoloff:checked").is("*")) {
-				$("fieldset.queryCols").show();				
-			} else {
-				$("fieldset.queryCols").hide();
-			}
-		}
-	);
   	
   	bitstreamPrep();
   	$("#showopt").show();
@@ -294,6 +285,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   function argLink(url) {
 	  loadMsg();
 	  var url2 = url;
+	  url2 += "&collex=" + $("#collex").val();
 	  url2 += "&comm=" + $("#communityToolbar").val();
 	  url2 += "&view=" + $("#viewToolbar").val();
 	  if ($('#qcol').val() != "") {
@@ -315,10 +307,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   function qcLink(url) {
 	  loadMsg();
 	  var url2 = url;
-	  if ($("#qcallcoloff:checked").is("*")) {
-		  url2 += "&col=";
-		  $("input.qccol:checked").each(function(){url2 += $(this).val() +","});		  
-	  }
+	  url2 += "&col=";
+	  $("input.qccol:checked").each(function(){url2 += $(this).val() +","});		  
 	  if ($("#warnonly:checked").is("*")) {
 		  url2 += "&warn=warn";
 	  }
