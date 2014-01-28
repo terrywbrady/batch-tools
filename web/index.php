@@ -37,6 +37,8 @@ $header->litPageHeader();
 <body>
 <?php 
 $header->litHeader(array());
+echo $CUSTOM->getNavHtml();
+
 ?>
 
 <?php 
@@ -48,7 +50,6 @@ if ($CUSTOM->showQueryTools()) {
 <ul>
 <li><a href="queue.php">Job Queue</a></li>
 <?php 
-echo $CUSTOM->getNavHtml();
 if ($CUSTOM->showQueryTools()) {
 ?>
 <li>
