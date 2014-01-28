@@ -75,7 +75,7 @@ EOF;
 new query("itemCountUnsuppImage","Num Unsupported Image Items",$subq,"basic type image", new testValZero(),array("Accession","GenThumb")); 
 
 $subq = <<< EOF
-    and exists 
+    and not exists 
     (
       select 1
       from item2bundle i2b
