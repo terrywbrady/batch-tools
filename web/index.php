@@ -48,6 +48,7 @@ if ($CUSTOM->showQueryTools()) {
 <ul>
 <li><a href="queue.php">Job Queue</a></li>
 <?php 
+echo $CUSTOM->getNavHtml();
 if ($CUSTOM->showQueryTools()) {
 ?>
 <li>
@@ -86,18 +87,22 @@ echo <<< HERE
   <fieldset>
     <legend>Query Options</legend>
     <div id="colFilter">
-    <fieldset>
 HERE;
 if (count($CUSTOM->getExcludeCollections()) > 0) {
-    echo "<legend>Exclude Large Collections</legend>";
+echo <<< HERE
+    <fieldset>	
+    <legend>Exclude Large Collections</legend>
+HERE;
     foreach($CUSTOM->getExcludeCollections() as $k => $v) {
         echo <<< HERE
       <input name="collex" type="checkbox" id="collex-{$k}" value="{$k}" checked><label for="collex-{$k}">{$v}</label>
 HERE;
     }
+echo <<< HERE
+    </fieldset>	
+HERE;
 }
 echo <<< HERE
-    </fieldset>
     </div>
     <input name="warnonly" type="checkbox" id="warnonly"><label for="warnonly">Filter Warnings</label>
 HERE;
