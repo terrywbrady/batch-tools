@@ -29,7 +29,7 @@ $subq = <<< EOF
       and (text_value ~ '^.*[^ ]{50,50}.*$')
     ) 
 EOF;
-new query("itemCountWithLongMeta","Num Items with Long Unbreaking Metadata",$subq,"meta", new testValTrue(),array("Accession","URI")); 
+new query("itemCountWithLongMeta","Num Items with Long Unbreaking Metadata",$subq,"misc", new testValTrue(),array("Accession","URI")); 
 
 $subq = <<< EOF
     and exists 
@@ -44,7 +44,7 @@ $subq = <<< EOF
       and (text_value ~ '^.*(http://|https://|mailto:).*$')
     ) 
 EOF;
-new query("itemCountDescUrl","Num Items with URL in description or abstract",$subq,"meta", new testValTrue(),array("Accession","URI")); 
+new query("itemCountDescUrl","Num Items with URL in description or abstract",$subq,"misc", new testValTrue(),array("Accession","URI")); 
 
 $subq = <<< EOF
     and exists 
@@ -59,7 +59,7 @@ $subq = <<< EOF
       and (text_value ~ '^.*No\. of bitstreams.*\.(PDF|pdf|DOC|doc|PPT|ppt|DOCX|docx|PPTX|pptx).*$')
     ) 
 EOF;
-new query("hasFullText","Has full text per provenance",$subq,"meta", new testValTrue(),array("Provenance")); 
+new query("hasFullText","Has full text per provenance",$subq,"misc", new testValTrue(),array("Provenance")); 
 
 $subq = <<< EOF
     and exists 
@@ -74,7 +74,7 @@ $subq = <<< EOF
       and (text_value !~ '^.*No\. of bitstreams.*\.(PDF|pdf|DOC|doc|PPT|ppt|DOCX|docx|PPTX|pptx).*$')
     ) 
 EOF;
-new query("hasNoFullText","Has no full text per provenance",$subq,"meta", new testValTrue(),array("Provenance")); 
+new query("hasNoFullText","Has no full text per provenance",$subq,"misc", new testValTrue(),array("Provenance")); 
 
 $subq = <<< EOF
     and exists 
@@ -85,7 +85,7 @@ $subq = <<< EOF
       and (length(text_value) > 6000)
     ) 
 EOF;
-new query("itemCountLongMeta","Num Items with long metadata",$subq,"meta", new testValZero(),array("Accession","maxmeta")); 
+new query("itemCountLongMeta","Num Items with long metadata",$subq,"misc", new testValZero(),array("Accession","maxmeta")); 
 
 $subq = <<< EOF
     and exists 
@@ -96,7 +96,7 @@ $subq = <<< EOF
       and text_value like '%&#%'
     ) 
 EOF;
-new query("hasAmperPound","Has &# in metadata",$subq,"meta", new testValZero(),array("AmperPound")); 
+new query("hasAmperPound","Has &# in metadata",$subq,"misc", new testValZero(),array("AmperPound")); 
 
 $subq = <<< EOF
     and exists 
@@ -107,7 +107,7 @@ $subq = <<< EOF
       and text_value ~ '^.*[^[:ascii:]].*$'
     ) 
 EOF;
-new query("hasNonAsciiCurly","Has non-ascii in metadata (includes curly quotes)",$subq,"meta", new testValTrue(),array("NonAscii")); 
+new query("hasNonAsciiCurly","Has non-ascii in metadata (includes curly quotes)",$subq,"misc", new testValTrue(),array("NonAscii")); 
 
 }
 
