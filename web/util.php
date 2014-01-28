@@ -27,6 +27,27 @@ class util {
 		if (isset($_GET[$name])) return $_GET[$name];
 		return $def; 
 	}
+	
+	public static function getIdList($name) {
+		$arg = self::getArg($name, "");
+		if ($arg == "") return "";
+		$ret = "(";
+		$arr = explode(",", $arg);
+		$first = true;
+		foreach($arr as $i) {
+			if (is_numeric($i)) {
+				if ($first) {
+					$first = false;
+				} else {
+					$ret .= ",";
+				}
+				$ret .= $i;
+			}
+		}
+		$ret .= ")";
+		return ret;
+	}
+	
 
 	public static function getPostArg($name, $def) {
 		if (isset($_POST[$name])) return $_POST[$name];
