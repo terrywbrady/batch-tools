@@ -285,7 +285,6 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   function argLink(url) {
 	  loadMsg();
 	  var url2 = url;
-	  url2 += "&collex=" + $("input[name=collex]").val();
 	  url2 += "&comm=" + $("#communityToolbar").val();
 	  url2 += "&view=" + $("#viewToolbar").val();
 	  if ($('#qcol').val() != "") {
@@ -307,7 +306,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   function qcLink(url) {
 	  loadMsg();
 	  var url2 = url;
-	  url2 += "&collex=" + $("input[name=collex]").val();
+	  url2 += "&collex=";
+	  $("input:checked[name=collex]").each(function(){url2 += $(this).val() +","});
 	  url2 += "&col=";
 	  $("input.qccol:checked").each(function(){url2 += $(this).val() +","});		  
 	  if ($("#warnonly:checked").is("*")) {
