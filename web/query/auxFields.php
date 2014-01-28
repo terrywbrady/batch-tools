@@ -206,6 +206,14 @@ EOF;
   	  if ($isImg) {
   	  	  self::$IMGKEY[$name] = true;
   	  }  	  
+
+      if (isset($_GET['show'])){
+        foreach($_GET['show'] as $s) {
+	      if (isset(self::$AUXQ[$s])){
+		     self::$SHOWARR[$s] = self::$AUXQ[$s];
+	      }
+        }
+      }
   }
   
   
