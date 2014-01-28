@@ -75,7 +75,7 @@ EOF;
 new query("itemCountUnsuppImage","Num Unsupported Image Items",$subq,"basic type image", new testValZero(),array("Accession","GenThumb")); 
 
 $subq = <<< EOF
-    and not exists 
+    and exists 
     (
       select 1
       from item2bundle i2b
@@ -86,7 +86,7 @@ $subq = <<< EOF
       inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
       inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
       inner join bitstreamformatregistry bfr on bit.bitstream_format_id = bfr.bitstream_format_id
-        and (
+        and not (
           bfr.mimetype like 'video/%' or 
           bfr.mimetype like 'image/%' or 
           bfr.mimetype in (
