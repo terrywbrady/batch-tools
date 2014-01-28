@@ -24,6 +24,7 @@ include 'header.php';
 include 'query/queries.php';
 
 $CUSTOM = custom::instance();
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -67,24 +68,15 @@ if ($CUSTOM->showStatsTools()) {
 <?php 
 }
 ?>
+<li>
+  <a href="query/qcA2Z.php">Collection and Community A-Z list</a>
+</li>
 </ul>
 <?php
 if ($CUSTOM->showBatchTools()) { 
-?>
-<h4>Admin Access Only</h4>
-<ul>
-<li>
-  <a href="../auth/bulkIngest.php">Initiate Bulk Ingest</a>
-</li>
-<li><a href="../auth/undoBulkIngest.php">Undo Bulk Ingest</a></li>
-<li><a href="../auth/changeParent.php">Move Community</a></li>
-<li><a href="../auth/changeParentColl.php">Move Collection</a></li>
-<li><a href="../auth/mediaFilter.php">Initiate Media Filter</a></li>
-<li><a href="../auth/refreshStatistics.php">Refresh Statistics</a></li>
-<li><a href="../auth/updateMetadata.php">Update Metadata</a></li>
-</ul>
-<?php 
-} 
+	echo $CUSTOM->getAdminHtml();
+}
+echo $CUSTOM->getOtherHtml();
 
 function getQueryCols() {
 initQueries();
@@ -92,6 +84,13 @@ echo <<< HERE
   <div id="queryCols">
   <fieldset>
     <legend>Query Options</legend>
+    <div id="colFilter">
+    <fieldset>
+      <legend>Exclude Large Collections</legend>
+      <input name="collex" type="checkbox" id="collex-1"><label for="collex-1">Large Coll 1</label>
+      <input name="collex" type="checkbox" id="collex-2"><label for="collex-2">Large Coll 2</label>
+    </fieldset>
+    </div>
     <input type="radio" name="qcallcol" id="qcallcolon"><label for="qcallcolon">Show All Columns</label>
     <input type="radio" checked name="qcallcol" id="qcallcoloff"><label for="qcallcoloff">Show Selected Columns</label>
     <input name="warnonly" type="checkbox" id="warnonly"><label for="warnonly">Filter Warnings</label>

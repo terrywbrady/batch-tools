@@ -86,7 +86,7 @@ $subq = <<< EOF
       inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
       inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
       inner join bitstreamformatregistry bfr on bit.bitstream_format_id = bfr.bitstream_format_id
-        and (
+        and not (
           bfr.mimetype like 'video/%' or 
           bfr.mimetype like 'image/%' or 
           bfr.mimetype in (
@@ -106,23 +106,6 @@ $subq = <<< EOF
     ) 
 EOF;
 new query("itemCountOther","Num Other Items",$subq,"basic type", new testValZero(),array("Accession","Format","OrigName")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name not in ('ORIGINAL', 'THUMBNAIL','TEXT')
-        and b.name not like ('tiles_%')
-        and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b.bundle_id = b2b.bundle_id
-      inner join bitstream bit on bit.bitstream_id = b2b.bitstream_id
-        and bit.name != 'license.txt'
-    ) 
-EOF;
-new query("itemCountLicense","Num Documentation Items",$subq,"basic type", new testValTrue(),array("Accession","Format","OtherName")); 
 
 $subq = <<< EOF
     and exists 

@@ -18,22 +18,6 @@ EOF;
 new query("itemCountWithCreate","Num Items with Invalid Creation Date",$subq,"date", new testValZero(),array("Accession","Create")); 
 
 $subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from metadatavalue m 
-      where m.item_id = i.item_id
-      and m.metadata_field_id = (
-        select metadata_field_id from metadatafieldregistry mfr
-        where mfr.element = 'date' and mfr.qualifier = 'created'
-      )
-      and text_value in ('No date','No Date')
-    ) 
-EOF;
-
-new query("itemCountIsNoDate","Num Items with Creation Date is 'No Date'",$subq,"date", new testValTrue(),array("Accession","Create")); 
-
-$subq = <<< EOF
     and not exists 
     (
       select 1
@@ -62,48 +46,6 @@ $subq = <<< EOF
 EOF;
 
 new query("itemCountWithInvIssue","Num Items with Invalid Issue Date",$subq,"date", new testValZero(),array("Accession","Issue")); 
-
-$subq = <<< EOF
-    and not exists 
-    (
-      select 1
-      from metadatavalue m 
-      where m.item_id = i.item_id
-      and m.metadata_field_id = (
-        select metadata_field_id from metadatafieldregistry mfr
-        where mfr.element = 'date' and mfr.qualifier = 'issued'
-      )
-    ) 
-EOF;
-new query("itemCountWithNoIssue","Num Items with No Issue Date",$subq,"date", new testValZero(),array("Accession")); 
-
-$subq = <<< EOF
-    and not exists 
-    (
-      select 1
-      from metadatavalue m 
-      where m.item_id = i.item_id
-      and m.metadata_field_id = (
-        select metadata_field_id from metadatafieldregistry mfr
-        where mfr.element = 'date' and mfr.qualifier = 'accessioned'
-      )
-    ) 
-EOF;
-new query("itemCountWithNoAcc","Num Items with No Accession Date",$subq,"date", new testValZero(),array("Accession")); 
-
-$subq = <<< EOF
-    and not exists 
-    (
-      select 1
-      from metadatavalue m 
-      where m.item_id = i.item_id
-      and m.metadata_field_id = (
-        select metadata_field_id from metadatafieldregistry mfr
-        where mfr.element = 'date' and mfr.qualifier = 'available'
-      )
-    ) 
-EOF;
-new query("itemCountWithNoAvail","Num Items with No Available Date",$subq,"date", new testValZero(),array("Accession")); 
 
 $subq = <<< EOF
     and 
@@ -163,6 +105,6 @@ $subq = <<< EOF
       )
     ) 
 EOF;
-new query("itemCountWithUnqualDate","Num Items with Unqualified Date",$subq,"date", new testValZero(),array("UnqualDate")); 
+new query("itemCountWithUnqualDate","Num Items with Unqualified dc.date",$subq,"date", new testValZero(),array("Accession")); 
 }
 ?>

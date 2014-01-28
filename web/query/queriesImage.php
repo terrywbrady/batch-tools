@@ -99,7 +99,7 @@ $subq = <<< EOF
         and bit.description = 'Generated Thumbnail'
     ) 
 EOF;
-new query("itemCountWithGenThumbnail","Num Items with DSpace Default Generated Thumbnail",$subq,"image", new testValZero(),array("Accession","GenThumb")); 
+new query("itemCountWithGenThumbnail","Num Items with Desc: Generated Thumbnail",$subq,"image", new testValZero(),array("Accession","GenThumb")); 
 
 $subq = <<< EOF
     and exists 

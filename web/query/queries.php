@@ -5,6 +5,7 @@ include "queriesEmbargo.php";
 include "queriesImage.php";
 include "queriesLicense.php";
 include "queriesMeta.php";
+include "queriesMisc.php";
 include "queriesMod.php";
 include "queriesText.php";
 include "queriesType.php";
@@ -282,6 +283,7 @@ function initQueries() {
     initQueriesImage();
     initQueriesLicense();
     initQueriesMeta();
+    initQueriesMisc();
     initQueriesMod();
     initQueriesEmbargo();
 
