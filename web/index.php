@@ -90,12 +90,12 @@ HERE;
 if (count($CUSTOM->getExcludeCollections()) > 0) {
     echo "<legend>Exclude Large Collections</legend>";
     foreach($CUSTOM->getExcludeCollections() as $k => $v) {
-        echo <<< HERE    	
+        echo <<< HERE  	
       <input name="collex" type="checkbox" id="collex-{$k}" value="{$k}"><label for="collex-{$k}">{$n}</label>
 HERE;
     }
 }
-echo <<< HERE  
+echo <<< HERE
     </fieldset>
     </div>
     <input name="warnonly" type="checkbox" id="warnonly"><label for="warnonly">Filter Warnings</label>
