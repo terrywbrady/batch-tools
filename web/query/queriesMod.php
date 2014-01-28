@@ -44,7 +44,7 @@ $subq = <<< EOF
       and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '30 day'
     ) 
 EOF;
-new query("itemLast30day","Mod last 30 days",$subq,"mod", new testValTrue(),array("Accession","Accmo")); 
+new query("itemLast30day","Mod last 30 days",$subq,"mod", new testValTrue(),array("Accession")); 
 
 $subq = <<< EOF
     and exists 
@@ -59,36 +59,6 @@ $subq = <<< EOF
       and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '60 day'
     ) 
 EOF;
-new query("itemLast60day","Mod last 60 days",$subq,"mod", new testValTrue(),array("Accession","Accmo")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from metadatavalue m 
-      where m.item_id = i.item_id
-      and m.metadata_field_id = (
-        select metadata_field_id from metadatafieldregistry mfr
-        where mfr.element = 'date' and mfr.qualifier = 'accessioned'
-      )
-      and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '60 day'
-    ) 
-EOF;
-new query("itemLast90day","Mod last 90 days",$subq,"mod", new testValTrue(),array("Accession","Accmo")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from metadatavalue m 
-      where m.item_id = i.item_id
-      and m.metadata_field_id = (
-        select metadata_field_id from metadatafieldregistry mfr
-        where mfr.element = 'date' and mfr.qualifier = 'accessioned'
-      )
-      and to_date(text_value, 'YYYY-MM-DD') > current_date - interval '60 day'
-    ) 
-EOF;
-new query("itemLast180day","Mod last 180 days",$subq,"mod", new testValTrue(),array("Accession","Accmo")); 
+new query("itemLast60day","Mod last 60 days",$subq,"mod", new testValTrue(),array("Accession")); 
 }
 ?>

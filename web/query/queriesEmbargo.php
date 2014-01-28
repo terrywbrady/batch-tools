@@ -43,7 +43,7 @@ $subq = <<< EOF
       )
     ) 
 EOF;
-new query("restrictedOriginal","Restricted Original Bitstream - No Anonymous Access",$subq,"embargo", new testValZero(),array("Accession","DocStream","EmbargoLift","BitRestricted", "ThumbRestricted","Private")); 
+new query("restrictedOriginal","Restricted Original Bitstream - No Anonymous Access",$subq,"embargo", new testValTrue(),array("Accession","DocStream","EmbargoLift","BitRestricted", "ThumbRestricted","Private")); 
 
 $subq = <<< EOF
     and exists 
@@ -91,7 +91,7 @@ $subq = <<< EOF
       )
     ) 
 EOF;
-new query("restrictedThumbnail","Restricted Thumbnail - No Anonymous Access",$subq,"embargo", new testValZero(),array("Accession","DocStream","EmbargoLift","BitRestricted", "ThumbRestricted","Private")); 
+new query("restrictedThumbnail","Restricted Thumbnail - No Anonymous Access",$subq,"embargo", new testValTrue(),array("Accession","DocStream","EmbargoLift","BitRestricted", "ThumbRestricted","Private")); 
 
 }
 ?>

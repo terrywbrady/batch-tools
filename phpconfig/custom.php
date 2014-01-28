@@ -147,6 +147,7 @@ HERE;
     	    "license" => "License",
     	    "image" => "Image Attributes",
     	    "meta" => "Metadata Attributes",
+    	    "misc" => "Misc Content Use Cases",
     	    "mod" => "Modification Date",    		
     	    "embargo" => "Embargo Attributes",    		
 	    );    	
