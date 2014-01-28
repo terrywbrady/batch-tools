@@ -92,7 +92,7 @@ if (count($CUSTOM->getExcludeCollections()) > 0) {
     echo "<legend>Exclude Large Collections</legend>";
     foreach($CUSTOM->getExcludeCollections() as $k => $v) {
         echo <<< HERE
-      <input name="collex" type="checkbox" id="collex-{$k}" value="{$k}"><label for="collex-{$k}">{$v}</label>
+      <input name="collex" type="checkbox" id="collex-{$k}" value="{$k}" checked><label for="collex-{$k}">{$v}</label>
 HERE;
     }
 }
