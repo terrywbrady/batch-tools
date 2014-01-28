@@ -86,9 +86,16 @@ echo <<< HERE
     <legend>Query Options</legend>
     <div id="colFilter">
     <fieldset>
-      <legend>Exclude Large Collections</legend>
-      <input name="collex" type="checkbox" id="collex-1" value="179"><label for="collex-1">Large Coll 1</label>
-      <input name="collex" type="checkbox" id="collex-2" value="29"><label for="collex-2">Large Coll 2</label>
+HERE;
+if (count($CUSTOM->getExcludeCollections()) > 0) {
+    echo "<legend>Exclude Large Collections</legend>";
+    foreach($CUSTOM->getExcludeCollections() as $k => $v) {
+        echo <<< HERE    	
+      <input name="collex" type="checkbox" id="collex-{$k}" value="{$k}"><label for="collex-{$k}">{$n}</label>
+HERE;
+    }
+}
+echo <<< HERE  
     </fieldset>
     </div>
     <input name="warnonly" type="checkbox" id="warnonly"><label for="warnonly">Filter Warnings</label>

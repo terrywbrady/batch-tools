@@ -180,6 +180,10 @@ EOF;
 	public function initHierarchy() {
 		hierarchy::initHierarchy(true,"");
 	}
+	
+	public function getExcludeCollections() {
+		return array();
+	}
 }
 
 class DefaultInitializer {
