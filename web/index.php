@@ -46,7 +46,7 @@ if ($CUSTOM->showQueryTools()) {
 	getQueryCols();
 }
 ?>
-<div>
+<div class="batch-tool-links">
 <h4>Reporting Tools*</h4>
 <ul>
 <li><a href="queue.php">Job Queue</a></li>
