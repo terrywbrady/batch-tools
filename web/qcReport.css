@@ -52,4 +52,4 @@ table.status th {width: 300px;}
 table.status {margin: auto;}
 div.checkboxes {width: 48%; float: left; display:inline;}
 td.referrer {width:400px;max-width:400px;word-wrap:break-word;}
-div.batch-tool-links {clear:both;}
+div.batch-tool-links {clear: left;}
