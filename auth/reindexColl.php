@@ -86,16 +86,16 @@ function testArgs(){
 	    	$status = "collection not found";
 	    	return;
 	    }
-  	    $args = "coll:" . $coll;
+  	    $args = "coll " . $coll;
 	} else if (is_numeric($comm)) {
 	    $comm = intval($comm);
 	    if (!isset(community::$COMMUNITIES[$comm])) {
 	    	$status = "Community not found";
 	    	return;
 	    }
-  	    $args = "comm:" . $comm;
+  	    $args = "comm " . $comm;
 	} else {
-		$status = "A valid collection of community must be selected";
+		$status = "A valid collection or community must be selected";
 		return;
 	}
 
