@@ -78,6 +78,7 @@ function testArgs(){
 	
 	if (count($_POST) == 0) return;
 	$coll = util::getPostArg("coll","");
+	$comm = util::getPostArg("comm","");
 
 	if (is_numeric($coll)) {
 	    $coll = intval($coll);
