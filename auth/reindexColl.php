@@ -80,13 +80,16 @@ function testArgs(){
 	$coll = util::getPostArg("coll","");
 	$comm = util::getPostArg("comm","");
 
+echo "[".$coll."]";
+echo "[".$comm."]";
+
 	if (is_numeric($coll)) {
 	    $coll = intval($coll);
 	    if (!isset(collection::$COLLECTIONS[$coll])) return;
   	    $args = "coll:" . $coll;
 	} else if (is_numeric($comm)) {
 	    $comm = intval($comm);
-	    if (!isset(collection::$COMMUNITIES[$comm])) return;
+	    if (!isset(community::$COMMUNITIES[$comm])) return;
   	    $args = "comm:" . $comm;
 	} else {
 		return;
