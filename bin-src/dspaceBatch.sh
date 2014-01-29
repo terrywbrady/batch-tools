@@ -160,6 +160,13 @@ then
   ${DSROOT}/bin/dspace import -d -e ${USER} -m "${MAP}" >> ${RUNNING} 2>&1 
 
   mv ${RUNNING} ${COMPLETE}
+elif [ "$1" = "gu-reindex" ]
+then 
+  SRCH=$2
+  
+  echo Command: "$@" > ${RUNNING}
+
+  mv ${RUNNING} ${COMPLETE}
 else
   echo "Unsupported DSpace Command"
 fi
