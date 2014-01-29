@@ -41,10 +41,13 @@ $header->litHeader(array());
 ?>
 
 <?php 
+echo $CUSTOM->getNavHtml();
+?>
+<div>
+<?php 
 if ($CUSTOM->showQueryTools()) {
 	getQueryCols();
 }
-echo $CUSTOM->getNavHtml();
 ?>
 <h4>Reporting Tools*</h4>
 <ul>
@@ -113,7 +116,9 @@ HERE;
   </div>
 HERE;
 }
-
+?>
+</div>
+<?php 
 $header->litFooter();
 ?>
 </body>
