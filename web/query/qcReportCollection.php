@@ -17,7 +17,7 @@ foreach(query::$QUERIES as $q) {
   $headercol .= "<th class='{$q->classes}'>{$q->header}<hr/><span class='total'/></th>";
 };
 
-$where = ""; //set global filter to exclude specific collections
+$where = util::getIdList("collex", "where coll.collection_id not in ");
 
 $sql = <<< EOF
 select 

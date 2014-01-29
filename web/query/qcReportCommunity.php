@@ -7,11 +7,13 @@ $CUSTOM->getCommunityInit()->initCommunities();
 
 ini_set('max_execution_time', 120);
 
+$where = util::getIdList("collex", "and i.owning_collection not in ");
+
 initQueries();
 $querycol = "";
 $headercol = "";
 foreach(query::$QUERIES as $q) {
-  $querycol .= $q->commQuery();
+  $querycol .= $q->commQuery($where);
   $headercol .= "<th class='{$q->classes}'>{$q->header}</th>";
 };
 

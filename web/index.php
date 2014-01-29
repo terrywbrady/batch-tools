@@ -37,13 +37,16 @@ $header->litPageHeader();
 <body>
 <?php 
 $header->litHeader(array());
+
 ?>
 
 <?php 
+echo $CUSTOM->getNavHtml();
 if ($CUSTOM->showQueryTools()) {
 	getQueryCols();
 }
 ?>
+<div class="batch-tool-links">
 <h4>Reporting Tools*</h4>
 <ul>
 <li><a href="queue.php">Job Queue</a></li>
@@ -77,22 +80,35 @@ if ($CUSTOM->showBatchTools()) {
 	echo $CUSTOM->getAdminHtml();
 }
 echo $CUSTOM->getOtherHtml();
+?>
+</div>
+<?php
 
 function getQueryCols() {
 initQueries();
+$CUSTOM = custom::instance();
 echo <<< HERE
   <div id="queryCols">
   <fieldset>
     <legend>Query Options</legend>
     <div id="colFilter">
-    <fieldset>
-      <legend>Exclude Large Collections</legend>
-      <input name="collex" type="checkbox" id="collex-1"><label for="collex-1">Large Coll 1</label>
-      <input name="collex" type="checkbox" id="collex-2"><label for="collex-2">Large Coll 2</label>
-    </fieldset>
+HERE;
+if (count($CUSTOM->getExcludeCollections()) > 0) {
+echo <<< HERE
+    <fieldset>	
+    <legend>Exclude Large Collections</legend>
+HERE;
+    foreach($CUSTOM->getExcludeCollections() as $k => $v) {
+        echo <<< HERE
+      <input name="collex" type="checkbox" id="collex-{$k}" value="{$k}" checked><label for="collex-{$k}">{$v}</label>
+HERE;
+    }
+echo <<< HERE
+    </fieldset>	
+HERE;
+}
+echo <<< HERE
     </div>
-    <input type="radio" name="qcallcol" id="qcallcolon"><label for="qcallcolon">Show All Columns</label>
-    <input type="radio" checked name="qcallcol" id="qcallcoloff"><label for="qcallcoloff">Show Selected Columns</label>
     <input name="warnonly" type="checkbox" id="warnonly"><label for="warnonly">Filter Warnings</label>
 HERE;
   query::getQueryList();
@@ -101,7 +117,6 @@ HERE;
   </div>
 HERE;
 }
-
 $header->litFooter();
 ?>
 </body>

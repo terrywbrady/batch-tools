@@ -108,7 +108,7 @@ class query {
 ";		
 	}
 
-	function commQuery() {
+	function commQuery($filter) {
 		return "
   (
     select count(*) 
@@ -118,7 +118,8 @@ class query {
       and c2i.community_id = comm.community_id
     /*where (i.in_archive is true or i.discoverable = false)*/
     where i.in_archive is true
-    {$this->subq}
+    {$this->subq} 
+    {$filter}
   ) as {$this->name},
 ";		
 	}
