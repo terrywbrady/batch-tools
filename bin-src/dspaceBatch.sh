@@ -168,8 +168,8 @@ then
   
   echo Command: "$@" > ${RUNNING}
 
-  echo Command: curl "${SOLR}/search/update?stream.body=&amp;lt;update&amp;gt;&amp;lt;delete&amp;gt;&amp;lt;query&amp;gt;location.${SRCH}:${VAL}&amp;lt;/query&amp;gt;&amp;lt;/delete&amp;gt;&amp;lt;commit/&amp;gt;&amp;lt;/update&amp;gt;" >> ${RUNNING} 2>&1 
-  curl "${SOLR}/search/update?stream.body=<update><delete><query>location.${SRCH}:${VAL}</query></delete><commit/></update>" >> ${RUNNING} 2>&1 
+  echo Command: curl "${SOLR}/search/update?stream.body=%3Cupdate%3E%3Cdelete%3E%3Cquery%3Elocation.${SRCH}:${VAL}%3C/query%3E%3C/delete%3E%3Ccommit/%3E%3C/update%3E" >> ${RUNNING} 2>&1 
+  curl "${SOLR}/search/update?stream.body=%3Cupdate%3E%3Cdelete%3E%3Cquery%3Elocation.${SRCH}:${VAL}%3C/query%3E%3C/delete%3E%3Ccommit/%3E%3C/update%3E" >> ${RUNNING} 2>&1 
 
   echo "${DSROOT}/bin/dspace update-discovery-index" >> ${RUNNING} 2>&1 
   ${DSROOT}/bin/dspace update-discovery-index >> ${RUNNING} 2>&1 
