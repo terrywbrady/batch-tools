@@ -42,13 +42,11 @@ $header->litHeader(array());
 
 <?php 
 echo $CUSTOM->getNavHtml();
-?>
-<div>
-<?php 
 if ($CUSTOM->showQueryTools()) {
 	getQueryCols();
 }
 ?>
+<div>
 <h4>Reporting Tools*</h4>
 <ul>
 <li><a href="queue.php">Job Queue</a></li>
@@ -82,6 +80,9 @@ if ($CUSTOM->showBatchTools()) {
 	echo $CUSTOM->getAdminHtml();
 }
 echo $CUSTOM->getOtherHtml();
+?>
+</div>
+<?php
 
 function getQueryCols() {
 initQueries();
@@ -116,9 +117,6 @@ HERE;
   </div>
 HERE;
 }
-?>
-</div>
-<?php 
 $header->litFooter();
 ?>
 </body>
