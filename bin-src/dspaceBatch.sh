@@ -167,8 +167,8 @@ then
   VAL=$3
   
   echo Command: "$@" > ${RUNNING}
-  echo Command: curl "${SOLRROOT}/search/update?stream.body=&lt;update&gt;&lt;delete&gt;&lt;query&gt;location.${SRCH}:${VAL}&lt;/query&gt;&lt;/delete&gt;&lt;commit/&gt;&lt;/update>" >> ${RUNNING}
-  curl "${SOLRROOT}/search/update?stream.body=&lt;update&gt;&lt;delete&gt;&lt;query&gt;location.${SRCH}:${VAL}&lt;/query&gt;&lt;/delete&gt;&lt;commit/&gt;&lt;/update>" >> ${RUNNING} 2>&1 
+  echo Command: curl "${SOLR}/search/update?stream.body=&lt;update&gt;&lt;delete&gt;&lt;query&gt;location.${SRCH}:${VAL}&lt;/query&gt;&lt;/delete&gt;&lt;commit/&gt;&lt;/update>" >> ${RUNNING}
+  curl "${SOLR}/search/update?stream.body=&lt;update&gt;&lt;delete&gt;&lt;query&gt;location.${SRCH}:${VAL}&lt;/query&gt;&lt;/delete&gt;&lt;commit/&gt;&lt;/update>" >> ${RUNNING} 2>&1 
   mv ${RUNNING} ${COMPLETE}
 else
   echo "Unsupported DSpace Command"
