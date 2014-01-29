@@ -37,7 +37,6 @@ $header->litPageHeader();
 <body>
 <?php 
 $header->litHeader(array());
-echo $CUSTOM->getNavHtml();
 
 ?>
 
@@ -45,6 +44,7 @@ echo $CUSTOM->getNavHtml();
 if ($CUSTOM->showQueryTools()) {
 	getQueryCols();
 }
+echo $CUSTOM->getNavHtml();
 ?>
 <h4>Reporting Tools*</h4>
 <ul>
