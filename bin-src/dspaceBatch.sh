@@ -166,8 +166,8 @@ then
   VAL=$3
   
   echo Command: "$@" > ${RUNNING}
-  echo Command: "run curl to remove index for location.${SRCH}:${VAL}" > ${RUNNING}
-  curl "http://localhost/solr/search/update?stream.body=&lt;update&gt;&lt;delete&gt;&lt;query&gt;location.${SRCH}:${VAL}&lt;/query&gt;&lt;/delete&gt;&lt;commit/&gt;&lt;/update>"
+  echo Command: curl "http://localhost/solr/search/update?stream.body=&lt;update&gt;&lt;delete&gt;&lt;query&gt;location.${SRCH}:${VAL}&lt;/query&gt;&lt;/delete&gt;&lt;commit/&gt;&lt;/update>" > ${RUNNING}
+  curl "http://localhost/solr/search/update?stream.body=&lt;update&gt;&lt;delete&gt;&lt;query&gt;location.${SRCH}:${VAL}&lt;/query&gt;&lt;/delete&gt;&lt;commit/&gt;&lt;/update>" > ${RUNNING}
   mv ${RUNNING} ${COMPLETE}
 else
   echo "Unsupported DSpace Command"
