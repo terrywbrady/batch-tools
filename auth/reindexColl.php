@@ -43,8 +43,8 @@ $header->litPageHeader();
 <form method="POST" action="" onsubmit="jobQueue();return true;">
 <p>Use this option to re-index the discovery index for a collection</p>
 <div id="status"><?php echo $status?></div>
-<?php collection::getCollectionIdWidget(util::getPostArg("coll",""), "collection", " to be reindexed*");?>
-<?php collection::getSubcommunityIdWidget(util::getPostArg("comm",""), "community", " to be reindexed*");?>
+<?php collection::getCollectionIdWidget(util::getPostArg("coll",""), "coll", " to be reindexed*");?>
+<?php collection::getSubcommunityIdWidget(util::getPostArg("comm",""), "comm", " to be reindexed*");?>
 <p align="center">
 	<input id="reindexSubmit" type="submit" title="Submit Form" disabled/>
 </p>
