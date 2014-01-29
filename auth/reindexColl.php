@@ -48,7 +48,7 @@ $header->litPageHeader();
 <p align="center">
 	<input id="reindexSubmit" type="submit" title="Submit Form" disabled/>
 </p>
-<p><em>* Required field</em></p>
+<p><em>* One of the 2 selection fields is required</em></p>
 </form>
 </div>
 <?php $header->litFooter();?>

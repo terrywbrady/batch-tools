@@ -171,7 +171,7 @@ then
   echo Command: curl "${SOLR}/search/update?stream.body=<update><delete><query>location.${SRCH}:${VAL}</query></delete><commit/></update>" >> ${RUNNING} 2>&1 
   curl "${SOLR}/search/update?stream.body=<update><delete><query>location.${SRCH}:${VAL}</query></delete><commit/></update>" >> ${RUNNING} 2>&1 
 
-  #echo "${DSROOT}/bin/dspace update-discovery-index" >> ${RUNNING} 2>&1 
+  echo "${DSROOT}/bin/dspace update-discovery-index" >> ${RUNNING} 2>&1 
   #${DSROOT}/bin/dspace update-discovery-index >> ${RUNNING} 2>&1 
 
   mv ${RUNNING} ${COMPLETE}
