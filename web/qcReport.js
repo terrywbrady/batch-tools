@@ -53,6 +53,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   	if ($("#formUningest").length > 0) bulkUningestForm();
   	if ($("#formMetadata").length > 0) metadataForm();
   	if ($("#formChangeParent").length > 0) changeParentForm();
+  	if ($("#formReindex").length > 0) reindexForm();
   	
   	if ($("#showopt").length > 0) {
   		$('#showopt').dialog({
@@ -160,6 +161,19 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 	  	};
 	  	$("#formChangeParent #subcommCollSelect").change(v);
 	  	$("#formChangeParent #subcommSelect").change(v);
+	  	v();
+  }
+
+  function reindexForm() {
+	  	var v = function() {
+	  		var b = ($("#subcommCollSelect").val() != "") || ($("#subcommSelect").val() != "");
+	  		if (b){
+	  	  		$("#reindexSubmit").removeAttr("disabled");
+	  		} else {
+	  	  		$("#reindexSubmit").attr("disabled", true);  			
+	  		}
+	  	};
+	  	$("#formReindex #subcommCollSelect").change(v);
 	  	v();
   }
 
