@@ -81,14 +81,11 @@ class community {
 		return $p->getMyPath() . "/" . $this->getPathName();
 	}
 	
-	public function getMyParentPath() {
-		$p = $this->getParent();
-		if ($this->community_id == $p->community_id) {
-			return "";
-		}
-		return $p->getMyParentPath() . "++";
+	public function getMyPrettyPath() {
+		$path = $this->getMyPath();
+		$path = preg_replace("/[^/]+/","++/");
+		return $path;
 	}
-
 	public static function toolbar() {
     	$v = util::getArg("comm", "");
 		echo "<select id='communityToolbar'>";
@@ -119,8 +116,15 @@ class collection {
 		return community::$COMMUNITIES[$this->community_id];
 	}
 	public function getMyPath() {
-		return $this->getParent()->getMyParentPath() . $this->name;
+		return $this->getParent()->getMyPath() . $this->name;
 	}
+
+	public function getMyPrettyPath() {
+		$path = $this->getMyPath();
+		$path = preg_replace("/[^/]+/","++/");
+		return $path;
+	}
+
 
 	function __construct($collection_id, $name, $handle, $community_id) {
 		$this->collection_id = $collection_id;
@@ -145,7 +149,7 @@ class collection {
 		$colls = "";
 		foreach(self::$COLLECTIONS as $c) {
 			$sel = ($collsel == $c->handle) ? "selected" : "";
-			$colls .= "<option class='allcoll {$c->topCommunity->shortname}' value='{$c->handle}' {$sel}>{$c->getMyPath()}</option>";
+			$colls .= "<option class='allcoll {$c->topCommunity->shortname}' value='{$c->handle}' {$sel}>{$c->getMyPrettyPath()}</option>";
 		}
 		echo <<< HERE
 		<div id="collWidget">
@@ -178,7 +182,7 @@ HERE;
 		$comms = "";
 		foreach(community::$COMBO as $c) {
 			$sel = ($commsel == $c->handle) ? "selected" : "";
-			$comms .= "<option value='{$c->handle}' {$sel}>{$c->getMyPath()}</option>";			
+			$comms .= "<option value='{$c->handle}' {$sel}>{$c->getMyPrettyPath()}</option>";			
 		}
 		echo <<< HERE
 		<div id="comboWidget">
@@ -197,7 +201,7 @@ HERE;
 		$comms = "";
 		foreach(community::$COMMUNITIES as $c) {
 			$sel = ($commsel == $c->handle) ? "selected" : "";
-			$comms .= "<option value='{$c->handle}' {$sel}>{$c->getMyPath()}</option>";			
+			$comms .= "<option value='{$c->handle}' {$sel}>{$c->getMyPrettyPath()}</option>";			
 		}
 		echo <<< HERE
 		<div id="subcommWidget">
