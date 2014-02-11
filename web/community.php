@@ -154,7 +154,7 @@ class collection {
 		$colls = "";
 		foreach(self::$COLLECTIONS as $c) {
 			$sel = ($collsel == $c->handle) ? "selected" : "";
-			$colls .= "<option class='allcoll {$c->topCommunity->shortname}' value='{$c->handle}' {$sel}>{$c->getMyPrettyPath()}</option>";
+			$colls .= "<option class='allcoll {$c->topCommunity->shortname}' value='{$c->handle}' {$sel}>{$c->getMyPath()}</option>";
 		}
 		echo <<< HERE
 		<div id="collWidget">
