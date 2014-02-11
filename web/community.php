@@ -187,7 +187,7 @@ HERE;
 		$comms = "";
 		foreach(community::$COMBO as $c) {
 			$sel = ($commsel == $c->handle) ? "selected" : "";
-			$comms .= "<option value='{$c->handle}' {$sel}>{$c->getMyPrettyPath()}</option>";			
+			$comms .= "<option value='{$c->handle}' {$sel}>{$c->getMyPath()}</option>";			
 		}
 		echo <<< HERE
 		<div id="comboWidget">
@@ -206,7 +206,7 @@ HERE;
 		$comms = "";
 		foreach(community::$COMMUNITIES as $c) {
 			$sel = ($commsel == $c->handle) ? "selected" : "";
-			$comms .= "<option value='{$c->handle}' {$sel}>{$c->getMyPrettyPath()}</option>";			
+			$comms .= "<option value='{$c->handle}' {$sel}>{$c->getMyPath()}</option>";			
 		}
 		echo <<< HERE
 		<div id="subcommWidget">
