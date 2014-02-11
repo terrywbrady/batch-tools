@@ -83,9 +83,12 @@ class community {
 	
 	public function getMyPrettyPath() {
 		$path = $this->getMyPath();
-		//$path = preg_replace("|/[^/]+/|","++/");
+        for($count=1; $count > 0;) {
+          $path = preg_replace("|/[^/]+/|","++/", $path, 1, $count);
+        }
 		return $path;
 	}
+
 	public static function toolbar() {
     	$v = util::getArg("comm", "");
 		echo "<select id='communityToolbar'>";
@@ -121,7 +124,9 @@ class collection {
 
 	public function getMyPrettyPath() {
 		$path = $this->getMyPath();
-		//$path = preg_replace("|/[^/]+/|","++/");
+        for($count=1; $count > 0;) {
+          $path = preg_replace("|/[^/]+/|","++/", $path, 1, $count);
+        }
 		return $path;
 	}
 
