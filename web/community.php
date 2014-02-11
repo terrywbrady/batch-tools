@@ -81,6 +81,14 @@ class community {
 		return $p->getMyPath() . "/" . $this->getPathName();
 	}
 	
+	public function getMyPrettyPath() {
+		$path = $this->getMyPath();
+        for($count=1; $count > 0;) {
+          $path = preg_replace("|/[^/]+/|","++/", $path, 1, $count);
+        }
+		return $path;
+	}
+
 	public static function toolbar() {
     	$v = util::getArg("comm", "");
 		echo "<select id='communityToolbar'>";
@@ -111,8 +119,17 @@ class collection {
 		return community::$COMMUNITIES[$this->community_id];
 	}
 	public function getMyPath() {
-		return $this->getParent()->getMyPath() . "/" . $this->name;
+		return $this->getParent()->getMyPath() . '/' . custom::instance()->getPathName($this->name);
 	}
+
+	public function getMyPrettyPath() {
+		$path = $this->getMyPath();
+        for($count=1; $count > 0;) {
+          $path = preg_replace("|/[^/]+/|","++/", $path, 1, $count);
+        }
+		return $path;
+	}
+
 
 	function __construct($collection_id, $name, $handle, $community_id) {
 		$this->collection_id = $collection_id;
