@@ -81,6 +81,11 @@ class community {
 		return $p->getMyPath() . "/" . $this->getPathName();
 	}
 	
+	public function getMyParentPath() {
+		$p = $this->getParent();
+		return $p->getMyParentPath() . "++";
+	}
+
 	public static function toolbar() {
     	$v = util::getArg("comm", "");
 		echo "<select id='communityToolbar'>";
@@ -111,7 +116,7 @@ class collection {
 		return community::$COMMUNITIES[$this->community_id];
 	}
 	public function getMyPath() {
-		return $this->getParent()->getMyPath() . "/" . $this->name;
+		return $this->getParent()->getMyParentPath() . $this->name;
 	}
 
 	function __construct($collection_id, $name, $handle, $community_id) {
