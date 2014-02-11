@@ -83,6 +83,9 @@ class community {
 	
 	public function getMyParentPath() {
 		$p = $this->getParent();
+		if ($this->community_id == $p->community_id) {
+			return "";
+		}
 		return $p->getMyParentPath() . "++";
 	}
 
