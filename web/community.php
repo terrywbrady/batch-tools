@@ -116,7 +116,7 @@ class collection {
 		return community::$COMMUNITIES[$this->community_id];
 	}
 	public function getMyPath() {
-		return $this->getParent()->getMyPath() . $this->name;
+		return $this->getParent()->getMyPath() . '/' . $this->name;
 	}
 
 	public function getMyPrettyPath() {
