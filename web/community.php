@@ -83,7 +83,7 @@ class community {
 	
 	public function getMyPrettyPath() {
 		$path = $this->getMyPath();
-		$path = preg_replace("|/[^/]+/|","++/");
+		//$path = preg_replace("|/[^/]+/|","++/");
 		return $path;
 	}
 	public static function toolbar() {
@@ -121,7 +121,7 @@ class collection {
 
 	public function getMyPrettyPath() {
 		$path = $this->getMyPath();
-		$path = preg_replace("|/[^/]+/|","++/");
+		//$path = preg_replace("|/[^/]+/|","++/");
 		return $path;
 	}
 
