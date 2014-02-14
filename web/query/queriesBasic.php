@@ -178,7 +178,7 @@ $subq = <<< EOF
       ) > 1
     ) 
 EOF;
-new query("itemCountWithMultOriginal","Num Items with Multiple Original",$subq,"basic", new testValZero(),array("Accession")); 
+new query("itemCountWithMultOriginal","Num Items with Multiple Original",$subq,"basic", new testValZero(),array("Accession","OrigName","GenThumb")); 
 
 $subq = <<< EOF
     and exists 
