@@ -108,7 +108,7 @@ EOF;
     self::addAuxField("Text", "Text bundle file name", "({$textName})", "", false);
 
     $size = <<< EOF
-select array_to_string(array_agg(to_char(bit.size_bytes/1000/1000.0,'999G999G999D9')), '<hr/>')
+select array_to_string(array_agg(to_char(bit.size_bytes/1000/1000.0,'999G999G999D9')||'MB'), '<hr/>')
 from bitstream bit
 inner join bundle2bitstream b2b
   on b2b.bitstream_id = bit.bitstream_id
@@ -122,7 +122,7 @@ EOF;
     self::addAuxField("SizeMB", "Size of the original file MB", "({$size})", "", false);
 
     $size = <<< EOF
-select array_to_string(array_agg(to_char(bit.size_bytes/1000.0,'999G999G999D9')), '<hr/>')
+select array_to_string(array_agg(to_char(bit.size_bytes/1000.0,'999G999G999D9')||'KB'), '<hr/>')
 from bitstream bit
 inner join bundle2bitstream b2b
   on b2b.bitstream_id = bit.bitstream_id
