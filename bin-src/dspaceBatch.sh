@@ -17,6 +17,8 @@ RUN=false
 
 if [ "$1" = "filter-media" ]
 then
+  export JAVA_OPTS=-Xmx1200m   
+
   echo Command: "$@" > ${RUNNING}
   ${DSROOT}/bin/dspace "$@" >> ${RUNNING} 2>&1 
   
@@ -60,11 +62,13 @@ then
     then
       if [ $VER = 3 ]
       then
+        export JAVA_OPTS=-Xmx1200m   
+
         echo "${DSROOT}/bin/dspace update-discovery-index" >> ${RUNNING} 2>&1 
         ${DSROOT}/bin/dspace update-discovery-index >> ${RUNNING} 2>&1 
       
-      echo "${DSROOT}/bin/dspace oai import" >> ${RUNNING} 2>&1
-      ${DSROOT}/bin/dspace oai import >> ${RUNNING} 2>&1
+        echo "${DSROOT}/bin/dspace oai import" >> ${RUNNING} 2>&1
+        ${DSROOT}/bin/dspace oai import >> ${RUNNING} 2>&1
 
       fi
 
@@ -135,6 +139,7 @@ then
   echo "${DSROOT}/bin/dspace filter-media -p 'Scribd Upload' -f -n -v -i $COLL" >> ${RUNNING} 
   ${DSROOT}/bin/dspace filter-media -p "Scribd Upload" -f -n -v -i $COLL >> ${RUNNING} 2>&1 
      
+  export JAVA_OPTS=-Xmx1200m   
   echo "${DSROOT}/bin/dspace filter-media -i $COLL" >> ${RUNNING} 
   ${DSROOT}/bin/dspace filter-media -i $COLL >> ${RUNNING} 2>&1 
         
