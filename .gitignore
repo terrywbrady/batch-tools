@@ -2,6 +2,7 @@
 phpconfig/init.php
 phpconfig/customGU*
 web/custom
+web/api
 .svn/*
 queue/job.*
 mapfile/20*
