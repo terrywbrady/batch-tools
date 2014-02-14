@@ -1,6 +1,6 @@
 ROOT=DSPACETOOLSROOT
 DSROOT=DSPACEROOT
-export HPFX=YOURPFX
+HPFX=YOURPFX
 SOLR=SOLRROOT
 
 USERNAME=$1
@@ -129,7 +129,7 @@ then
 
   echo "Modify Map File : ${MAP}" >> ${RUNNING} 
   sed -e "s/ /_/g" -i $MAP >> ${RUNNING} 2>&1 
-  sed -e "s|_\(${HPFX}\.\d+/\)| \1|" -i $MAP >> ${RUNNING} 2>&1 
+  sed -e "s|_\(${HPFX}\\.[0-9]/\)| \1|" -i $MAP >> ${RUNNING} 2>&1 
   sed -e "s|_\(${HPFX}/\)| \1|" -i $MAP >> ${RUNNING} 2>&1 
 
   echo "${DSROOT}/bin/dspace filter-media -p 'Scribd Upload' -f -n -v -i $COLL" >> ${RUNNING} 
