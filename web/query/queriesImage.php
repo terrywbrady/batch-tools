@@ -96,22 +96,6 @@ $subq = <<< EOF
         and i.item_id = i2b.item_id
       inner join bundle2bitstream b2b on b2b.bundle_id = b.bundle_id
       inner join bitstream bit on b2b.bitstream_id = bit.bitstream_id
-        and bit.description = 'Generated Thumbnail'
-    ) 
-EOF;
-new query("itemCountWithGenThumbnail","Num Items with Desc: Generated Thumbnail",$subq,"image", new testValZero(),array("Accession","GenThumb")); 
-
-$subq = <<< EOF
-    and exists 
-    (
-      select 1
-      from item2bundle i2b
-      inner join bundle b 
-        on i2b.bundle_id = b.bundle_id
-        and b.name = 'THUMBNAIL'
-        and i.item_id = i2b.item_id
-      inner join bundle2bitstream b2b on b2b.bundle_id = b.bundle_id
-      inner join bitstream bit on b2b.bitstream_id = bit.bitstream_id
         and bit.name != (
           select bit2.name || '.jpg'
           from bitstream bit2
@@ -120,6 +104,21 @@ $subq = <<< EOF
           inner join item2bundle i2b2 on i2b2.bundle_id=b2.bundle_id and i2b2.item_id = i.item_id
           limit 1
         ) 
+    ) 
+    and exists 
+    (
+      select 1
+      from item2bundle i2b
+      inner join bundle b 
+        on i2b.bundle_id = b.bundle_id
+        and b.name = 'THUMBNAIL'
+        and i.item_id = i2b.item_id
+      where (
+        select count(*)
+        from bundle2bitstream b2b
+        inner join bitstream bit on b2b.bitstream_id = bit.bitstream_id
+        where b2b.bundle_id = b.bundle_id 
+      ) = 1
     ) 
 EOF;
 new query("itemCountWithInvalidThumbnailName","Num Items with Invalid Thumbnail Name",$subq,"image", new testValZero(),array("Accession","OrigName","ThumbName","GenThumb")); 

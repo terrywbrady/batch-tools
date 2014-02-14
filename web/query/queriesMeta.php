@@ -24,7 +24,7 @@ $subq = <<< EOF
       where m.item_id = i.item_id
       and m.metadata_field_id = (
         select metadata_field_id from metadatafieldregistry mfr
-        where mfr.element = 'contributor' and mfr.qualifier = "author"
+        where mfr.element = 'contributor' and mfr.qualifier = 'author'
       )
     ) 
 EOF;
@@ -48,7 +48,7 @@ $subq = <<< EOF
       where m.item_id = i.item_id
       and m.metadata_field_id = (
         select metadata_field_id from metadatafieldregistry mfr
-        where mfr.element = 'contributor' and mfr.qualifier = "author"
+        where mfr.element = 'contributor' and mfr.qualifier = 'author'
       )
     ) 
 EOF;
