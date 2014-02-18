@@ -101,6 +101,19 @@ then
   fi
 
   mv ${RUNNING} ${COMPLETE}
+elif [ "$1" = "gu-update-index" ]
+then
+  export JAVA_OPTS=-Xmx1200m   
+  echo Command: "$@" > ${RUNNING}
+  echo ${DSROOT}/bin/dspace update-index >> ${RUNNING} 2>&1 
+  ${DSROOT}/bin/dspace update-index >> ${RUNNING} 2>&1 
+
+  if [ $VER = 3 ]
+  then
+    ${DSROOT}/bin/dspace update-discovery-index -o >> ${RUNNING} 2>&1 
+  fi
+
+  mv ${RUNNING} ${COMPLETE}
 elif [ "$1" = "gu-change-parent" ]
 then
   echo Command: "$@" > ${RUNNING}
