@@ -38,7 +38,7 @@ $header->litPageHeader();
 <form method="POST" action="" onsubmit="jobQueue();return true;" enctype="multipart/form-data" >
 <div id="status"><?php echo $status?></div>
 <fieldset class="mapfile">
-<p>The text index is updated on a nightly basis.  This option will refresh them immediately.</p>
+<p>The text and discovery indexes are updated on a nightly basis.  This option will refresh them immediately.</p>
 <input name="hidden" type="hidden" value="x"/>
 <p align="center">
 	<input id="submit" type="submit" title="Submit Job"/>
