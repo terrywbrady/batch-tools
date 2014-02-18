@@ -162,6 +162,7 @@ HERE;
 <h4>Admin Access Only</h4>
 <ul>
 <li><a href="../auth/bulkIngest.php">Initiate Bulk Ingest</a></li>
+<li><a href="../auth/updateIndex.php">Update Text and Discovery Index</a></li>
 <li><a href="../auth/undoBulkIngest.php">Undo Bulk Ingest</a></li>
 <li><a href="../auth/changeParent.php">Move Community</a></li>
 <li><a href="../auth/changeParentColl.php">Move Collection</a></li>

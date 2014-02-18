@@ -101,6 +101,19 @@ then
   fi
 
   mv ${RUNNING} ${COMPLETE}
+elif [ "$1" = "gu-update-index" ]
+then
+  export JAVA_OPTS=-Xmx1200m   
+  echo Command: "$@" > ${RUNNING}
+  echo ${DSROOT}/bin/dspace index-update >> ${RUNNING} 2>&1 
+  ${DSROOT}/bin/dspace index-update >> ${RUNNING} 2>&1 
+
+  if [ $VER = 3 ]
+  then
+    ${DSROOT}/bin/dspace update-discovery-index -o >> ${RUNNING} 2>&1 
+  fi
+
+  mv ${RUNNING} ${COMPLETE}
 elif [ "$1" = "gu-change-parent" ]
 then
   echo Command: "$@" > ${RUNNING}
@@ -156,6 +169,33 @@ then
     ${DSROOT}/bin/dspace oai import >> ${RUNNING} 2>&1
   fi
   
+  echo "Job complete" >> ${RUNNING} 2>&1
+  date >> ${RUNNING} 2>&1
+
+  mv ${RUNNING} ${COMPLETE}
+elif [ "$1" = "gu-ingest-skipindex" ]
+then 
+  USER=$2
+  COLL=$3
+  LOC=$4
+  MAP=$5
+  
+  echo Command: "$@" > ${RUNNING}
+  echo Command: import -a -e $USER -c $COLL -s $LOC -m $MAP >> ${RUNNING} 2>&1 
+  ${DSROOT}/bin/dspace import -a -e $USER -c $COLL -s $LOC -m $MAP >> ${RUNNING} 2>&1 
+
+  echo "Modify Map File : ${MAP}" >> ${RUNNING} 
+  sed -e "s/ /_/g" -i $MAP >> ${RUNNING} 2>&1 
+  sed -e "s|_\(${HPFX}\\.[0-9]/\)| \1|" -i $MAP >> ${RUNNING} 2>&1 
+  sed -e "s|_\(${HPFX}/\)| \1|" -i $MAP >> ${RUNNING} 2>&1 
+
+  echo "${DSROOT}/bin/dspace filter-media -p 'Scribd Upload' -f -n -v -i $COLL" >> ${RUNNING} 
+  ${DSROOT}/bin/dspace filter-media -p "Scribd Upload" -f -n -v -i $COLL >> ${RUNNING} 2>&1 
+     
+  export JAVA_OPTS=-Xmx1200m   
+  echo "${DSROOT}/bin/dspace filter-media -n -i $COLL" >> ${RUNNING} 
+  ${DSROOT}/bin/dspace filter-media -n -i $COLL >> ${RUNNING} 2>&1 
+        
   echo "Job complete" >> ${RUNNING} 2>&1
   date >> ${RUNNING} 2>&1
 
