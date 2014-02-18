@@ -105,8 +105,8 @@ elif [ "$1" = "gu-update-index" ]
 then
   export JAVA_OPTS=-Xmx1200m   
   echo Command: "$@" > ${RUNNING}
-  echo ${DSROOT}/bin/dspace update-index >> ${RUNNING} 2>&1 
-  ${DSROOT}/bin/dspace update-index >> ${RUNNING} 2>&1 
+  echo ${DSROOT}/bin/dspace index-update >> ${RUNNING} 2>&1 
+  ${DSROOT}/bin/dspace index-update >> ${RUNNING} 2>&1 
 
   if [ $VER = 3 ]
   then
