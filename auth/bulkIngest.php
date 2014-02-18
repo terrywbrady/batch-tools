@@ -52,7 +52,14 @@ $header->litPageHeader();
 <li>Ingest folders have been transferred to the staging area on the server</li>
 </ol>
 <div id="status"><?php echo $status?></div>
-<?php collection::getCollectionWidget(util::getPostArg("community",""), util::getPostArg("collection",""));?>
+<?php 
+collection::getCollectionWidget(util::getPostArg("community",""), util::getPostArg("collection",""));
+$skipindex = (util::getPostArg("skipindex","") == "Y") ? "checked" : "";
+?>
+<p>
+  <label for="skipindex">Skip Full Text Index Update</label>
+  <input type="checkbox" id="skipindex" name="skipindex" size="70" value="Y" {$skipindex}/>
+</p>
 <p>
 <fieldset class="loc">
 <legend>Ingest Folder Location * </legend>
@@ -131,9 +138,11 @@ function testArgs(){
 	$coll = escapeshellarg($coll);
 	$loc = escapeshellarg($ingestLoc . $loc);
 	$mapfile = escapeshellarg($mapfile);
+	
+	$mode = (util::getPostArg("skipindex","") == "Y") ? "gu-ingest-skipindex" : "gu-ingest";
 
 	$cmd = <<< HERE
-{$u} gu-ingest {$user} {$coll} {$loc} {$mapfile}
+{$u} {$mode} {$user} {$coll} {$loc} {$mapfile}
 HERE;
     
     //echo($dspaceBatch . " " .$cmd);
