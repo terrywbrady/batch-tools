@@ -49,8 +49,12 @@ class solrFacets {
 			"query" => "+AND+type:4"
 		),
 		"BITV" => array(
-			"desc" => "Bitstream Views/downloads",
+			"desc" => "Original Bitstream Views/downloads",
 			"query" => "+AND+type:0" . $bfacet
+		),
+		"BITVALL" => array(
+			"desc" => "All Bitstream Views",
+			"query" => "+AND+type:0"
 		),
 	  );
 
