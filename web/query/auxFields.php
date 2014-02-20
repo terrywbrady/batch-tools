@@ -33,6 +33,7 @@ class auxFields {
     self::addAuxField("Provenance", "dc.description.provenance", self::getFieldByName("description","provenance"), "", false);
     self::addAuxField("CoverageTemporal", "", self::getFieldByName("coverage","temporal"), "", false);
     self::addAuxField("CoverageGeorgraphic", "", self::getFieldByName("coverage","geographic"), "", false);
+    self::addAuxField("BibliographicCitation", "", self::getFieldByName("identifier","bibliographicCitation"), "", false);
 
     $thumb = <<< EOF
 select array_to_string(array_agg(text('{$handleContext}/bitstream/id/' || bit.bitstream_id || '/' || bit.name)), '<hr/>') 

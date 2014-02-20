@@ -136,6 +136,48 @@ $subq = <<< EOF
 EOF;
 new query("itemCountWithEmptyMeta","Num Items with Empty Metadata Field",$subq,"meta", new testValZero(),array("Accession")); 
 
-}
+$subq = <<< EOF
+    and 
+    (
+      select count(*)
+      from metadatavalue m 
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'description' and mfr.qualifier is null
+      )
+    ) > 1 
+EOF;
+new query("itemMultDesc","Num Items with Mult Description",$subq,"meta", new testValZero(),array("Accession")); 
 
+$subq = <<< EOF
+    and 
+    (
+      select count(*)
+      from metadatavalue m 
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'identifier' and mfr.qualifier = 'uri'
+      )
+    ) > 1 
+EOF;
+new query("itemMultUri","Num Items with Mult Identifier URI",$subq,"meta", new testValZero(),array("Accession","URI")); 
+
+$subq = <<< EOF
+    and exists
+    (
+      select 1
+      from metadatavalue m 
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'identifier' and mfr.qualifier = 'bibliographicCitation'
+      )
+    ) 
+EOF;
+new query("itemCountWithBiblioCite","Num Items with Bibliographic Citation",$subq,"meta", new testValZero(),array("Accession","BibliographicCitation")); 
+
+
+}
 ?>
