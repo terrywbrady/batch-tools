@@ -162,7 +162,7 @@ $subq = <<< EOF
       )
     ) > 1 
 EOF;
-new query("itemMultUri","Num Items with Mult Identifier URI",$subq,"meta", new testValZero(),array("Accession")); 
+new query("itemMultUri","Num Items with Mult Identifier URI",$subq,"meta", new testValZero(),array("Accession","URI")); 
 
 $subq = <<< EOF
     and exists
@@ -176,7 +176,7 @@ $subq = <<< EOF
       )
     ) 
 EOF;
-new query("itemCountWithBiblioCite","Num Items with Bibliographic Citation",$subq,"meta", new testValZero(),array("Accession")); 
+new query("itemCountWithBiblioCite","Num Items with Bibliographic Citation",$subq,"meta", new testValZero(),array("Accession","BibliographicCitation")); 
 
 
 }
