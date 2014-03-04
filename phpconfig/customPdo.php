@@ -39,9 +39,10 @@ class customPdo extends custom {
 		$this->communityInit = PdoInitializer::instance();
 	}
 
-	public function getQueryVal($sql) {
+	public function getQueryVal($sql, $arg) {
 		$dbh = $this->getPdoDb();
-		$result = $dbh->query($sql);
+		$stmt = $dbh->prepare($sql);
+		$result = $stmt->execute($arg);
  		if (!$result) {
  			print($sql);
   	        print_r($dbh->errorInfo());

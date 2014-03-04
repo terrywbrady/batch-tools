@@ -15,7 +15,7 @@ inner join bundle2bitstream b2b on i2b.bundle_id=b2b.bundle_id and b2b.bitstream
 where h.resource_type_id=2
 HERE;
 
-    $handle = $CUSTOM->getQueryVal($sql);
+    $handle = $CUSTOM->getQueryVal($sql, array($id));
     if ($handle != "") {
 	    header("Location: /handle/" . $handle);
 	    exit;	
@@ -27,7 +27,7 @@ from handle h
 where h.resource_id=$1 and h.resource_type_id=2
 HERE;
 
-    $handle = $CUSTOM->getQueryVal($sql);
+    $handle = $CUSTOM->getQueryVal($sql, array($id));
     if ($handle != "") {
 	    header("Location: /handle/" . $handle);
 	    exit;	
@@ -39,7 +39,7 @@ from handle h
 where h.resource_id=$1 and h.resource_type_id=3
 HERE;
 
-    $handle = $CUSTOM->getQueryVal($sql);
+    $handle = $CUSTOM->getQueryVal($sql, array($id));
     if ($handle != "") {
 	    header("Location: /handle/" . $handle);
 	    exit;	
@@ -51,7 +51,7 @@ from handle h
 where h.resource_id=$1 and h.resource_type_id=4
 HERE;
 
-    $handle = $CUSTOM->getQueryVal($sql);
+    $handle = $CUSTOM->getQueryVal($sql, array($id));
     if ($handle != "") {
 	    header("Location: /handle/" . $handle);
 	    exit;	

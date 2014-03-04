@@ -38,9 +38,10 @@ class customPostgres extends custom {
 		$this->communityInit = PostgresInitializer::instance();
 	}
 
-	public function getQueryVal($sql) {
+	public function getQueryVal($sql, $arg = array()) {
 		$dbh = $this->getPdoDb();
-		$result = pg_query($dbh, $sql);
+		$stmt = pg_prepare($dbh, "my_query", $sql);
+		$result = pg_execute($dbh, "my_query",$arg);
 		$ret = "";
  		if (!$result) {
      		die("Error in SQL query: " . pg_last_error());
