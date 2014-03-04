@@ -48,6 +48,7 @@ class customPdo extends custom {
   	        print_r($dbh->errorInfo());
      		die("Error in SQL query: ");
  		}       
+		$result = $stmt->fetchAll();
  		$ret = "";
  		foreach ($result as $row) {
 		 	$ret = $row[0];
