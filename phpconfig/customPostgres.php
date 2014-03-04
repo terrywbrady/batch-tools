@@ -23,13 +23,14 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 */
 include "custom.php";
 class customPostgres extends custom {
-	
+	private $dbh;
 	public function getDbh() {
-		$dbh = pg_connect("host=localhost port=5432 dbname=dspace user=dspace_ro password=xxxxx");
-		if (!$dbh) {
+		if ($this->dbh != null) return $this->dbh;
+		$this->dbh = pg_connect("host=localhost port=5432 dbname=dspace user=dspace_ro password=xxxxx");
+		if (!$this->dbh) {
      		die("Error in connection: " . pg_last_error());
 		}      
-		return $dbh;		
+		return $this->dbh;		
 	}
 	
 	public function __construct() {
@@ -37,6 +38,23 @@ class customPostgres extends custom {
 		$this->communityInit = PostgresInitializer::instance();
 	}
 
+	public function getQueryVal($sql, $arg = array()) {
+		$dbh = $this->getDbh();
+		$stmt = pg_prepare($dbh, "my_query", $sql);
+		$result = pg_execute($dbh, "my_query",$arg);
+		$ret = "";
+ 		if (!$result) {
+     		die("Error in SQL query: " . $sql . pg_last_error());
+ 		}       
+
+ 		while ($row = pg_fetch_array($result)) {
+ 			$ret = $row[0];
+ 		}       
+
+		// free memory
+		pg_free_result($result);    
+		return $ret;
+	}
 }
 
 class PostgresInitializer {

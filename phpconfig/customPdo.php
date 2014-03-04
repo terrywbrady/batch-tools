@@ -22,13 +22,15 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 include "custom.php";
 class customPdo extends custom {
 	
+	private $dbh;
 	public function getPdoDb() {
-		$dbh = new PDO("pgsql:host=localhost;port=5432;dbname=dspace;user=dspace_ro;password=xxxx");
-		if (!$dbh) {
-  	        print_r($dbh->errorInfo());
+		if ($this->dbh != null) return $this->dbh;
+		$this->dbh = new PDO("pgsql:host=localhost;port=5432;dbname=dspace;user=dspace_ro;password=xxxx");
+		if (!$this->dbh) {
+  	        print_r($this->dbh->errorInfo());
      		die("Error in SQL query: ");
 		}      
-		return $dbh;		
+		return $this->dbh;		
 	}
 	
 	public function isPdo() {return true;}
@@ -37,6 +39,22 @@ class customPdo extends custom {
 		$this->communityInit = PdoInitializer::instance();
 	}
 
+	public function getQueryVal($sql, $arg) {
+		$dbh = $this->getPdoDb();
+		$stmt = $dbh->prepare($sql);
+		$result = $stmt->execute($arg);
+ 		if (!$result) {
+ 			print($sql);
+  	        print_r($dbh->errorInfo());
+     		die("Error in SQL query: ");
+ 		}       
+		$result = $stmt->fetchAll();
+ 		$ret = "";
+ 		foreach ($result as $row) {
+		 	$ret = $row[0];
+		}  
+		return $ret;
+	}
 }
 
 class PdoInitializer {
@@ -94,6 +112,7 @@ EOF;
 		uasort(collection::$COLLECTIONS, "pathcmp");   
 		uasort(community::$COMBO, "pathcmp");   
 	}
+	
 
 	private static $INSTANCE;
 	public static function instance() {
