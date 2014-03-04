@@ -37,6 +37,19 @@ class customPdo extends custom {
 		$this->communityInit = PdoInitializer::instance();
 	}
 
+	public function getQueryVal($sql) {
+		$result = $this->query($sql);
+ 		if (!$result) {
+ 			print($sql);
+  	        print_r($dbh->errorInfo());
+     		die("Error in SQL query: ");
+ 		}       
+ 		$ret = "";
+ 		foreach ($result as $row) {
+		 	$ret = $row[0];
+		}       
+		return $ret;
+	}
 }
 
 class PdoInitializer {
@@ -94,6 +107,7 @@ EOF;
 		uasort(collection::$COLLECTIONS, "pathcmp");   
 		uasort(community::$COMBO, "pathcmp");   
 	}
+	
 
 	private static $INSTANCE;
 	public static function instance() {

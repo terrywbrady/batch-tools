@@ -37,6 +37,21 @@ class customPostgres extends custom {
 		$this->communityInit = PostgresInitializer::instance();
 	}
 
+	public function getQueryVal($sql) {
+		$result = pg_query($this, $sql);
+		$ret = "";
+ 		if (!$result) {
+     		die("Error in SQL query: " . pg_last_error());
+ 		}       
+
+ 		while ($row = pg_fetch_array($result)) {
+ 			$ret = $row[0];
+ 		}       
+
+		// free memory
+		pg_free_result($result);    
+		return $ret;
+	}
 }
 
 class PostgresInitializer {
