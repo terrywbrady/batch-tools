@@ -6,6 +6,14 @@ $CUSTOM = custom::instance();
 $type = util::getArg("type","");
 $id =util::getArg("id","");
 
+if ($CUSTOM->isPdo()) {
+	$arg = array(":id" => $id);
+	$argp = "$1";
+} else {
+	$arg = array($id);
+	$argp = ":id";
+}
+
 if ($type == "0") {
 	$sql = <<< HERE
 select h.handle 
