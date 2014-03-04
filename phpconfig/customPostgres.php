@@ -25,6 +25,7 @@ include "custom.php";
 class customPostgres extends custom {
 	private $dbh;
 	public function getDbh() {
+		if ($this->dbh != null) return $this->dbh;
 		$this->dbh = pg_connect("host=localhost port=5432 dbname=dspace user=dspace_ro password=xxxxx");
 		if (!$this->dbh) {
      		die("Error in connection: " . pg_last_error());
@@ -38,7 +39,8 @@ class customPostgres extends custom {
 	}
 
 	public function getQueryVal($sql) {
-		$result = pg_query(this->dbh, $sql);
+		$dbh = $this->getPdoDb();
+		$result = pg_query($dbh, $sql);
 		$ret = "";
  		if (!$result) {
      		die("Error in SQL query: " . pg_last_error());

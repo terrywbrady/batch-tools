@@ -24,6 +24,7 @@ class customPdo extends custom {
 	
 	private $dbh;
 	public function getPdoDb() {
+		if ($this->dbh != null) return $this->dbh;
 		$this->dbh = new PDO("pgsql:host=localhost;port=5432;dbname=dspace;user=dspace_ro;password=xxxx");
 		if (!$this->dbh) {
   	        print_r($this->dbh->errorInfo());
@@ -39,10 +40,11 @@ class customPdo extends custom {
 	}
 
 	public function getQueryVal($sql) {
-		$result = $this->dbh->query($sql);
+		$dbh = $this->getPdoDb();
+		$result = dbh->query($sql);
  		if (!$result) {
  			print($sql);
-  	        print_r($this->dbh->errorInfo());
+  	        print_r($dbh->errorInfo());
      		die("Error in SQL query: ");
  		}       
  		$ret = "";
