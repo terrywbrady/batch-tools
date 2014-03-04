@@ -38,7 +38,7 @@ class customPostgres extends custom {
 	}
 
 	public function getQueryVal($sql) {
-		$result = pg_query($this->dbh, $sql);
+		$result = pg_query(getDbh(), $sql);
 		$ret = "";
  		if (!$result) {
      		die("Error in SQL query: " . pg_last_error());
