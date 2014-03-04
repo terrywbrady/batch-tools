@@ -38,7 +38,7 @@ class customPdo extends custom {
 	}
 
 	public function getQueryVal($sql) {
-		$result = getPdoDb()->query($sql);
+		$result = $this->getPdoDb()->query($sql);
  		if (!$result) {
  			print($sql);
   	        print_r($dbh->errorInfo());
