@@ -22,13 +22,14 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 include "custom.php";
 class customPdo extends custom {
 	
+	private $dbh;
 	public function getPdoDb() {
-		$dbh = new PDO("pgsql:host=localhost;port=5432;dbname=dspace;user=dspace_ro;password=xxxx");
-		if (!$dbh) {
-  	        print_r($dbh->errorInfo());
+		$this->dbh = new PDO("pgsql:host=localhost;port=5432;dbname=dspace;user=dspace_ro;password=xxxx");
+		if (!$this->dbh) {
+  	        print_r($this->dbh->errorInfo());
      		die("Error in SQL query: ");
 		}      
-		return $dbh;		
+		return $this->dbh;		
 	}
 	
 	public function isPdo() {return true;}
@@ -38,10 +39,10 @@ class customPdo extends custom {
 	}
 
 	public function getQueryVal($sql) {
-		$result = $this->getPdoDb()->query($sql);
+		$result = $this->query($sql);
  		if (!$result) {
  			print($sql);
-  	        print_r($dbh->errorInfo());
+  	        print_r($this->dbh->errorInfo());
      		die("Error in SQL query: ");
  		}       
  		$ret = "";
