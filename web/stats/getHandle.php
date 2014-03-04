@@ -8,7 +8,7 @@ $id =util::getArg("id","");
 
 if ($CUSTOM->isPdo()) {
 	$arg = array(":id" => $id);
-	$argp = "$1";
+	$argp = ":id";
 } else {
 	$arg = array($id);
 	$argp = "$1";
