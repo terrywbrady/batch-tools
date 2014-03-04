@@ -44,7 +44,7 @@ class customPostgres extends custom {
 		$result = pg_execute($dbh, "my_query",$arg);
 		$ret = "";
  		if (!$result) {
-     		die("Error in SQL query: " . pg_last_error());
+     		die("Error in SQL query: " . $sql . pg_last_error());
  		}       
 
  		while ($row = pg_fetch_array($result)) {
