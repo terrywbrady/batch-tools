@@ -39,7 +39,7 @@ class customPostgres extends custom {
 	}
 
 	public function getQueryVal($sql, $arg = array()) {
-		$dbh = $this->getPdoDb();
+		$dbh = $this->getDbh();
 		$stmt = pg_prepare($dbh, "my_query", $sql);
 		$result = pg_execute($dbh, "my_query",$arg);
 		$ret = "";
