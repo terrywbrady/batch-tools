@@ -1,7 +1,6 @@
 <?php
-include '../../phpconfig/init.php';
+include '../header.php';
 include 'solrFacets.php';
-include '../util.php';
 
 $CUSTOM = custom::instance();
 
