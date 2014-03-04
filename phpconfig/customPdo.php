@@ -39,7 +39,7 @@ class customPdo extends custom {
 	}
 
 	public function getQueryVal($sql) {
-		$result = $this->query($sql);
+		$result = $this->dbh->query($sql);
  		if (!$result) {
  			print($sql);
   	        print_r($this->dbh->errorInfo());
