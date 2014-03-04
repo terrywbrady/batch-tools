@@ -47,7 +47,8 @@ class customPdo extends custom {
  		$ret = "";
  		foreach ($result as $row) {
 		 	$ret = $row[0];
-		}       
+		}  
+		echo $sql;exit;     
 		return $ret;
 	}
 }
