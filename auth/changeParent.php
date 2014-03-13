@@ -22,7 +22,6 @@ include '../web/header.php';
 
 $CUSTOM = custom::instance();
 $CUSTOM->getCommunityInit()->initCommunities();
-$CUSTOM->getCommunityInit()->initCollections();
 
 $status = "";
 testArgs();
@@ -42,8 +41,8 @@ $header->litPageHeader();
 <form method="POST" action="" onsubmit="jobQueue();return true;">
 <p>Use this option to move a community under another community</p>
 <div id="status"><?php echo $status?></div>
-<?php collection::getSubcommunityWidget(util::getPostArg("child",""), "child", " to be moved*");?>
-<?php collection::getSubcommunityWidget(util::getPostArg("parent",""), "parent", " to use as a destination*");?>
+<?php collection::getSubcommunityIdWidget(util::getPostArg("child",""), "child", " to be moved*");?>
+<?php collection::getSubcommunityIdWidget(util::getPostArg("parent",""), "parent", " to use as a destination*");?>
 <p align="center">
 	<input id="changeParentSubmit" type="submit" title="Submit Form" disabled/>
 </p>
@@ -77,19 +76,29 @@ function testArgs(){
 	
 	if (count($_POST) == 0) return;
 	$child = util::getPostArg("child","");
+	if (!is_numeric($child)) return;
+	$child = intval($child);
+
 	$parent = util::getPostArg("parent","");
+
+	if (!is_numeric($parent)) return;
+	$parent = intval($parent);
+
 	$currparent = "";
 
     foreach(community::$COMBO as $obj) {
-    	if ($obj->handle == $child) {
-    		$currparent = $obj->getParent()->handle;
+    	if ($obj->community_id == $child) {
+    		$currparent = $obj->getParent()->community_id;
     		break;
     	}
     }
 	
-	$args = escapeshellarg($child) . " " . escapeshellarg($currparent) . " " . escapeshellarg($parent);
+    if (($child == "") || ($parent == "") || ($currparent == "")) {
+    	$status = "Invalid id:  child: {$child}, parent: {$parent}, currparent: {$currparnt}";
+    	return;
+    };
 
-    if (($child == "") || ($parent == "") || ($currparent == "")) return;
+	$args = escapeshellarg($child) . " " . escapeshellarg($currparent) . " " . escapeshellarg($parent);
     	
 	$u = escapeshellarg($CUSTOM->getCurrentUser());
 	$cmd = <<< HERE
