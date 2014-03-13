@@ -22,7 +22,6 @@ include '../web/header.php';
 
 $CUSTOM = custom::instance();
 $CUSTOM->getCommunityInit()->initCommunities();
-$CUSTOM->getCommunityInit()->initCollections();
 
 $status = "";
 testArgs();
@@ -89,6 +88,7 @@ function testArgs(){
 
     foreach(community::$COMBO as $obj) {
     	if ($obj->community_id == $child) {
+    		echo $obj->community_id . ". ";
     		$currparent = $obj->getParent()->community_id;
     		break;
     	}
