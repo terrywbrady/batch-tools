@@ -89,7 +89,10 @@ function testArgs(){
 	
 	$args = escapeshellarg($child) . " " . escapeshellarg($currparent) . " " . escapeshellarg($parent);
 
-    if (($child == "") || ($parent == "") || ($currparent == "")) return;
+    if (($child == "") || ($parent == "") || ($currparent == "")) {
+    	$status = "Invalid id:  child: {$child}, parent: {$parent}, currparent: {$currparnt}";
+    	return;
+    };
     	
 	$u = escapeshellarg($CUSTOM->getCurrentUser());
 	$cmd = <<< HERE
