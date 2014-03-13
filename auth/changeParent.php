@@ -42,8 +42,8 @@ $header->litPageHeader();
 <form method="POST" action="" onsubmit="jobQueue();return true;">
 <p>Use this option to move a community under another community</p>
 <div id="status"><?php echo $status?></div>
-<?php collection::getSubcommunityWidget(util::getPostArg("child",""), "child", " to be moved*");?>
-<?php collection::getSubcommunityWidget(util::getPostArg("parent",""), "parent", " to use as a destination*");?>
+<?php collection::getSubcommunityIdWidget(util::getPostArg("child",""), "child", " to be moved*");?>
+<?php collection::getSubcommunityIdWidget(util::getPostArg("parent",""), "parent", " to use as a destination*");?>
 <p align="center">
 	<input id="changeParentSubmit" type="submit" title="Submit Form" disabled/>
 </p>
