@@ -81,8 +81,8 @@ function testArgs(){
 	$currparent = "";
 
     foreach(community::$COMBO as $obj) {
-    	if ($obj->handle == $child) {
-    		$currparent = $obj->getParent()->handle;
+    	if ($obj->community_id == $child) {
+    		$currparent = $obj->getParent()->community_id;
     		break;
     	}
     }
