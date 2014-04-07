@@ -59,10 +59,10 @@ function testArgs(){
 	if (count($_POST) == 0) return;
 	$handle = util::getPostArg("handle","");
 	if ($handle == "") return;
-	header('Content-type: text');
+	header('Content-type: application/xml');
     $req = $CUSTOM->getSolrPath() . "search/select?indent=on&version=2.2&q=handle:{$handle}";
     $ret = file_get_contents($req);
     echo $ret;
-    return;
+    exit;
 }
 ?>
