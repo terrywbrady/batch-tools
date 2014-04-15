@@ -26,9 +26,10 @@ $CUSTOM->getCommunityInit()->initCommunities();
 $CUSTOM->getCommunityInit()->initCollections();
 
 $OAI="/oai/request?";
-
 $status = "";
 testArgs();
+$formats = getFormats();
+
 header('Content-type: text/html; charset=UTF-8');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -45,7 +46,7 @@ $header->litPageHeader();
 <form method="POST" action="" onsubmit="jobQueue();return true;">
 <p>Select a community or collection to export</p>
 <div id="status"><?php echo $status?></div>
-<?php drawFormats(util::getPostArg("format",""));?>
+<?php drawFormats($formats, util::getPostArg("format",""));?>
 <?php collection::getCollectionHandleWidget(util::getPostArg("coll",""), "coll", " to export*");?>
 <?php collection::getSubcommunityWidget(util::getPostArg("comm",""), "comm", " to export*");?>
 <p align="center">
@@ -62,40 +63,39 @@ $header->litPageHeader();
 
 function getFormats() {
   global $OAI;
-  $val = array();
+  global $status;
+  global $formats;
+  $formats = array();
   try {
     $req = $OAI . "verb=ListMetadataFormats";
     error_reporting(0);
     $ret = file_get_contents($req);
-    if ($ret == "") throw new exception("no data");
+    if ($ret == "") throw new exception("Error loading {$req}");
     $xml = new DOMDocument();
     $stat = $xml->loadXML($ret);
     
-    if (!$stat) throw new exception("no data");
+    if (!$stat) throw new exception("Error parsing XML");
     $nl = $xml->getElementsByTagName("metadataPrefix");
     for($i=0; $i<$nl->length; $i++) {
     	$el = $nl->item($i);
-        array_push($val, $el->nodeValue);	
+        array_push($formats, $el->nodeValue);	
     }  
   } catch(exception $ex) {
-  	//die("ERROR" . $ex);
+  	$status = $ex->getMessage();
   }
 
-  if (count($val) == 0) {
-    array_push($val, "oai_dc");	
-    array_push($val, "marc");	  	  	
+  if (count($formats) == 0) {
+    array_push($formats, "oai_dc");	
+    array_push($formats, "marc");	  	  	
   }
-  
-  return $val;	
 }
 
 
-function drawFormats($format) {
-	$fmt = getFormats();
+function drawFormats($formats, $format) {
 	echo "<label for='format'>Select the desired export format</label>";
 	echo "<select id='format' name='format'>";
 	echo "<option/>";
-	foreach($fmt as $k) {
+	foreach($formats as $k) {
 		$sel = ($format == $k) ? "selected" : "";
 		echo "<option val='{$k}' {$sel}>{$k}</option>";
 	}
