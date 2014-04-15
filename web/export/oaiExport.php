@@ -25,6 +25,8 @@ $CUSTOM = custom::instance();
 $CUSTOM->getCommunityInit()->initCommunities();
 $CUSTOM->getCommunityInit()->initCollections();
 
+$OAI="/oai/request?";
+
 $status = "";
 testArgs();
 header('Content-type: text/html; charset=UTF-8');
@@ -59,22 +61,25 @@ $header->litPageHeader();
 <?php 
 
 function getFormats() {
-  $val = array("zzz");
+  global $OAI;
+  $val = array();
   try {
-    $req = "/oai/request?verb=ListMetadataFormats";
+    $req = $OAI . "verb=ListMetadataFormats";
+    error_reporting(0);
     $ret = file_get_contents($req);
+    if ($ret == "") throw new exception("no data");
     $xml = new DOMDocument();
     $stat = $xml->loadXML($ret);
-    if (!$stat) throw exception("no data");
+    
+    if (!$stat) throw new exception("no data");
     $nl = $xml->getElementsByTagName("metadataPrefix");
     for($i=0; $i<$nl->length; $i++) {
-    	$el = $nl->get($i);
-        array_push($val, $el->getValue());	
+    	$el = $nl->item($i);
+        array_push($val, $el->nodeValue);	
     }  
   } catch(exception $ex) {
-  	echo $ex;
+  	//die("ERROR" . $ex);
   }
-  
 
   if (count($val) == 0) {
     array_push($val, "oai_dc");	
@@ -86,10 +91,11 @@ function getFormats() {
 
 
 function drawFormats($format) {
+	$fmt = getFormats();
 	echo "<label for='format'>Select the desired export format</label>";
 	echo "<select id='format' name='format'>";
 	echo "<option/>";
-	foreach(getFormats() as $k) {
+	foreach($fmt as $k) {
 		$sel = ($format == $k) ? "selected" : "";
 		echo "<option val='{$k}' {$sel}>{$k}</option>";
 	}
@@ -126,9 +132,24 @@ function testArgs(){
 		return;
 	}
 
-    header('Content-type: application/xml; charset=UTF-8');
-    echo "<foo>Data will go here {$set} {$format}</foo>";
-    exit;
+    global $OAI;
+    try {
+      $req = $OAI . "verb=ListRecords&metadataPrefix={$format}&set={$set}";
+      error_reporting(0);
+      $ret = file_get_contents($req);
+      if ($ret == "") throw new exception("no data");
+      $xml = new DOMDocument();
+      $stat = $xml->loadXML($ret);
+    
+      if (!$stat) throw new exception("no data");
+	  $nl = $xml->getElementsByTagName("ListRecords");
+	  if ($nl->length == 0) throw new exception("no list records element");
+	  header('Content-type: application/xml; charset=UTF-8');
+      echo $xml->saveXML($nl->item(0));
+      exit;
+    } catch(exception $ex) {
+    	die("ERROR: {$ex}");
+    }
 }
 
 ?>
