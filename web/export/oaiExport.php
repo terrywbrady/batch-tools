@@ -73,6 +73,7 @@ function getFormats() {
         array_push($ret, $el->getValue());	
     }  
   } catch(exception $ex) {
+  	echo $ex;
   }
   
 
