@@ -138,13 +138,13 @@ function testArgs(){
       $req = $OAI . "verb=ListRecords&metadataPrefix={$format}&set={$set}";
       error_reporting(0);
       $ret = file_get_contents($req);
-      if ($ret == "") throw new exception("no data");
+      if ($ret == "") throw new exception("Could not load {$req}");
       $xml = new DOMDocument();
       $stat = $xml->loadXML($ret);
     
       if (!$stat) throw new exception("no data");
 	  $nl = $xml->getElementsByTagName("ListRecords");
-	  if ($nl->length == 0) throw new exception("no list records element");
+	  if ($nl->length == 0) throw new exception("No ListRecords element found in XML");
 	  header('Content-type: application/xml; charset=UTF-8');
       echo $xml->saveXML($nl->item(0));
       exit;
