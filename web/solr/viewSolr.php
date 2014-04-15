@@ -1,7 +1,6 @@
 <?php
 /*
-User form for initiating the move of a collection to another community.  Note: in order to properly re-index the repository, 
-DSpace will need to be taken offline after running this operation.
+User form for initiating a bulk ingest.  User must have already uploaded ingestion folders to a server-accessible folder.
 Author: Terry Brady, Georgetown University Libraries
 
 License information is contained below.
@@ -19,12 +18,7 @@ IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
 HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-include '../web/header.php';
-
-$CUSTOM = custom::instance();
-$CUSTOM->getCommunityInit()->initCommunities();
-$CUSTOM->getCommunityInit()->initCollections();
-
+include '../header.php';
 $status = "";
 testArgs();
 header('Content-type: text/html; charset=UTF-8');
@@ -33,67 +27,42 @@ header('Content-type: text/html; charset=UTF-8');
 <html>
 <head>
 <?php 
-$header = new LitHeader("Re-index a Collection");
+$header = new LitHeader("View SOLR Data");
 $header->litPageHeader();
 ?>
 </head>
 <body>
 <?php $header->litHeader(array());?>
-<div id="formReindex">
-<form method="POST" action="" onsubmit="jobQueue();return true;">
-<p>Use this option to re-index the discovery index for a collection</p>
+<div id="viewSolr">
+<form method="POST" action="">
+<p>View the SOLR index for a DSpace Resource.</p>
 <div id="status"><?php echo $status?></div>
-<?php collection::getCollectionIdWidget(util::getPostArg("coll",""), "coll", " to be reindexed*");?>
-<?php collection::getSubcommunityIdWidget(util::getPostArg("comm",""), "comm", " to be reindexed*");?>
-<p align="center">
-	<input id="reindexSubmit" type="submit" title="Submit Form" disabled/>
+<p>
+  <label for="handle">Handle</label>
+  <input type="text" id="handle" name="handle" size="20" value="10822/1"/>
 </p>
-<p><em>* One of the 2 selection fields is required</em></p>
+<p align="center">
+	<input id="ingestSubmit" type="submit" title="Submit"/>
+</p>
 </form>
 </div>
+
 <?php $header->litFooter();?>
 </body>
 </html>
-
 <?php 
-
 function testArgs(){
 	global $status;
-	$CUSTOM = custom::instance();
-	$dspaceBatch = $CUSTOM->getDspaceBatch();
-	$bgindicator =  $CUSTOM->getBgindicator();
+	global $ingestLoc;
 	
+    $CUSTOM = custom::instance();
 	if (count($_POST) == 0) return;
-	$coll = util::getPostArg("coll","");
-	$comm = util::getPostArg("comm","");
-
-	if (is_numeric($coll)) {
-	    $coll = intval($coll);
-	    if (!isset(collection::$COLLECTIONS[$coll])) {
-	    	$status = "collection not found";
-	    	return;
-	    }
-  	    $args = "coll " . $coll;
-	} else if (is_numeric($comm)) {
-	    $comm = intval($comm);
-	    if (!isset(community::$COMMUNITIES[$comm])) {
-	    	$status = "Community not found";
-	    	return;
-	    }
-  	    $args = "comm " . $comm;
-	} else {
-		$status = "A valid collection or community must be selected";
-		return;
-	}
-
-	$u = escapeshellarg($CUSTOM->getCurrentUser());
-	$cmd = <<< HERE
-{$u} gu-reindex {$args}
-HERE;
-
-    //echo($dspaceBatch . " " . $cmd);
-    exec($dspaceBatch . " " . $cmd . " " . $bgindicator);
-    header("Location: ../web/queue.php");
+	$handle = util::getPostArg("handle","");
+	if ($handle == "") return;
+	header('Content-type: application/xml');
+    $req = $CUSTOM->getSolrPath() . "search/select?indent=on&version=2.2&q=handle:{$handle}";
+    $ret = file_get_contents($req);
+    echo $ret;
+    exit;
 }
-
 ?>

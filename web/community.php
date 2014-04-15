@@ -259,6 +259,24 @@ HERE;
 HERE;
 	}
 
+	public static function getCollectionHandleWidget($commsel, $name, $label) {
+		$comms = "";
+		foreach(collection::$COLLECTIONS as $c) {
+			$sel = ($commsel == $c->handle) ? "selected" : "";
+			$comms .= "<option value='{$c->handle}' {$sel}>{$c->getMyPath()}</option>";			
+		}
+		echo <<< HERE
+		<div id="collOnlyWidget">
+		<p>
+		<label for="collOnlySelect">Select the collection $label</label>
+		<select id="collOnlySelect" name="$name">
+		  <option value="">Select a Collection</option>
+		  {$comms}
+		</select>
+		</p>
+		</div>
+HERE;
+	}
 }
 
 class collectionArg {

@@ -74,6 +74,12 @@ if ($CUSTOM->showStatsTools()) {
 <li>
   <a href="query/qcA2Z.php">Collection and Community A-Z list</a>
 </li>
+<li>
+  <a href="solr/viewSolr.php">View SOLR Index</a>
+</li>
+<li>
+  <a href="export/oaiExport.php">Export data from OAI harvester</a>
+</li>
 </ul>
 <?php
 if ($CUSTOM->showBatchTools()) { 
