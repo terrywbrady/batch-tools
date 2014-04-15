@@ -19,7 +19,7 @@ IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
 HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-include '../web/header.php';
+include '../header.php';
 
 $CUSTOM = custom::instance();
 $CUSTOM->getCommunityInit()->initCommunities();
@@ -33,7 +33,7 @@ header('Content-type: text/html; charset=UTF-8');
 <html>
 <head>
 <?php 
-$header = new LitHeader("Re-index a Collection");
+$header = new LitHeader("Export Metadata for a Collection or Community");
 $header->litPageHeader();
 ?>
 </head>
@@ -41,12 +41,13 @@ $header->litPageHeader();
 <?php $header->litHeader(array());?>
 <div id="formReindex">
 <form method="POST" action="" onsubmit="jobQueue();return true;">
-<p>Use this option to re-index the discovery index for a collection</p>
+<p>Select a community or collection to export</p>
 <div id="status"><?php echo $status?></div>
-<?php collection::getCollectionIdWidget(util::getPostArg("coll",""), "coll", " to be reindexed*");?>
-<?php collection::getSubcommunityIdWidget(util::getPostArg("comm",""), "comm", " to be reindexed*");?>
+<?php drawFormats(util::getPostArg("format",""));?>
+<?php collection::getCollectionHandleWidget(util::getPostArg("coll",""), "coll", " to export*");?>
+<?php collection::getSubcommunityWidget(util::getPostArg("comm",""), "comm", " to export*");?>
 <p align="center">
-	<input id="reindexSubmit" type="submit" title="Submit Form" disabled/>
+	<input id="exportSubmit" type="submit" title="Submit Form"/>
 </p>
 <p><em>* One of the 2 selection fields is required</em></p>
 </form>
@@ -57,43 +58,77 @@ $header->litPageHeader();
 
 <?php 
 
+function getFormats() {
+  $val = array("zzz");
+  try {
+    $req = "/oai/request?verb=ListMetadataFormats";
+    //error_reporting(0);
+    $ret = file_get_contents($req);
+    $xml = new DOMDocument();
+    $stat = $xml->loadXML($ret);
+    if (!$stat) throw exception("no data");
+    $nl = $xml->getElementsByTagName("metadataPrefix");
+    for($i=0; $i<$nl->length; $i++) {
+    	$el = $nl->get($i);
+        array_push($ret, $el->getValue());	
+    }  
+  } catch(exception $ex) {
+  }
+  
+
+  if (count($val) == 0) {
+    array_push($val, "oai_dc");	
+    array_push($val, "marc");	  	  	
+  }
+  
+  return $val;	
+}
+
+
+function drawFormats($format) {
+	echo "<label for='format'>Select the desired export format</label>";
+	echo "<select id='format' name='format'>";
+	echo "<option/>";
+	foreach(getFormats() as $k) {
+		$sel = ($format == $k) ? "selected" : "";
+		echo "<option val='{$k}' {$sel}>{$k}</option>";
+	}
+	echo "</select>";
+}
+
+
+
 function testArgs(){
 	global $status;
 	$CUSTOM = custom::instance();
-	$dspaceBatch = $CUSTOM->getDspaceBatch();
-	$bgindicator =  $CUSTOM->getBgindicator();
 	
 	if (count($_POST) == 0) return;
 	$coll = util::getPostArg("coll","");
 	$comm = util::getPostArg("comm","");
+	$format = util::getPostArg("format","");
+	
+	$set = "";
 
-	if (is_numeric($coll)) {
-	    $coll = intval($coll);
-	    if (!isset(collection::$COLLECTIONS[$coll])) {
-	    	$status = "collection not found";
-	    	return;
-	    }
-  	    $args = "coll " . $coll;
-	} else if (is_numeric($comm)) {
-	    $comm = intval($comm);
-	    if (!isset(community::$COMMUNITIES[$comm])) {
-	    	$status = "Community not found";
-	    	return;
-	    }
-  	    $args = "comm " . $comm;
+    $statColl = $CUSTOM->validateCollection($coll); 
+    $statComm = $CUSTOM->validateCollection($comm);
+
+	if ($statColl == "") {
+  	    $set = "col_" . str_replace("/", "_",$coll);
+	} else if ($statComm == "") {
+  	    $set = "com_" . str_replace("/", "_",$comm);
 	} else {
 		$status = "A valid collection or community must be selected";
 		return;
 	}
+	
+	if ($format == "") {
+		$status = "A format must be selected";
+		return;
+	}
 
-	$u = escapeshellarg($CUSTOM->getCurrentUser());
-	$cmd = <<< HERE
-{$u} gu-reindex {$args}
-HERE;
-
-    //echo($dspaceBatch . " " . $cmd);
-    exec($dspaceBatch . " " . $cmd . " " . $bgindicator);
-    header("Location: ../web/queue.php");
+    header('Content-type: application/xml; charset=UTF-8');
+    echo "<foo>Data will go here {$set} {$format}</foo>";
+    exit;
 }
 
 ?>
