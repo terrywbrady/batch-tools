@@ -134,23 +134,48 @@ function testArgs(){
 	}
 
     global $OAI;
+    header('Content-type: application/xml; charset=UTF-8');
+    echo "<ListRecords>";
+    getRecords($format, $set);
+    echo "</ListRecords>";
+    exit;
+}
+
+function getRecords($format, $set, $resumption = "") {
+    global $OAI;
     try {
-      $req = $OAI . "verb=ListRecords&metadataPrefix={$format}&set={$set}";
+      $req = $OAI . "verb=ListRecords";
+      if ($resumption == "") {
+      	$req .= "&metadataPrefix={$format}&set={$set}";
+      } else {
+      	$req .= "&resumptionToken=" . $resumption;
+      }
+      
       error_reporting(0);
       $ret = file_get_contents($req);
-      if ($ret == "") throw new exception("Could not load {$req}");
+      if ($ret == "") return;
       $xml = new DOMDocument();
       $stat = $xml->loadXML($ret);
     
-      if (!$stat) throw new exception("no data");
-	  $nl = $xml->getElementsByTagName("ListRecords");
-	  if ($nl->length == 0) throw new exception("No ListRecords element found in XML");
-	  header('Content-type: application/xml; charset=UTF-8');
-      echo $xml->saveXML($nl->item(0));
-      exit;
+      if (!$stat) throw new exception("No data for list reocrds {$req}");
+	  $nl = $xml->getElementsByTagName("record");
+	  $r2 = htmlspecialchars($req);
+      //echo "<req>{$r2} {$nl->length}</req>";
+	  for($i=0; $i<$nl->length; $i++) {
+	  	echo $xml->saveXML($nl->item($i));
+	  }
+	  $nl = $xml->getElementsByTagName("resumptionToken");
+	  if ($nl->length == 1) {
+	  	$token = $nl->item(0)->nodeValue;
+	  	if ($token == null) return;
+	  	if ($token == "") return;
+	  	getRecords($format, $set, $token);
+	  }
+	  
     } catch(exception $ex) {
-    	die("ERROR: {$ex}");
+    	echo "ERROR: {$ex}";
     }
+	
 }
 
 ?>
