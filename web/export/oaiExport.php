@@ -25,10 +25,11 @@ $CUSTOM = custom::instance();
 $CUSTOM->getCommunityInit()->initCommunities();
 $CUSTOM->getCommunityInit()->initCollections();
 
-$OAI="/oai/request?";
+$OAI= $CUSTOM->getOaiPath() . "request?";
 $status = "";
 testArgs();
-$formats = getFormats();
+$formats = array();
+getFormats();
 
 header('Content-type: text/html; charset=UTF-8');
 ?>
