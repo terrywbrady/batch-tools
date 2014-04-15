@@ -62,7 +62,6 @@ function getFormats() {
   $val = array("zzz");
   try {
     $req = "/oai/request?verb=ListMetadataFormats";
-    //error_reporting(0);
     $ret = file_get_contents($req);
     $xml = new DOMDocument();
     $stat = $xml->loadXML($ret);
@@ -70,7 +69,7 @@ function getFormats() {
     $nl = $xml->getElementsByTagName("metadataPrefix");
     for($i=0; $i<$nl->length; $i++) {
     	$el = $nl->get($i);
-        array_push($ret, $el->getValue());	
+        array_push($val, $el->getValue());	
     }  
   } catch(exception $ex) {
   	echo $ex;
