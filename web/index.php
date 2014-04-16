@@ -74,6 +74,7 @@ if ($CUSTOM->showStatsTools()) {
 <li>
   <a href="query/qcA2Z.php">Collection and Community A-Z list</a>
 </li>
+<!--Analyzer SOLR values-->
 <li>
   <a href="solr/viewSolr.php">View SOLR Index</a>
 </li>
