@@ -42,7 +42,7 @@ $subq = <<< EOF
       )
     ) 
 EOF;
-new query("itemCountWithNoContribOther","Num Items with dc.contributor.other",$subq,"meta", new testValZero(),array("Accession")); 
+new query("itemCountWithNoContribOther","Num Items with dc.contributor.other",$subq,"meta", new testValTrue(),array("Accession")); 
 
 
 $subq = <<< EOF
