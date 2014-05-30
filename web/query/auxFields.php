@@ -22,7 +22,7 @@ class auxFields {
     self::addAuxField("Accession", "Date DSpace takes possession of item.", self::getFieldByName("date","accessioned"), "", false);
     self::addAuxField("Issue", "Date of publication or distribution.", self::getFieldByName("date","issued"), "dc.date.issued", false);
     self::addAuxField("Create", "Date of creation or manufacture of intellectual content if different from date.issued.", self::getFieldByName("date","created"), "dc.date.created[en_US]", false);
-    self::addAuxField("Creator", "dc.creator", self::getFieldByName("creator",null), "dc.coreator[en_US]", false);
+    self::addAuxField("Creator", "dc.creator", self::getFieldByName("creator",null), "dc.creator[en_US]", false);
     self::addAuxField("Author", "dc.contributor.author", self::getFieldByName("contributor","author"), "dc.contributor.author[en_US]", false);
     self::addAuxField("URI", "", self::getFieldByName("identifier","uri"), "", false);
     self::addAuxField("RelURI", "URI to external resource", self::getFieldByName("relation","uri"), "dc.relation.uri[en_US]", false);
