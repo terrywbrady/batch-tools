@@ -31,6 +31,21 @@ EOF;
 new query("itemCountWithNoContribAuthor","Num Items with No dc.contributor.author",$subq,"meta", new testValZero(),array("Accession","Creator","Author")); 
 
 $subq = <<< EOF
+    and exists 
+    (
+      select 1
+      from metadatavalue m 
+      where m.item_id = i.item_id
+      and m.metadata_field_id = (
+        select metadata_field_id from metadatafieldregistry mfr
+        where mfr.element = 'contributor' and mfr.qualifier = 'other'
+      )
+    ) 
+EOF;
+new query("itemCountWithNoContribOther","Num Items with dc.contributor.other",$subq,"meta", new testValTrue(),array("Accession")); 
+
+
+$subq = <<< EOF
     and not exists 
     (
       select 1
